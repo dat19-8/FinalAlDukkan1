@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "990907677801",
+    "firebase_url": "https://finalaldukkan1.firebaseio.com",
+    "project_id": "finalaldukkan1",
+    "storage_bucket": "finalaldukkan1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:990907677801:android:c3e8cf7fb1e8d2192f36f8",
+        "android_client_info": {
+          "package_name": "com.example.finaldukkan1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "990907677801-4maghoivf12i8j4211pv2a4kccs0gch7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBX85Npq36m8N56CehImZfb1_L6A7nDTdE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "990907677801-4maghoivf12i8j4211pv2a4kccs0gch7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
