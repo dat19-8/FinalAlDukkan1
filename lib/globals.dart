@@ -11,7 +11,8 @@ var shopperName;
 var shopperAddress;
 
 var selectedOrder;
-
+var chosenImageUrl;
+var indexchosen;
 
 var numberOfOrderSelected = 0;
 

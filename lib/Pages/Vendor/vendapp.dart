@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import './addItems.dart';
+import './modifyItems.dart';
 import './vendcam.dart';
 import 'package:finaldukkan1/globals.dart';
 
 final List<Product> myProductsList = new List();
+
 
 class Vendapp extends StatefulWidget {
   @override
@@ -85,14 +86,15 @@ class _VendappState extends State<Vendapp> {
 
                       var exist = false;
                       for (var j = 0; j < myProductsList.length; j++) {
-                        if (newProduct.name ==
-                            myProductsList[j].name.toString()) {
+                        if (newProduct.image ==
+                            myProductsList[j].image.toString()) {
                           exist = true;
                         }
                       }
                       if (exist == false) {
                         myProductsList.add(newProduct);
                       }
+                      
                     }
                   }
                 }
@@ -119,10 +121,27 @@ class NewListing extends StatelessWidget {
                 width: 170.0,
                 height: 148.0,
                 // child: Image.memory(base64.decode(base64ImageUrl)),
-                child: Image.network(myProductsList[index].image),
+                
+                child:FlatButton(
+                  child: Image.network(myProductsList[index].image),
+                  onPressed: (){
+                    print('modify');
+                    chosenImageUrl = myProductsList[index].image;
+                    indexchosen = index;
+                    Navigator.push(
+                        context,
+                        // MaterialPageRoute(builder: (context) => main()),
+                        MaterialPageRoute(builder: (context) => ModifyItemsDB()),
+                        // 
+                      );
+
+                  },
+                )
+                 
               ),
-              Text("name : ${myProductsList[index].name}"),
-              Text("price : ${myProductsList[index].price}"),
+              
+              Text("${myProductsList[index].name}"),
+              Text("${myProductsList[index].price}"),
             ],
           );
         }),
