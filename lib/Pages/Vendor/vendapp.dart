@@ -5,7 +5,8 @@ import './vendcam.dart';
 import 'package:finaldukkan1/globals.dart';
 
 final List<Product> myProductsList = new List();
-
+final TextEditingController _nameController1 = new TextEditingController();
+final TextEditingController _priceController1 = new TextEditingController();
 
 class Vendapp extends StatefulWidget {
   @override
@@ -24,8 +25,7 @@ class _VendappState extends State<Vendapp> {
           Padding(
               padding: EdgeInsets.only(right: 10.0),
               child: GestureDetector(
-                onTap: 
-                () {
+                onTap: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => CameraTab()),
@@ -69,7 +69,11 @@ class _VendappState extends State<Vendapp> {
                     return Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Center(child: Text("You have no Products" , style: TextStyle(fontSize:30.0 ),)),
+                        Center(
+                            child: Text(
+                          "You have no Products",
+                          style: TextStyle(fontSize: 30.0),
+                        )),
                       ],
                     );
                   } else {
@@ -90,11 +94,14 @@ class _VendappState extends State<Vendapp> {
                             myProductsList[j].image.toString()) {
                           exist = true;
                         }
+                        if(exist == true && newProduct.name != "name"){
+                          myProductsList.removeAt(j);
+                          exist = false;
+                        }
                       }
                       if (exist == false) {
                         myProductsList.add(newProduct);
                       }
-                      
                     }
                   }
                 }
@@ -118,28 +125,26 @@ class NewListing extends StatelessWidget {
           return Column(
             children: <Widget>[
               Container(
-                width: 170.0,
-                height: 148.0,
-                // child: Image.memory(base64.decode(base64ImageUrl)),
-                
-                child:FlatButton(
-                  child: Image.network(myProductsList[index].image),
-                  onPressed: (){
-                    print('modify');
-                    chosenImageUrl = myProductsList[index].image;
-                    indexchosen = index;
-                    Navigator.push(
-                        context,
-                        // MaterialPageRoute(builder: (context) => main()),
-                        MaterialPageRoute(builder: (context) => ModifyItemsDB()),
-                        // 
-                      );
+                  width: 170.0,
+                  height: 148.0,
+                  // child: Image.memory(base64.decode(base64ImageUrl)),
 
-                  },
-                )
-                 
-              ),
-              
+                  child: FlatButton(
+                    child: Image.network(myProductsList[index].image),
+                    onPressed: () {
+                      print('modify');
+                      indexchosen = index;
+                      print("indexchosen: ${index}");
+                      chosenImageUrl = myProductsList[index].image;
+                      print("chosenImageUrl: ${myProductsList[index].image}");
+                      
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => ModifyItemsDB()),
+                        );
+                      
+                    },
+                  )),
               Text("${myProductsList[index].name}"),
               Text("${myProductsList[index].price}"),
             ],

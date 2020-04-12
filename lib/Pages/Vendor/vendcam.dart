@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'dart:convert';
 import 'package:path/path.dart';
 import 'package:flutter/material.dart';
 import 'package:finaldukkan1/globals.dart';
@@ -30,7 +29,7 @@ class _CameraTabState extends State<CameraTab> {
   File imageFile;
   _openGallery(BuildContext context) async {
     var pictureGallery =
-        await ImagePicker.pickImage(source: ImageSource.gallery);
+        await ImagePicker.pickImage(source: ImageSource.gallery ,  imageQuality: 50);
     String myNewfileName = basename(pictureGallery.path);
     StorageReference firebaseStorageRef = FirebaseStorage.instance
         .ref()
@@ -44,17 +43,23 @@ class _CameraTabState extends State<CameraTab> {
 
   _openCamera(BuildContext context) async {
     print("camera");
-    var pictureCamera = await ImagePicker.pickImage(source: ImageSource.camera);
-    // I can get the image .jpg
+    var pictureCamera = await ImagePicker.pickImage(source: ImageSource.camera , imageQuality: 50);
     String myNewfileName = basename(pictureCamera.path);
     StorageReference firebaseStorageRef = FirebaseStorage.instance
         .ref()
         .child("images/${vendPhone}/${myNewfileName}");
+    print("images/${vendPhone}/${myNewfileName}");
     StorageUploadTask uploadTask = firebaseStorageRef.putFile(pictureCamera);
+    print("after StorageUploadTask");   
     StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
+    print("after StorageTaskSnapshot");   
+
     final StorageTaskSnapshot downloadUrl = (await uploadTask.onComplete);
+    print("after downloadUrl");   
     final String myImageUrl = (await downloadUrl.ref.getDownloadURL());
     print("URL is $myImageUrl");
+    
+    
     new StreamBuilder(
         stream: Firestore.instance
             .collection('Vendors')
@@ -92,23 +97,6 @@ class _CameraTabState extends State<CameraTab> {
         .collection('Vendors')
         .document(vendPhone)
         .updateData({'Products': myProducts});
-
-    // imageSource = pictureCamera;
-    // print(imageSource);
-
-    // this.setState(() {
-    //   _filename = pictureCamera;
-    // });
-    // List<int> imageBytes = _filename.readAsBytesSync();
-    // String base64Image = base64Encode(imageBytes);
-
-    // base64ImageUrl = base64Image.toString();
-    // print('string is');
-    // print(base64Image);
-
-    // _uploadFile(imageFile, base64Image);
-
-    // Navigator.of(context).pop();
   }
 
   Future uploadPic(BuildContext context) async {}
@@ -116,20 +104,7 @@ class _CameraTabState extends State<CameraTab> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Al Dukkan"),
-        // actions: <Widget>[
-        //   Padding(
-        //       padding: EdgeInsets.only(right: 10.0),
-        //       child: GestureDetector(
-        //         onTap: () {
-        //           Navigator.of(context).pop();
-        //         },
-        //         child: Icon(
-        //           Icons.arrow_back_ios,
-        //           size: 26.0,
-        //         ),
-        //       )),
-        // ],
+        title: Center(child: Text("Al Dukkan")),
       ),
       body: AlertDialog(
         title: Text(" Make a Choice"),
@@ -157,4 +132,3 @@ class _CameraTabState extends State<CameraTab> {
   }
 }
 
-// my storage folder path : gs://finalaldukkan1.appspot.com/images

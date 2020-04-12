@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:finaldukkan1/globals.dart';
 import './vendmainapp.dart';
-// import 'venmap.dart';
+import 'venmap.dart';
 
 
 class SignUpVendor extends StatefulWidget {
@@ -18,6 +18,7 @@ class _SignUpVendorState extends State<SignUpVendor> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomPadding: false,
       appBar: AppBar(
         title: Text(
           'بائع',
@@ -35,7 +36,7 @@ class _SignUpVendorState extends State<SignUpVendor> {
               color: Color.fromRGBO(50, 130, 184, 0),
               child: FloatingActionButton(
                 child: Icon(Icons.camera_alt),
-                // onPressed: () => print('Go to the main app'),
+                
                 onPressed: () {
                   print("camera");
                   // Navigator.push(
@@ -156,11 +157,11 @@ class _SignUpVendorState extends State<SignUpVendor> {
                       child: Icon(Icons.gps_fixed),
                       onPressed: () 
                       {
-                        // Navigator.push(
-                        // context,
-                        // MaterialPageRoute(builder: (context) => GoogleMaps()),
-                      // );
                         print("google maps here");
+                        Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => GoogleMaps()),
+                      );
                       }
                       
               ),

@@ -9,7 +9,7 @@ class PhonePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomPadding: false,
+      resizeToAvoidBottomPadding: true,
       backgroundColor: Color.fromRGBO(15, 76, 117, 100),
       appBar: AppBar(
         backgroundColor: Color.fromRGBO(27, 38, 44, 100),

@@ -1,15 +1,14 @@
-import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:finaldukkan1/globals.dart';
-import './vendcam.dart';
 import './vendapp.dart';
 
 
 class ModifyItemsDB extends StatelessWidget {
   final TextEditingController _nameController1 = new TextEditingController();
   final TextEditingController _priceController1 = new TextEditingController();
-  final List<Map> myProducts =  List();
+  final List<Map> myModifyProducts =  List();
 
   @override
   Widget build(BuildContext context) {
@@ -27,11 +26,12 @@ class ModifyItemsDB extends StatelessWidget {
       body: Center(
         child: Column(children: <Widget>[
           Container(
+            
             padding: EdgeInsets.all(5.0),
             width: MediaQuery.of(context).size.width * 0.65,
             height: MediaQuery.of(context).size.width * 0.20,
             child: TextFormField(
-              keyboardType: TextInputType.number,
+              
               controller: _nameController1,
               cursorColor: Colors.white,
               autofocus: true,
@@ -56,7 +56,6 @@ class ModifyItemsDB extends StatelessWidget {
             width: MediaQuery.of(context).size.width * 0.65,
             height: MediaQuery.of(context).size.width * 0.20,
             child: TextFormField(
-              keyboardType: TextInputType.number,
               controller: _priceController1,
               cursorColor: Colors.white,
               autofocus: true,
@@ -85,18 +84,18 @@ class ModifyItemsDB extends StatelessWidget {
                 
                 if (snapshot.data['Products'].length != 0) {
                   for (var i = 0; i < snapshot.data['Products'].length; i++) {
-                    myProducts.add(snapshot.data['Products'][i]); 
+                    myModifyProducts.add(snapshot.data['Products'][i]); 
                   }  
                 }
 
                 return Text("done");
               }),
-          FlatButton(
+            FlatButton(
               onPressed: () {
-                for(var i = 1 ; i <= myProducts.length -1;i++ ){
+                for(var i = 1 ; i <= myModifyProducts.length -1;i++ ){
                       
-                  if(myProducts[i]['image'] == chosenImageUrl)   {
-                    myProducts.removeAt(i);
+                  if(myModifyProducts[i]['image'] == chosenImageUrl)   {
+                    myModifyProducts.removeAt(i);
 
                   }
                 }
@@ -110,13 +109,13 @@ class ModifyItemsDB extends StatelessWidget {
                   'favorite': false,
                   'value': 1
                 };
-                myProducts.add(newProduct1);
-                for(var i = 0 ; i < myProducts.length -2; i++){
+                myModifyProducts.add(newProduct1);
+                for(var i = 0 ; i < myModifyProducts.length -2; i++){
                 
-                    for(var j = 1 ; j <= myProducts.length -1;j++ ){
+                    for(var j = 1 ; j <= myModifyProducts.length -1;j++ ){
                       
-                      if(myProducts[i]['image'] == myProducts[j]['image']  )   {
-                        myProducts.removeAt(i);
+                      if(myModifyProducts[i]['image'] == myModifyProducts[j]['image']  )   {
+                        myModifyProducts.removeAt(i);
 
                       }
                     }
@@ -126,7 +125,7 @@ class ModifyItemsDB extends StatelessWidget {
                 
                 Firestore.instance
                     .collection('Vendors')
-                    .document(vendPhone).updateData({'Products': myProducts});
+                    .document(vendPhone).updateData({'Products': myModifyProducts});
                 
                 Navigator.pop(context,
                     MaterialPageRoute(builder: (context) => Vendapp()));
