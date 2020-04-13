@@ -61,16 +61,19 @@ class _ShopAppState extends State<ShopApp> {
                     snapshot.data['Products'][i]['available'],
                   );
                   var exist = false;
-
-                  for (var j = 0; j < allProductsList.length; j++) {
-                    if (newProduct1.name.toString() ==
-                        allProductsList[j].name.toString()) {
-                      exist = true;
-                    }
-                  }
-                  if (exist == false) {
-                    allProductsList.add(newProduct1);
-                  }
+                      for (var j = 0; j < allProductsList.length; j++) {
+                        if (newProduct1.image ==
+                            allProductsList[j].image.toString()) {
+                          exist = true;
+                        }
+                        if(exist == true && newProduct1.name != "name"){
+                          allProductsList.removeAt(j);
+                          exist = false;
+                        }
+                      }
+                      if (exist == false) {
+                        allProductsList.add(newProduct1);
+                      }
                 }
               }
             }
