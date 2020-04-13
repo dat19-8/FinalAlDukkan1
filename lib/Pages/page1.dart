@@ -6,6 +6,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 // import 'package:trial12/Pages/Vendor/venmap.dart';
 // import '../Services/camera.dart';
 import 'Vendor/vendcam.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:finaldukkan1/globals.dart';
+import 'page3.dart';
 
 class FirstRoute extends StatefulWidget {
   @override
@@ -13,6 +16,24 @@ class FirstRoute extends StatefulWidget {
 }
 
 class _FirstRouteState extends State<FirstRoute> {
+  @override
+  void initState() {
+    checkuser();
+  }
+
+  void checkuser() async {
+    final FirebaseUser user = await FirebaseAuth.instance.currentUser();
+    if (user != null) {
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => ThirdPage()));
+      print(user);
+      print(phoneNumber);
+      
+    } else {
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => PhonePage()));
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,8 +78,8 @@ class _FirstRouteState extends State<FirstRoute> {
                     ),
                     onPressed: () {
                       print("Phone number");
-                      Navigator.pushReplacement(context,
-                          MaterialPageRoute(builder: (context) => PhonePage()));
+                      // Navigator.pushReplacement(context,
+                      //     MaterialPageRoute(builder: (context) => PhonePage()));
                     },
                   )),
             ],

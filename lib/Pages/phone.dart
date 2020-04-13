@@ -2,8 +2,56 @@ import 'package:finaldukkan1/globals.dart';
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import '../Pages/page3.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class PhonePage extends StatelessWidget {
+  String _smsVerificationCode;
+  
+  
+    _verifyPhoneNumber(BuildContext context) async {
+     phoneNumber = "+961" + _phoneNumberController.text.toString();
+    final FirebaseAuth _auth = FirebaseAuth.instance;
+    await _auth.verifyPhoneNumber(
+        phoneNumber: phoneNumber,
+        timeout: Duration(seconds: 5),
+        verificationCompleted: (authCredential) => _verificationComplete(authCredential, context),
+        verificationFailed: (authException) => _verificationFailed(authException, context),
+        codeAutoRetrievalTimeout: (verificationId) => _codeAutoRetrievalTimeout(verificationId),
+        // called when the SMS code is sent
+        codeSent: (verificationId, [code]) => _smsCodeSent(verificationId, [code]));
+  }
+    _verificationComplete(AuthCredential authCredential, BuildContext context) {
+    FirebaseAuth.instance.signInWithCredential(authCredential).then((authResult) {
+      final snackBar = SnackBar(content: Text("Success!!! UUID is: " + authResult.user.uid));
+      Scaffold.of(context).showSnackBar(snackBar);
+
+    });
+    
+
+    Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>ThirdPage())
+                                    );
+  }
+
+  _smsCodeSent(String verificationId, List<int> code) {
+    // set the verification code so that we can use it to log the user in
+    _smsVerificationCode = verificationId;
+  }
+
+  _verificationFailed(AuthException authException, BuildContext context) {
+    final snackBar = SnackBar(content: Text("Exception!! message:" + authException.message.toString()));
+    Scaffold.of(context).showSnackBar(snackBar);
+    
+  }
+
+  _codeAutoRetrievalTimeout(String verificationId) {
+    // set the verification code so that we can use it to log the user in
+    _smsVerificationCode = verificationId;
+   
+  }
+
   final TextEditingController _phoneNumberController =
       new TextEditingController();
   @override
@@ -86,11 +134,13 @@ class PhonePage extends StatelessWidget {
                                     title: 'رقم الهاتف غير صحيح')
                                 .show();
                           } else {
-                            tempPhone = _phoneNumberController.text;
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ThirdPage()));
+                            // tempPhone = _phoneNumberController.text;
+                            // Navigator.pushReplacement(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //         builder: (context) => ThirdPage()));
+                             _verifyPhoneNumber(context);
+                             print(phoneNumber);
                           }
                         },
                         padding: EdgeInsets.all(16.0),
