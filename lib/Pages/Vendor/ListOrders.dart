@@ -123,7 +123,7 @@ class NewListingOrders extends StatelessWidget {
     return Container(
       width: MediaQuery.of(context).size.width * 1,
       height: MediaQuery.of(context).size.height * 0.6,
-      child: new           ListView(
+      child: new ListView(
         semanticChildCount: 1,
         children: List.generate(myProductsListOrders.length, (index) {
           return Row(
@@ -146,6 +146,7 @@ class NewListingOrders extends StatelessWidget {
                 children: <Widget>[
                   Text("name : ${myProductsListOrders[index]['name']}"),
                   Text("price : ${myProductsListOrders[index]['price']}"),
+                  Text("value : ${myProductsListOrders[index]['value']}"),
                 ],
               ),
             ],

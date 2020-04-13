@@ -120,6 +120,7 @@ class ProductListing extends StatelessWidget {
                                 'image':myCart[index].image,
                                 'cart':myCart[index].cart,
                                 'favorite':myCart[index].favorite,
+                                'value':myCart[index].value
 
                               };
                       newMapCart.add(changeMyCartProducts);

@@ -99,11 +99,25 @@ class ModifyItemsDB extends StatelessWidget {
 
                   }
                 }
+                var finalName;
+                var finalPrice;
+                if(_nameController1.text == ""){
+                  finalName = "name";
+                }
+                else{
+                  finalName = _nameController1.text;
+                }
+                if(_priceController1.text == ""){
+                  finalPrice = "0";
+                }
+                else{
+                  finalPrice=  _priceController1.text;
+                }
                 
                 var newProduct1 = {
                   'image': chosenImageUrl,
-                  'name': _nameController1.text,
-                  'price': _priceController1.text,
+                  'name': finalName,
+                  'price': finalPrice,
                   'cart': false,
                   'available': true,
                   'favorite': false,

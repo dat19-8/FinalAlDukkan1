@@ -90,10 +90,10 @@ class NewProductList extends StatelessWidget {
                         MaterialPageRoute(builder: (context) => MainShop()),
                       );
                     },
-                    child: Image.network(myShopsList[index].image),
+                    child: Image.asset("images/shopImage.png"),
                   )),
-              Text("name : ${myShopsList[index].name}"),
-              Text("address : ${myShopsList[index].address}"),
+              Text("${myShopsList[index].name}"),
+              Text(" ${myShopsList[index].phone}"),
             ],
           );
         }),

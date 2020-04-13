@@ -134,7 +134,7 @@ class PhonePage extends StatelessWidget {
                                     title: 'رقم الهاتف غير صحيح')
                                 .show();
                           } else {
-                            // tempPhone = _phoneNumberController.text;
+                            tempPhone = _phoneNumberController.text;
                             // Navigator.pushReplacement(
                             //     context,
                             //     MaterialPageRoute(

@@ -26,9 +26,14 @@ class ThirdPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Container(
-                  margin: EdgeInsets.only(top: 15.0),
+                margin: EdgeInsets.only(top: 10.0),
+                height: MediaQuery.of(context).size.height* 0.05,
+                child: Center(child: Text("هل أنت صاحب محل؟", style: TextStyle(color:Colors.white, fontSize: 15.0),)),
+              ),
+              Container(
+                  margin: EdgeInsets.only(top: 10.0),
                   width: MediaQuery.of(context).size.width * 1,
-                  height: MediaQuery.of(context).size.height* 0.4,
+                  height: MediaQuery.of(context).size.height* 0.35,
                   color: Colors.white,
                   child: FlatButton(
                       child: Image.asset('images/vendor1.png',),    
@@ -38,18 +43,23 @@ class ThirdPage extends StatelessWidget {
                       
                         Firestore.instance.collection('Vendors').document(tempPhone).setData({'phonenumber' :tempPhone});
                         Firestore.instance.collection('Vendors').document(tempPhone).updateData({'Pinfo':{}});
-                        Navigator.push(
+                        Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                               builder: (context) => SignUpVendor()),
                         );
                       })),
               Container(
-                height: MediaQuery.of(context).size.height* 0.4,
+                margin: EdgeInsets.only(top: 10.0),
+                height: MediaQuery.of(context).size.height* 0.05,
+                child: Center(child: Text("هل أنت متسوق؟", style: TextStyle(color:Colors.white, fontSize: 15.0),)),
+              ),
+              Container(
+                height: MediaQuery.of(context).size.height* 0.3,
                 width: MediaQuery.of(context).size.width * 1,
                 color: Colors.white,
                 // padding: EdgeInsets.all(10.0),
-                margin: EdgeInsets.only(top: 15.0),
+                margin: EdgeInsets.only(top: 10.0),
                 child: FlatButton(
                     child: Image.asset('images/shopper.png'),
                     onPressed: () {

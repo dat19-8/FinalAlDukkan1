@@ -3,7 +3,7 @@ import 'package:finaldukkan1/globals.dart';
 import '../Shopper/available.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'shopmap.dart';
+import 'shopmap.dart';
 
 
 class SignUpShopper extends StatefulWidget {
@@ -22,7 +22,8 @@ class _SignUpShopper extends State<SignUpShopper> {
     return Scaffold(
     
       appBar: AppBar(
-        title: Text('المتسوق',style: TextStyle(color: Colors.white , fontSize: 30.0),),
+        centerTitle: true,
+        title: Center(child: Text('الدكان',style: TextStyle(color: Colors.white , fontSize: 30.0),)),
         backgroundColor: Color.fromRGBO(27, 38, 44, 100), 
         
       ),
@@ -153,10 +154,10 @@ class _SignUpShopper extends State<SignUpShopper> {
                       color: Color.fromRGBO(50, 130, 184,100),
                       onPressed: () {
                         print("maps");
-                      //   Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(builder: (context) => GoogleMapp()),
-                      // );
+                        Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => GoogleMapp()),
+                      );
                       },
                       child: Icon(Icons.gps_fixed),
               ),
@@ -202,11 +203,14 @@ class _SignUpShopper extends State<SignUpShopper> {
                         ),
                       ),
                       onPressed: () {
-                        if(_nameController.text.length == 0 && _addressController.text.length == 0 ){
-                          Alert(context: context, title: 'أضف اسم المستخدم').show();
+                        var finalName;
+                        var finalAddress;
+                        if(_nameController.text ==""){
+                          finalName = "";
                         }
                         else{
-                        var finalAddress;
+                          finalName = _nameController.text;
+                        }
                         if(_addressController.text ==""){
                           finalAddress = "";
                         }
@@ -217,12 +221,11 @@ class _SignUpShopper extends State<SignUpShopper> {
                         shopperAddress = _addressController.text;
                         shopperName= _nameController.text;
                         
-                        Firestore.instance.collection('Shoppers').document(tempPhone).updateData({'Pinfo':{'googleMaps':currentLocation.toString(),'name': _nameController.text, 'address' : finalAddress}});
+                        Firestore.instance.collection('Shoppers').document(tempPhone).updateData({'Pinfo':{'googleMaps':currentLocation.toString(),'name': finalName, 'address' : finalAddress}});
                         Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(builder: (context) => AvailableShopsPage()),
                         );
-                        }
 
                       }
                         

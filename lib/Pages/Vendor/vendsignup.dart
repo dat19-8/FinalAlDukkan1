@@ -20,9 +20,12 @@ class _SignUpVendorState extends State<SignUpVendor> {
     return Scaffold(
       resizeToAvoidBottomPadding: false,
       appBar: AppBar(
-        title: Text(
-          'بائع',
-          style: TextStyle(color: Colors.white, fontSize: 30.0),
+        centerTitle: true,
+        title: Center(
+          child: Text(
+            'الدكان',
+            style: TextStyle(color: Colors.white, fontSize: 30.0),
+          ),
         ),
         backgroundColor: Color.fromRGBO(27, 38, 44, 100),
       ),
@@ -220,7 +223,7 @@ class _SignUpVendorState extends State<SignUpVendor> {
                             .document(vendPhone)
                             .updateData({'Orders': []});
                         // print("current Location: ${currentLocation}");
-                        Navigator.push(
+                        Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(builder: (context) => MainVend()),
                         );
