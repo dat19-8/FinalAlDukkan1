@@ -77,7 +77,7 @@ class _ShopAppState extends State<ShopApp> {
                 }
               }
             }
-
+            print(allProductsList);
             return ProductListing();
           }
     )); }
@@ -124,6 +124,7 @@ class ProductListing extends StatelessWidget {
 
                               };
                       newMapCart.add(changeMyCartProducts);
+                      print(newMapCart);
                     },
                     child: Image.network(allProductsList[index].image),
                     
@@ -170,10 +171,13 @@ class ProductListing extends StatelessWidget {
                     tempFav.add(newTemp);
                     
                     Firestore.instance.collection('Shoppers').document(shopPhone).updateData({selectedShopPhone.toString() : tempFav});
+                    (context as Element).reassemble();
                     }
                 },
-                child   : allProductsList[index].favorite ==  true ? Icon(Icons.favorite , color: Colors.red,) :Icon(Icons.favorite_border),
+                child   : allProductsList[index].favorite ==  true ? Icon(Icons.favorite , color: Colors.red,):Icon(Icons.favorite_border),
+                
               ),
+              
               Text("name : ${allProductsList[index].name}"),
               Text("price : ${allProductsList[index].price}"),
             ],

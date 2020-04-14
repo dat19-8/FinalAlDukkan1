@@ -3,13 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import './shopapp.dart';
 import 'package:finaldukkan1/globals.dart';
+import 'shopapp.dart';
 
 class Cart extends StatefulWidget {
   @override
   _CartState createState() => _CartState();
 }
 
-final List<List> placingOrder = new List();
+
 final List<Map> allOrders = new List();
 var initialPrice;
 
@@ -208,7 +209,10 @@ class _CartState extends State<Cart> {
                         style: TextStyle(color: Colors.transparent),
                       ));
                     } else {
+                      var exist = true;
                       for (var i = 0; i < snapshot.data['Orders'].length; i++) {
+                        print(snapshot.data['Orders'][i]["Pinfo"]['phone']);
+                        // if(snapshot.data['Orders'][i]["Pinfo"]['phone'])
                         allOrders.add(snapshot.data['Orders'][i]);
                       }
                     }

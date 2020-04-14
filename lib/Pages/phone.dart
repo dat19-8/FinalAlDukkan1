@@ -135,12 +135,13 @@ class PhonePage extends StatelessWidget {
                                 .show();
                           } else {
                             tempPhone = _phoneNumberController.text;
-                            // Navigator.pushReplacement(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //         builder: (context) => ThirdPage()));
-                             _verifyPhoneNumber(context);
-                             print(phoneNumber);
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ThirdPage()));
+                            
+                            //  _verifyPhoneNumber(context);
+                            //  print(phoneNumber);
                           }
                         },
                         padding: EdgeInsets.all(16.0),
