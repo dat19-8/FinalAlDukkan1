@@ -107,11 +107,12 @@ class ModifyItemsDB extends StatelessWidget {
                 else{
                   finalName = _nameController1.text;
                 }
+                
                 if(_priceController1.text == ""){
                   finalPrice = "0";
                 }
                 else{
-                  finalPrice=  _priceController1.text;
+                  finalPrice= _priceController1.text;
                 }
                 
                 var newProduct1 = {
@@ -141,10 +142,12 @@ class ModifyItemsDB extends StatelessWidget {
                     .collection('Vendors')
                     .document(vendPhone).updateData({'Products': myModifyProducts});
                 
+                (context as Element).reassemble();
                 Navigator.pop(context,
                     MaterialPageRoute(builder: (context) => Vendapp()));
               },
               child: Text("Add"))
+
         ]),
       ),
     );

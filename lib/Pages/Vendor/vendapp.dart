@@ -121,14 +121,11 @@ class NewListing extends StatelessWidget {
       child: new GridView.count(
         crossAxisCount: 2,
         children: List.generate(myProductsList.length, (index) {
-          // print("index" + "${index}");
           return Column(
             children: <Widget>[
               Container(
                   width: 170.0,
                   height: 148.0,
-                  // child: Image.memory(base64.decode(base64ImageUrl)),
-
                   child: FlatButton(
                     child: Image.network(myProductsList[index].image),
                     onPressed: () {
@@ -141,12 +138,19 @@ class NewListing extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => ModifyItemsDB()),
-                        );
-                      
+                        );        
                     },
                   )),
+                
+              myProductsList[index].name == "name"  ?  Text("${myProductsList[index].name}" , style: TextStyle(color: Colors.transparent),):
+              
               Text("${myProductsList[index].name}"),
+
+
+              myProductsList[index].price == 0 ? Text("${myProductsList[index].price}" , style: TextStyle(color:Colors.transparent),):
               Text("${myProductsList[index].price}"),
+
+
             ],
           );
         }),

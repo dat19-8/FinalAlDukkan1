@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import './shopapp.dart';
 import 'package:finaldukkan1/globals.dart';
-import 'shopapp.dart';
+import './shopapp.dart';
 
 class Cart extends StatefulWidget {
   @override
@@ -124,12 +124,21 @@ class _CartState extends State<Cart> {
     
     return Scaffold(
         backgroundColor: Colors.grey,
+      //   appBar: AppBar(
+      //   centerTitle: true,
+      //   backgroundColor: Color.fromRGBO(27, 38, 44, 100),
+      //   title: Text(
+      //     'الدكان',
+      //     style: TextStyle(color: Colors.white, fontSize: 30.0),
+      //   ),
+      // ),
         body: Column(
           
           children: <Widget>[
             myCart.length == 0 ? Center(child: Text("عربة التسوق فارغة" , style: TextStyle(fontSize:30.0),)):
             Container(
               width: MediaQuery.of(context).size.width * 1,
+              // height: MediaQuery.of(context).size.height * 0.77,
               height: MediaQuery.of(context).size.height * 0.66,
               child: new ListView(
                 semanticChildCount: 1,
@@ -148,11 +157,13 @@ class _CartState extends State<Cart> {
                           ]),
                       Column(
                         children: <Widget>[
-                          Text("name : ${myCart[index].name}"),
-                          Text("price : ${myCart[index].price}"),
+                          myCart[index].name == "name" ? Text(" Unknown Item"):
+                          Text(" ${myCart[index].name}"),
+                          Text("Item Price : ${myCart[index].price}"),
                           Row(
                             children: <Widget>[
                               FlatButton(
+                                
                                   onPressed: () {
                                     setState(() {
                                       myCart[index].value += 1;
@@ -160,9 +171,10 @@ class _CartState extends State<Cart> {
                                           myCart[index].price;
                                     });
                                   },
-                                  child: Icon(Icons.add)),
-                              Text("${myCart[index].value}"),
+                                  child: Icon(Icons.add , size: 50.0,)),
+                              Text("${myCart[index].value}", style: TextStyle(fontSize:20.0),),
                               FlatButton(
+                                
                                   onPressed: () {
                                     if (myCart[index].value == 1) {
                                       _showAlertDialog(context , index);
@@ -177,12 +189,14 @@ class _CartState extends State<Cart> {
                                     }
                                     
                                   },
-                                  child: Text(
-                                    "-",
-                                    style: TextStyle(
-                                      fontSize: 50.0,
-                                    ),
-                                  )),
+                                  // child: Text(
+                                  //   "-",
+                                  //   style: TextStyle(
+                                  //     fontSize: 100.0,
+                                  //   ),
+                                  // )),
+                                  child: Icon(Icons.remove , size: 50.0),
+                                  ),
                             ],
                           )
                         ],

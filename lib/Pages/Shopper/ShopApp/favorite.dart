@@ -14,9 +14,11 @@ class _FavState extends State<Fav> {
   bool ccomplete = false;
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
-        backgroundColor: Colors.grey,
-        body: StreamBuilder(
+      backgroundColor: Colors.grey,
+        body:
+         StreamBuilder(
             stream: Firestore.instance
                 .collection('Shoppers')
                 .document(shopPhone)
@@ -76,7 +78,9 @@ class NewProductListing extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+          backgroundColor: Colors.grey,
       body: new GridView.count(
+              
         crossAxisCount: 2,
         children: List.generate(myFav.length, (index) {
           return Column(
@@ -86,12 +90,37 @@ class NewProductListing extends StatelessWidget {
                   height: 145.0,
                   child: FlatButton(
                     onPressed: () {
-                      print('increment/decrement value ');
+                      allProductsList[index].cart = true;
+                      var exist = false;
+                      for (var i = 0; i < myCart.length; i++) {
+                        if (allProductsList[index].name == myCart[i].name) {
+                          allProductsList[index].value = allProductsList[index].value + 1;
+                          exist = true;
+                        }
+                      }
+                      if (exist == false) {
+                        myCart.add(allProductsList[index]);
+                      }
+                      var changeMyCartProducts = {
+                                'name':myCart[index].name,
+                                'price':myCart[index].price,
+                                'available':myCart[index].available,
+                                'image':myCart[index].image,
+                                'cart':myCart[index].cart,
+                                'favorite':myCart[index].favorite,
+                                'value':myCart[index].value
+
+                              };
+                      newMapCart.add(changeMyCartProducts);
+                      print(newMapCart);
                     },
                     child: Image.network(myFav[index].image),
                   )),
-              Text("name : ${myFav[index].name}"),
-              Text("address : ${myFav[index].price}"),
+              myFav[index].name == "name"  ?  Text("${myFav[index].name}" , style: TextStyle(color: Colors.transparent),):
+              
+              Text("${myFav[index].name}"),
+              myFav[index].price == 0 ? Text("${myFav[index].price}" , style: TextStyle(color:Colors.transparent),):
+              Text("${myFav[index].price}"),
             ],
           );
         }),

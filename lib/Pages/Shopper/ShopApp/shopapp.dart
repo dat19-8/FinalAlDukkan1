@@ -77,7 +77,6 @@ class _ShopAppState extends State<ShopApp> {
                 }
               }
             }
-            print(allProductsList);
             return ProductListing();
           }
     )); }
@@ -101,7 +100,8 @@ class ProductListing extends StatelessWidget {
                   height: 100.0,
                   child: FlatButton(
                     onPressed: () {
-                      
+                      print(allProductsList[index].name);
+                      print('index : ${index}');
                       allProductsList[index].cart = true;
                       var exist = false;
                       for (var i = 0; i < myCart.length; i++) {
@@ -112,6 +112,7 @@ class ProductListing extends StatelessWidget {
                       }
                       if (exist == false) {
                         myCart.add(allProductsList[index]);
+                        (context as Element).reassemble();
                       }
                       var changeMyCartProducts = {
                                 'name':myCart[index].name,
@@ -123,8 +124,11 @@ class ProductListing extends StatelessWidget {
                                 'value':myCart[index].value
 
                               };
+                      print('changeMyCartProducts : ${changeMyCartProducts}');
                       newMapCart.add(changeMyCartProducts);
-                      print(newMapCart);
+                      
+                      
+
                     },
                     child: Image.network(allProductsList[index].image),
                     
@@ -171,15 +175,22 @@ class ProductListing extends StatelessWidget {
                     tempFav.add(newTemp);
                     
                     Firestore.instance.collection('Shoppers').document(shopPhone).updateData({selectedShopPhone.toString() : tempFav});
-                    (context as Element).reassemble();
+                    
                     }
+                    (context as Element).reassemble();
                 },
-                child   : allProductsList[index].favorite ==  true ? Icon(Icons.favorite , color: Colors.red,):Icon(Icons.favorite_border),
+                child   : allProductsList[index].favorite ==  true ? Icon(Icons.favorite , color: Colors.red,) :Icon(Icons.favorite_border),
+
+                
                 
               ),
               
-              Text("name : ${allProductsList[index].name}"),
-              Text("price : ${allProductsList[index].price}"),
+              allProductsList[index].name == "name"  ?  Text("${allProductsList[index].name}" , style: TextStyle(color: Colors.transparent),):
+              
+              Text("${allProductsList[index].name}"),
+              allProductsList[index].price == 0 ? Text("${allProductsList[index].price}" , style: TextStyle(color:Colors.transparent),):
+              Text("${allProductsList[index].price}"),
+              
             ],
           );
         }),

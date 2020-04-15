@@ -14,18 +14,6 @@ class CameraTab extends StatefulWidget {
 final List<Map> myProducts = List();
 
 class _CameraTabState extends State<CameraTab> {
-  // _uploadFile(File imageFile, String filename) async {
-  //     print("in _upload file");
-  //     StorageReference storageReference;
-  //     storageReference = FirebaseStorage.instance.ref().child("images/$filename");
-
-  //     print("before StorageUploadTask");
-  //     final StorageUploadTask uploadTask = storageReference.putFile(imageFile);
-  //     print("before StorageTaskSnapshot");
-  //     final StorageTaskSnapshot downloadUrl = (await uploadTask.onComplete);
-  //     final String url = (await downloadUrl.ref.getDownloadURL());
-  //   print("URL is $url");
-  //   }
   File imageFile;
   _openGallery(BuildContext context) async {
     var pictureGallery =
@@ -104,7 +92,8 @@ class _CameraTabState extends State<CameraTab> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: Text("Al Dukkan")),
+        title: Center(child: Text("الدكان")),
+        backgroundColor: Color.fromRGBO(27, 38, 44, 100),
       ),
       body: AlertDialog(
         title: Text(" Make a Choice"),

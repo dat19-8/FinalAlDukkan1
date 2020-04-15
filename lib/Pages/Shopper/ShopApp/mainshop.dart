@@ -1,3 +1,4 @@
+import 'package:finaldukkan1/globals.dart';
 import 'package:flutter/material.dart';
 import './cart.dart';
 import './favorite.dart';
@@ -52,7 +53,51 @@ class _DashboardState extends State<MainShop> {
               )
             ),
             Padding(
-              padding: EdgeInsets.only(right: 20.0),
+            //   padding: EdgeInsets.fromLTRB(0, 15.0, 20.0, 0),
+            //   child: GestureDetector(
+            //     child: Stack(
+            //       children: <Widget>[
+            //         Icon(Icons.shopping_cart,size: 26.0 ),
+            //         if(myCart.length>0)
+            //           Padding(
+            //             padding: EdgeInsets.fromLTRB(10.0, 0, 0, 20.0),
+            //             child: CircleAvatar(
+            //             radius: 6.0,
+            //             backgroundColor: Colors.red,
+            //             foregroundColor: Colors.white,
+            //             child: Text(
+                          
+            //               myCart.length.toString(),
+            //               style: TextStyle(
+            //                 fontWeight: FontWeight.bold,
+            //                 fontSize: 12.0,
+            //               ),
+            //             ),
+
+            //           ),
+            //           ),
+                      
+                    
+            //       ],
+                  
+            //     ), 
+            //     onTap: () {
+            //         Navigator.push(
+            //             context,
+            //             MaterialPageRoute(builder: (context) => Cart()),
+            //           );
+
+                    
+            //         // Navigator.of(context).push(
+            //         //   MaterialPageRoute(
+            //         //     builder: (context) => Cart(),
+            //         //   ),
+            //         // );
+            //     },
+               
+            //   )
+            // ),
+            padding: EdgeInsets.only(right: 20.0),
               child: GestureDetector(
                 onTap: () {},
                 child: Icon(
@@ -66,7 +111,9 @@ class _DashboardState extends State<MainShop> {
         //bottom tabs
         bottomNavigationBar: BottomNavigationBar(
           items: <BottomNavigationBarItem>[
+            
             BottomNavigationBarItem(
+                
                 icon: Icon(Icons.store),
                 title: Text(
                   'Store',

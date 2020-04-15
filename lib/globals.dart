@@ -1,25 +1,39 @@
 library trial12.globals;
 
+//google maps 
 var currentLocation;
+//number in the text field at phone.dart
 var tempPhone ;
+//after signing up
 var vendPhone;
 var shopPhone;
+// For the selected shop in available 
 var selectedShopPhone;
-var imageSource;
+
+// Phone Auth
 var phoneNumber;
+
+
+var imageSource;
+
+// for the Credentials selected shop
 var shopperName;
 var shopperAddress;
 
 var selectedOrder;
+// selecting form gallery and camera camera.dart
 var chosenImageUrl;
 var indexchosen;
 
 var numberOfOrderSelected = 0;
 
 final List<Product> myCart = new List();
-var vendorslist = [];
-var base64ImageUrl;
 final List<Product> allProductsList = new List();
+
+// adding all vendors in this list available but not using it 
+var vendorslist = [];
+
+
 class Product {
   String name;
   String image;
