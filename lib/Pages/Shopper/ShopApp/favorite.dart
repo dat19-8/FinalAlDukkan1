@@ -90,29 +90,30 @@ class NewProductListing extends StatelessWidget {
                   height: 145.0,
                   child: FlatButton(
                     onPressed: () {
-                      allProductsList[index].cart = true;
-                      var exist = false;
-                      for (var i = 0; i < myCart.length; i++) {
-                        if (allProductsList[index].name == myCart[i].name) {
-                          allProductsList[index].value = allProductsList[index].value + 1;
-                          exist = true;
-                        }
-                      }
-                      if (exist == false) {
-                        myCart.add(allProductsList[index]);
-                      }
-                      var changeMyCartProducts = {
-                                'name':myCart[index].name,
-                                'price':myCart[index].price,
-                                'available':myCart[index].available,
-                                'image':myCart[index].image,
-                                'cart':myCart[index].cart,
-                                'favorite':myCart[index].favorite,
-                                'value':myCart[index].value
+                      // allProductsList[index].cart = true;
+                      // var exist = false;
+                      // for (var i = 0; i < myCart.length; i++) {
+                      //   if (allProductsList[index].name == myCart[i].name) {
+                      //     allProductsList[index].value = allProductsList[index].value + 1;
+                      //     exist = true;
+                      //   }
+                      // }
+                      // if (exist == false) {
+                      //   myCart.add(allProductsList[index]);
+                      // }
+                      // var changeMyCartProducts = {
+                      //           'name':myCart[index].name,
+                      //           'price':myCart[index].price,
+                      //           'available':myCart[index].available,
+                      //           'image':myCart[index].image,
+                      //           'cart':myCart[index].cart,
+                      //           'favorite':myCart[index].favorite,
+                      //           'value':myCart[index].value
 
-                              };
-                      newMapCart.add(changeMyCartProducts);
-                      print(newMapCart);
+                      //         };
+                      // newMapCart.add(changeMyCartProducts);
+                      // print(newMapCart);
+                      print('ok');
                     },
                     child: Image.network(myFav[index].image),
                   )),

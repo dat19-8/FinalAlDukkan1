@@ -11,6 +11,7 @@ class Cart extends StatefulWidget {
 }
 
 
+final List<Map> cartFinalOrder =  new List();
 final List<Map> allOrders = new List();
 var initialPrice;
 
@@ -19,14 +20,23 @@ _showAlertDialog(BuildContext context , index) async{
   Widget cancelButton = FlatButton(
     child: Text("إلغاء"),
     onPressed: () {
-      
       Navigator.of(context, rootNavigator: true).pop('dialog');
     },
   );
   Widget deleteButton = FlatButton(
     child: Text("إزالة"),
     onPressed: () {
-      myCart.removeAt(index);
+      if(myCartPricesList.length == 1){
+        myCartPricesList.removeAt(0);
+        myCartValuesList.removeAt(0);
+        myCart.removeAt(0);
+      }
+      else
+      {
+        myCartPricesList.removeAt(index);
+        myCartValuesList.removeAt(index);
+        myCart.removeAt(index);
+      }
       Navigator.of(context, rootNavigator: true).pop('dialog');
       (context as Element).reassemble();
     },
@@ -63,6 +73,8 @@ _clearDialog(BuildContext context ) async{
     child: Text("مسح"),
     onPressed: () {
       myCart.removeRange(0, myCart.length);
+      myCartPricesList.removeRange(0, myCartPricesList.length);
+      myCartValuesList.removeRange(0, myCartValuesList.length);
       Navigator.of(context, rootNavigator: true).pop('dialog');
       (context as Element).reassemble();
       
@@ -124,25 +136,16 @@ class _CartState extends State<Cart> {
     
     return Scaffold(
         backgroundColor: Colors.grey,
-      //   appBar: AppBar(
-      //   centerTitle: true,
-      //   backgroundColor: Color.fromRGBO(27, 38, 44, 100),
-      //   title: Text(
-      //     'الدكان',
-      //     style: TextStyle(color: Colors.white, fontSize: 30.0),
-      //   ),
-      // ),
         body: Column(
           
           children: <Widget>[
             myCart.length == 0 ? Center(child: Text("عربة التسوق فارغة" , style: TextStyle(fontSize:30.0),)):
             Container(
               width: MediaQuery.of(context).size.width * 1,
-              // height: MediaQuery.of(context).size.height * 0.77,
-              height: MediaQuery.of(context).size.height * 0.66,
+              height: MediaQuery.of(context).size.height * 0.67,
               child: new ListView(
                 semanticChildCount: 1,
-                children: List.generate(myCart.length, (index) {
+                children: List.generate(myCartPricesList.length, (index) {
                   return Row(
                     children: <Widget>[
                       Column(
@@ -152,49 +155,42 @@ class _CartState extends State<Cart> {
                             Container(
                               width: 170.0,
                               height: 100.0,
-                              child: Image.network(myCart[index].image),
+                              child: Image.network(myCartPricesList[index]['image']),
                             ),
                           ]),
                       Column(
                         children: <Widget>[
-                          myCart[index].name == "name" ? Text(" Unknown Item"):
-                          Text(" ${myCart[index].name}"),
-                          Text("Item Price : ${myCart[index].price}"),
+                          myCartPricesList[index]['name'] == "name" ? Text(" Unknown Item"):
+                          Text(" ${myCartPricesList[index]['name']}"),
+                          Text("Item Price : ${myCart[index]['price']}"),
+                          Text("Total Price : ${myCartPricesList[index]['price']}"),
                           Row(
                             children: <Widget>[
                               FlatButton(
                                 
                                   onPressed: () {
                                     setState(() {
-                                      myCart[index].value += 1;
-                                      myCart[index].price +=
-                                          myCart[index].price;
+                                      myCartValuesList[index]['value'] += 1;
+                                      myCartPricesList[index]['price'] = myCart[index]['price'] * myCartValuesList[index]['value'];
                                     });
                                   },
                                   child: Icon(Icons.add , size: 50.0,)),
-                              Text("${myCart[index].value}", style: TextStyle(fontSize:20.0),),
+                              Text("${myCartValuesList[index]['value']}", style: TextStyle(fontSize:20.0),),
                               FlatButton(
                                 
                                   onPressed: () {
-                                    if (myCart[index].value == 1) {
+                                    if (myCartValuesList[index]['value'] == 1) {
                                       _showAlertDialog(context , index);
                                     }
                                     else{
                                       setState(() {
-                                      myCart[index].value -= 1;
-                                      myCart[index].price -=
-                                          myCart[index].price;
-                                      print(myCart[index].price);
+                                      myCartValuesList[index]['value'] -= 1;
+                                      myCartPricesList[index]['price'] -=
+                                          myCart[index]['price'];
                                     });
                                     }
                                     
                                   },
-                                  // child: Text(
-                                  //   "-",
-                                  //   style: TextStyle(
-                                  //     fontSize: 100.0,
-                                  //   ),
-                                  // )),
                                   child: Icon(Icons.remove , size: 50.0),
                                   ),
                             ],
@@ -212,7 +208,6 @@ class _CartState extends State<Cart> {
                     .document(selectedShopPhone)
                     .snapshots(),
                 builder: (context, snapshot) {
-                  
                   if (!snapshot.hasData)
                     return Center(child: Text('No data in DB '));
                   else {
@@ -225,8 +220,6 @@ class _CartState extends State<Cart> {
                     } else {
                       var exist = true;
                       for (var i = 0; i < snapshot.data['Orders'].length; i++) {
-                        print(snapshot.data['Orders'][i]["Pinfo"]['phone']);
-                        // if(snapshot.data['Orders'][i]["Pinfo"]['phone'])
                         allOrders.add(snapshot.data['Orders'][i]);
                       }
                     }
@@ -246,7 +239,7 @@ class _CartState extends State<Cart> {
                     children: <Widget>[
                       Column(
                         children: <Widget>[
-                          myCart.length ==0 ? Text('no' , style: TextStyle(color:Colors.transparent),):
+                          myCartPricesList.length ==0 ? Text('no' , style: TextStyle(color:Colors.transparent),):
                           new Container(
                               padding: EdgeInsets.only(right:10.0),
                               
@@ -258,14 +251,14 @@ class _CartState extends State<Cart> {
                                   borderRadius: new BorderRadius.circular(40.0),
                                   ),
                                   onPressed: () {
-                                    if(myCart.length != 0){
+                                    if(myCartPricesList.length != 0){
 
                                       _clearDialog(context);
                                     }
                                   }, child: Text("حذف سلة التسوق")))
                         ],
                       ),
-                      myCart.length ==0 ? Text('no' , style: TextStyle(color:Colors.transparent),):
+                      myCartPricesList.length ==0 ? Text('no' , style: TextStyle(color:Colors.transparent),):
                       Column(
                         children: <Widget>[
                           Container(
@@ -277,27 +270,63 @@ class _CartState extends State<Cart> {
                               shape: new RoundedRectangleBorder(
                               borderRadius: new BorderRadius.circular(40.0),),
                               onPressed: () {
-                                if(myCart.length != 0){
+                                cartFinalOrder.removeRange(0, cartFinalOrder.length);
+                                for(var i = 0 ; i < myCartPricesList.length ; i++){
+                                  setState(() {
+                                    final finalProduct = {
+                                    'name': myCartPricesList[i]['name'],
+                                    'image':myCartPricesList[i]['image'],
+                                    'originalPrice':myCart[i]['price'],
+                                    'finalPrice':myCartPricesList[i]['price'],
+                                    "value":myCartValuesList[i]['value']
+                                    };  
+                                    var exist = false;
+                                    for(var j = 0 ; j < cartFinalOrder.length ; j ++){
+                                      if(finalProduct['image'] == cartFinalOrder[j]['image']){
+                                        exist = true;
+                                        break;
+                                      }
+                                      
+                                    }
+                                    setState(() {
+                                      if(exist == false){
+                                      cartFinalOrder.add(finalProduct);
+                                    }  
+                                    });
+                                    
+
+                                  });
+                                  
+                                  
+                                }
+
+                                
+                                
+                                if(myCartPricesList.length != 0){
                                   var myOrder = {
                                   'Pinfo': {
                                     'name': shopperName,
                                     'address': shopperAddress,
-                                    'phone': shopPhone
+                                    'phone': shopPhone,
+                                    'timeOfOrder': DateTime.now()
+
                                   },
-                                  'Products': newMapCart,
+                                  'Products': cartFinalOrder,
                                   'completed': false
                                 };
+                                
 
                                 allOrders.add(myOrder);
                                 for (var i = 0; i < allOrders.length - 1; i++) {
-                                  for (var j = 2; j < allOrders.length; j++) {
-                                    if (allOrders[i]['Pinfo']['name'] ==
-                                        allOrders[j]['Pinfo']['name']) {
+                                  for (var j = 1; j < allOrders.length; j++) {
+                                    if (allOrders[i]['Pinfo']['phone'] ==
+                                        allOrders[j]['Pinfo']['phone'] && allOrders[i]['Pinfo']['timeOfOrder'] ==
+                                        allOrders[j]['Pinfo']['timeOfOrder']  ) {
                                       allOrders.removeAt(i);
                                     }
                                   }
                                 }
-
+                                
                                 Firestore.instance
                                     .collection('Vendors')
                                     .document(selectedShopPhone)
@@ -305,6 +334,9 @@ class _CartState extends State<Cart> {
                                 
                                 _showAlertFinal(context);
                                 myCart.removeRange(0, myCart.length);
+                                myCartPricesList.removeRange(0, myCartPricesList.length);
+                                myCartValuesList.removeRange(0, myCartValuesList.length);
+
                                 (context as Element).reassemble();
                                 }
                                 

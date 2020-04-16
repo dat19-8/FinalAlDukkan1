@@ -7,6 +7,8 @@ import 'package:finaldukkan1/globals.dart';
 
 final List<Map> tempFav = new List();
 final List<Map> newMapCart = new List();
+final List<Map> newTempFave1 = new List();
+
 
 
 var selectedVendorInfo ;
@@ -51,22 +53,22 @@ class _ShopAppState extends State<ShopApp> {
                 selectedVendorInfo = newVendor;
                 for (var i = 0; i < snapshot.data['Products'].length; i++) {
                   
-                  var newProduct1 = new Product(
-                    snapshot.data['Products'][i]['name'],
-                    int.parse(snapshot.data['Products'][i]['price']),
-                    snapshot.data['Products'][i]['image'],
-                    snapshot.data['Products'][i]['cart'],
-                    snapshot.data['Products'][i]['favorite'],
-                    snapshot.data['Products'][i]['value'],
-                    snapshot.data['Products'][i]['available'],
-                  );
+                  var newProduct1 ={
+                    'name': snapshot.data['Products'][i]['name'],
+                    'price':int.parse(snapshot.data['Products'][i]['price']),
+                    'image':snapshot.data['Products'][i]['image'],
+                    'cart': snapshot.data['Products'][i]['cart'],
+                    'favorite': snapshot.data['Products'][i]['favorite'],
+                    'value': snapshot.data['Products'][i]['value'],
+                    'available': snapshot.data['Products'][i]['available'],
+                  };
                   var exist = false;
                       for (var j = 0; j < allProductsList.length; j++) {
-                        if (newProduct1.image ==
-                            allProductsList[j].image.toString()) {
+                        if (newProduct1['image'] ==
+                            allProductsList[j]['image'].toString()) {
                           exist = true;
                         }
-                        if(exist == true && newProduct1.name != "name"){
+                        if(exist == true && newProduct1['name'] != "name"){
                           allProductsList.removeAt(j);
                           exist = false;
                         }
@@ -100,37 +102,88 @@ class ProductListing extends StatelessWidget {
                   height: 100.0,
                   child: FlatButton(
                     onPressed: () {
-                      print(allProductsList[index].name);
-                      print('index : ${index}');
-                      allProductsList[index].cart = true;
+                      
+                      
                       var exist = false;
-                      for (var i = 0; i < myCart.length; i++) {
-                        if (allProductsList[index].name == myCart[i].name) {
-                          allProductsList[index].value = allProductsList[index].value + 1;
-                          exist = true;
+                      if(myCart.length == 0){
+                        
+                        
+                        var changeMyCartProducts = {
+                          'name':allProductsList[index]['name'],
+                          'price':allProductsList[index]['price'],
+                          'available':allProductsList[index]['available'],
+                          'image':allProductsList[index]['image'],
+                          'cart':allProductsList[index]['cart'],
+                          'favorite':allProductsList[index]['favorite'],
+                          'value':allProductsList[index]['value']
+                        };
+                        myCart.add(changeMyCartProducts);
+                      }
+                      else{
+                        
+                        for (var i = 0; i < myCart.length; i++) {
+                          if (allProductsList[index]['name'] == myCart[i]['name']) {
+                            exist = true;
+                          }
                         }
-                      }
-                      if (exist == false) {
-                        myCart.add(allProductsList[index]);
-                        (context as Element).reassemble();
-                      }
-                      var changeMyCartProducts = {
-                                'name':myCart[index].name,
-                                'price':myCart[index].price,
-                                'available':myCart[index].available,
-                                'image':myCart[index].image,
-                                'cart':myCart[index].cart,
-                                'favorite':myCart[index].favorite,
-                                'value':myCart[index].value
+                        if (exist == false) {
+                          
+                          var changeMyCartProducts = {
+                                
+                                'name':allProductsList[index]['name'],
+                                'price':allProductsList[index]['price'],
+                                'available':allProductsList[index]['available'],
+                                'image':allProductsList[index]['image'],
+                                'cart':allProductsList[index]['cart'],
+                                'favorite':allProductsList[index]['favorite'],
+                                'value':allProductsList[index]['value']
 
                               };
-                      print('changeMyCartProducts : ${changeMyCartProducts}');
-                      newMapCart.add(changeMyCartProducts);
-                      
-                      
+                          myCart.add(changeMyCartProducts);
+                          
+                        }
+                      }
+                      for (var i = 0; i < myCart.length; i++) {
+                          
+                        if(allProductsList[index]['image'] == myCart[i]['image']){
+                          
+                          var myCartPriceProduct = {
+                            'name':myCart[i]['name'],
+                            'image': myCart[i]['image'],
+                            'price':myCart[i]['price'],
+                          };
 
+                          var myCartValueProduct = {
+                            'image':myCart[i]['image'],
+                            'value' : 1,
+                          };
+                          
+                          var allExist = false;
+                          for(var i = 0; i < myCartPricesList.length ; i++){
+                            if( allProductsList[index]['image'] == myCartPricesList[i]['image']){
+                              allExist = true;
+                              
+                              break;
+                            }
+                          }
+                          if(allExist == false){
+                            myCartValuesList.add(myCartValueProduct);
+                            myCartPricesList.add(myCartPriceProduct);
+                          }
+                          if(allExist==true){
+                            
+                            for (var i = 0; i < myCartValuesList.length; i++) {
+                              if(allProductsList[index]['image'] == myCartValuesList[i]['image']){
+                                myCartValuesList[i]['value'] += 1;
+                                myCartPricesList[i]['price'] = myCart[i]['price']*myCartValuesList[i]['value'];  
+                              }
+                            }
+                          }
+                        }
+                      }
+                      // (context as Element).reassemble();
                     },
-                    child: Image.network(allProductsList[index].image),
+                    child: Image.network(allProductsList[index]['image']),
                     
                   )),
               
@@ -139,57 +192,56 @@ class ProductListing extends StatelessWidget {
                   
                   
                   var newTemp={
-                    'name':allProductsList[index].name,
-                    'price':allProductsList[index].price,
-                    'cart' :allProductsList[index].cart,
+                    'name':allProductsList[index]['name'],
+                    'price':allProductsList[index]['price'],
+                    'cart' :allProductsList[index]['cart'],
                     'favorite': false,
-                    'image':allProductsList[index].image,
-                    'value': allProductsList[index].value,
-                    "available":allProductsList[index].available
+                    'image':allProductsList[index]['image'],
+                    'value': allProductsList[index]['value'],
+                    "available":allProductsList[index]['available']
 
 
                   };
                   
-                  if(allProductsList[index].favorite == true)
+                  if(allProductsList[index]['favorite'] == true)
                   { 
-                    
                     if(tempFav.length == 1){
-                      print("removed ${tempFav[0]}" );
+                      
                       tempFav.removeAt(0);
                     }
                     for(var i = 0 ; i < tempFav.length ; i++){
-                      if(allProductsList[index].name == tempFav[i]['name']){
+                      if(allProductsList[index]['name'] == tempFav[i]['name']){
                         newTemp['favorite']=false;
-                        allProductsList[index].favorite = false;
+                        allProductsList[index]['favorite'] = false;
                         tempFav.removeAt(i);
                         
                       }
                     }  
                     Firestore.instance.collection('Shoppers').document(shopPhone).updateData({selectedShopPhone.toString() : tempFav});
-                    allProductsList[index].favorite = false;
+                    allProductsList[index]['favorite'] = false;
                     
                   }
                   else{
-                    allProductsList[index].favorite = true;
+                    allProductsList[index]['favorite'] = true;
                     newTemp['favorite']=true;
                     tempFav.add(newTemp);
                     
                     Firestore.instance.collection('Shoppers').document(shopPhone).updateData({selectedShopPhone.toString() : tempFav});
                     
+                    // (context as Element).reassemble();
                     }
-                    (context as Element).reassemble();
                 },
-                child   : allProductsList[index].favorite ==  true ? Icon(Icons.favorite , color: Colors.red,) :Icon(Icons.favorite_border),
+                child   : allProductsList[index]['favorite'] ==  true ? Icon(Icons.favorite , color: Colors.red,) :Icon(Icons.favorite_border),
 
                 
                 
               ),
               
-              allProductsList[index].name == "name"  ?  Text("${allProductsList[index].name}" , style: TextStyle(color: Colors.transparent),):
+              allProductsList[index]['name'] == "name"  ?  Text("${allProductsList[index]['name']}" , style: TextStyle(color: Colors.transparent),):
               
-              Text("${allProductsList[index].name}"),
-              allProductsList[index].price == 0 ? Text("${allProductsList[index].price}" , style: TextStyle(color:Colors.transparent),):
-              Text("${allProductsList[index].price}"),
+              Text("${allProductsList[index]['name']}"),
+              allProductsList[index]['price'] == 0 ? Text("${allProductsList[index]['price']}" , style: TextStyle(color:Colors.transparent),):
+              Text("${allProductsList[index]['price']}"),
               
             ],
           );
