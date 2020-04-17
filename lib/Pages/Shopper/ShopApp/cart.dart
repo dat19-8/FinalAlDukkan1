@@ -323,36 +323,36 @@ class _CartState extends State<Cart> {
                                 var finalId = Uuid.v1();
                                 print('final Id : $finalId');
                                 
-                                if(myCartPricesList.length != 0){
                                   var myOrder = {
-                                  'Pinfo': {
-                                    'name': shopperName,
-                                    'address': shopperAddress,
-                                    'phone': shopPhone,
-                                  },
-                                  'Products': cartFinalOrderProducts,
-                                  'completed': false,
-                                  'OrderId':  finalId.toString()
-                                };
+                                    'Pinfo': {
+                                      'name': shopperName,
+                                      'address': shopperAddress,
+                                      'phone': shopPhone,
+                                    },
+                                    'Products': cartFinalOrderProducts,
+                                    'completed': false,
+                                    'OrderId':  finalId.toString()
+                                  };
+                                allOrders.add(myOrder);
+                                
                                 
                                   
-                                print("allOrder at end : $allOrders");
                                 
-                                allOrders.add(myOrder);
+                                
+                                
                                 Firestore.instance
                                     .collection('Vendors')
                                     .document(selectedShopPhone)
                                     .updateData({'Orders': allOrders});
                                 
+                                // Firestore.instance.collection('Shoppers').document(shopPhone).updateData({selectedShopPhone.toString() :{'Orders' : cartFinalOrderProducts} });
                                 _showAlertFinal(context);
                                 myCart.removeRange(0, myCart.length);
                                 myCartPricesList.removeRange(0, myCartPricesList.length);
                                 myCartValuesList.removeRange(0, myCartValuesList.length);
-                                
-                                // Firestore.instance.collection('Shoppers').document(shopPhone).updateData({selectedShopPhone.toString() :{'Orders' : cartFinalOrderProducts} });
 
                                 (context as Element).reassemble();
-                                }
+                                
                                 
                               },
                               child: Text("احصل على طلبك"),

@@ -10,8 +10,11 @@ class ListOrders extends StatefulWidget {
 
 final List<Map> myProductsListOrders = new List();
 final List<Map> myUser = new List();
+final List<Map> allOrdersVendor = new List();
+final List<Map> completedList = new List();
 
 
+var completedId ;
 var myPriceList = [];
 int _myFinalPriceInteger = 0;
 
@@ -26,7 +29,30 @@ _showAlertDialog(BuildContext context ) async{
   Widget deleteButton = FlatButton(
     child: Text("ACCEPT"),
     onPressed: () {
-      print('accept the order');
+      for (var i = 0; i < allOrdersVendor.length; i++) {
+        if(allOrdersVendor[i]['OrderId'] == completedId){
+          allOrdersVendor[i]['completed'] = true;
+          completedList.add(allOrdersVendor[i]);
+          allOrdersVendor.removeAt(i);
+        }
+      }
+      Navigator.pop(
+        context,
+        MaterialPageRoute(
+            builder: (context) => Orders()),
+      );
+      Firestore.instance
+      .collection('Vendors')
+      .document(vendPhone)
+      .updateData({'CompletedOrders': completedList});
+      Firestore.instance
+        .collection('Vendors')
+        .document(vendPhone)
+        .updateData({'Orders': allOrdersVendor});
+      
+      
+      
+      
       Navigator.of(context, rootNavigator: true).pop('dialog');
       (context as Element).reassemble();
     },
@@ -62,7 +88,22 @@ _declineAlertDialog(BuildContext context ) async{
   Widget deleteButton = FlatButton(
     child: Text("DECLINE"),
     onPressed: () {
-      print('accept the order');
+      for (var i = 0; i < allOrdersVendor.length; i++) {
+        if(allOrdersVendor[i]['OrderId'] == completedId){
+          
+          // allOrdersVendor[i]['completed'] = true;
+          allOrdersVendor.removeAt(i);
+        }
+      }
+      Navigator.pop(
+        context,
+        MaterialPageRoute(
+            builder: (context) => Orders()),
+      );
+      Firestore.instance
+        .collection('Vendors')
+        .document(vendPhone)
+        .updateData({'Orders': allOrdersVendor});
       Navigator.of(context, rootNavigator: true).pop('dialog');
       (context as Element).reassemble();
     },
@@ -154,7 +195,10 @@ class _ListOrdersState extends State<ListOrders> {
                           'originalPrice': snapshot.data['Orders'][numberOfOrderSelected]['Products'][i]['originalPrice'],
                           'value': snapshot.data['Orders'][numberOfOrderSelected]['Products'][i]['value'],
                           'image': snapshot.data['Orders'][numberOfOrderSelected]['Products'][i]['image'],
+                          
                         };
+                        completedId = snapshot.data['Orders'][numberOfOrderSelected]['OrderId'];
+                        
                         var exist = false;
                         for(var j = 0 ; j < myProductsListOrders.length ; j++){
                           if(newProduct['name'] == myProductsListOrders[j]['name']){
@@ -181,8 +225,52 @@ class _ListOrdersState extends State<ListOrders> {
                   }}
                 return NewListingOrders();
               }),
-          
-          new Row(
+              new StreamBuilder(
+                stream: Firestore.instance
+                    .collection('Vendors')
+                    .document(vendPhone)
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  allOrdersVendor.removeRange(0, allOrdersVendor.length);
+                  if (!snapshot.hasData)
+                    return Center(child: Text('No data in DB '));
+                  else {
+                    if (snapshot.data['Orders'].length == 0) {
+                      return Center(
+                          child: Text(
+                        "Place your order",
+                        style: TextStyle(color: Colors.transparent),
+                      ));
+                    } else {
+                      for (var i = 0; i < snapshot.data['Orders'].length ; i++) {
+                        var newShopperInfo ={
+                        'phone':  snapshot.data['Orders'][i]['Pinfo']['phone'],
+                        'id':snapshot.data['Orders'][i]['OrderId']
+                        };
+                        var exist = false;
+                        for(var j = 0 ; j <  allOrdersVendor.length ; j++){
+                          
+                          if( newShopperInfo['id'] == allOrdersVendor[j]['OrderId']){
+                            exist = true;
+                          }
+                          
+                        }
+                        if(exist == false){
+                          allOrdersVendor.add(snapshot.data['Orders'][i]);
+                        }
+                      }
+                      
+                      print("allOrder at first : $allOrdersVendor");
+                      
+                    }
+                  }
+                  return Text("done",
+                      style: TextStyle(
+                        color: Colors.transparent,
+                        fontSize: 2.0,
+                      ));
+                }),
+                new Row (
             children: <Widget>[
               Container(
                 width: MediaQuery.of(context).size.width * 0.5,

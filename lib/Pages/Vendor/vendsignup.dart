@@ -222,6 +222,10 @@ class _SignUpVendorState extends State<SignUpVendor> {
                             .collection('Vendors')
                             .document(vendPhone)
                             .updateData({'Orders': []});
+                        Firestore.instance
+                            .collection('Vendors')
+                            .document(vendPhone)
+                            .updateData({'CompletedOrders': []});
                         // print("current Location: ${currentLocation}");
                         Navigator.pushReplacement(
                           context,

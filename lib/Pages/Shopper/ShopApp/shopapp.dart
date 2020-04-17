@@ -86,7 +86,12 @@ class _ShopAppState extends State<ShopApp> {
   }
 
 
-class ProductListing extends StatelessWidget {
+class ProductListing extends StatefulWidget {
+  @override
+  _ProductListingState createState() => _ProductListingState();
+}
+
+class _ProductListingState extends State<ProductListing> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -102,6 +107,7 @@ class ProductListing extends StatelessWidget {
                   height: 100.0,
                   child: FlatButton(
                     onPressed: () {
+                      
                       var exist = false;
                       if(myCart.length == 0){
                         
@@ -115,7 +121,7 @@ class ProductListing extends StatelessWidget {
                           'favorite':allProductsList[index]['favorite'],
                           'value':allProductsList[index]['value']
                         };
-                        myCart.add(changeMyCartProducts);
+                          myCart.add(changeMyCartProducts);
                       }
                       else{
                         
@@ -137,6 +143,7 @@ class ProductListing extends StatelessWidget {
                                 'value':allProductsList[index]['value']
 
                               };
+                          
                           myCart.add(changeMyCartProducts);
                           
                         }

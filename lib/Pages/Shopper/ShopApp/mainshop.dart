@@ -127,11 +127,11 @@ class _DashboardState extends State<MainShop> {
                       Padding(
                         padding: EdgeInsets.fromLTRB(10.0, 0, 0, 20.0),
                         child: CircleAvatar(
-                        radius: 6.0,
+                        
+                        radius: 8.0,
                         backgroundColor: Colors.red,
                         foregroundColor: Colors.white,
                         child: Text(
-                          
                           myCart.length.toString(),
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
