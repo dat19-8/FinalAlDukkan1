@@ -2,7 +2,7 @@ import 'package:finaldukkan1/globals.dart';
 import 'package:flutter/material.dart';
 import './cart.dart';
 import './favorite.dart';
-import './memory.dart';
+import './historyListing.dart';
 import './shopapp.dart';
 import '../available.dart';
 

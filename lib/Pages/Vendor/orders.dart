@@ -9,7 +9,7 @@ class Orders extends StatefulWidget {
 }
 
 final List<Map> allShoppers = new List();
-final conditions = [];
+
 
 var ordersNumber;
 var numberOfOrder;
@@ -60,7 +60,6 @@ class _OrdersState extends State<Orders> {
                               ['Pinfo']['timeOfOrder'],
                         };
                         allShoppers.add(newshopper);
-                        conditions.add(snapshot.data['Orders'][i]['completed']);
                       ordersNumber = snapshot.data['Orders'].length;
                       
                     }

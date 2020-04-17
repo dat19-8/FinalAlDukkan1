@@ -32,12 +32,13 @@ final List<Map> myCartPricesList = new List();
 final List<Map> myCartValuesList = new List();
 // 
 var numberOfOrderSelected = 0;
-
+var numbOfOrderSelectedShopper = 0;
 final List<Map> myCart = new List();
 final List<Map> allProductsList = new List();
 
 // adding all vendors in this list available but not using it 
 var vendorslist = [];
+var idOrderslist = [];
 
 
 class Product {
