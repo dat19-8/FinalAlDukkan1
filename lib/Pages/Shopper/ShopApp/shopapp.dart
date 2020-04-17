@@ -102,8 +102,6 @@ class ProductListing extends StatelessWidget {
                   height: 100.0,
                   child: FlatButton(
                     onPressed: () {
-                      
-                      
                       var exist = false;
                       if(myCart.length == 0){
                         
@@ -217,7 +215,7 @@ class ProductListing extends StatelessWidget {
                         
                       }
                     }  
-                    Firestore.instance.collection('Shoppers').document(shopPhone).updateData({selectedShopPhone.toString() : tempFav});
+                    Firestore.instance.collection('Shoppers').document(shopPhone).updateData({selectedShopPhone.toString() :{'favorites' : tempFav} });
                     allProductsList[index]['favorite'] = false;
                     
                   }

@@ -11,6 +11,83 @@ class ListOrders extends StatefulWidget {
 final List<Map> myProductsListOrders = new List();
 final List<Map> myUser = new List();
 
+
+var myPriceList = [];
+int _myFinalPriceInteger = 0;
+
+_showAlertDialog(BuildContext context ) async{
+  // set up the buttons
+  Widget cancelButton = FlatButton(
+    child: Text("إلغاء"),
+    onPressed: () {
+      Navigator.of(context, rootNavigator: true).pop('dialog');
+    },
+  );
+  Widget deleteButton = FlatButton(
+    child: Text("ACCEPT"),
+    onPressed: () {
+      print('accept the order');
+      Navigator.of(context, rootNavigator: true).pop('dialog');
+      (context as Element).reassemble();
+    },
+  );
+
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text("انتباه"),
+    content: Text(
+        "do you want to accept this order $finalPrice LBP" , style: TextStyle(fontSize: 15.0),),
+    actions: [
+      cancelButton,
+      deleteButton,
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}
+_declineAlertDialog(BuildContext context ) async{
+  // set up the buttons
+  Widget cancelButton = FlatButton(
+    child: Text("إلغاء"),
+    onPressed: () {
+      Navigator.of(context, rootNavigator: true).pop('dialog');
+    },
+  );
+  Widget deleteButton = FlatButton(
+    child: Text("DECLINE"),
+    onPressed: () {
+      print('accept the order');
+      Navigator.of(context, rootNavigator: true).pop('dialog');
+      (context as Element).reassemble();
+    },
+  );
+
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text("انتباه"),
+    content: Text(
+        "do you want to decline this order $finalPrice LBP" , style: TextStyle(fontSize: 15.0),),
+    actions: [
+      cancelButton,
+      deleteButton,
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}
+
 class _ListOrdersState extends State<ListOrders> {
   @override
   Widget build(BuildContext context) {
@@ -26,6 +103,7 @@ class _ListOrdersState extends State<ListOrders> {
       ),
       body: Column(
         children: <Widget>[
+          
           Center(
             child: new Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -46,7 +124,7 @@ class _ListOrdersState extends State<ListOrders> {
                           child: Text("Phone : ${allShoppers[numberOfOrderSelected]['shopperPhoneNumber']}")),
                       Container(
                           width: 200.0, height: 30.0, child:
-                       Text("Address : ${allShoppers[numberOfOrderSelected]['shopperAddress']}"))
+                       Text("Address : ${allShoppers[numberOfOrderSelected]['shopperAddress']}")),
                     ],
                   ),
                 ),
@@ -66,12 +144,14 @@ class _ListOrdersState extends State<ListOrders> {
                     return Center(child: Text("No Products in this order"));
                   } else {
                     myProductsListOrders.removeRange(0, myProductsListOrders.length);
+                    _myFinalPriceInteger = 0;
+                    
+                    var mytempPrice = 0;
                     for (var i = 0; i < snapshot.data['Orders'][numberOfOrderSelected]['Products'].length; i++) {
-                       print("snapshot.data['Orders'][numberOfOrderSelected]['Products'].length");
-                       print("${snapshot.data['Orders'][numberOfOrderSelected]['Products'].length}");
                        var newProduct = {
                           'name': snapshot.data['Orders'][numberOfOrderSelected]['Products'][i]['name'],
-                          'price': snapshot.data['Orders'][numberOfOrderSelected]['Products'][i]['price'],
+                          'finalPrice': snapshot.data['Orders'][numberOfOrderSelected]['Products'][i]['finalPrice'],
+                          'originalPrice': snapshot.data['Orders'][numberOfOrderSelected]['Products'][i]['originalPrice'],
                           'value': snapshot.data['Orders'][numberOfOrderSelected]['Products'][i]['value'],
                           'image': snapshot.data['Orders'][numberOfOrderSelected]['Products'][i]['image'],
                         };
@@ -81,14 +161,24 @@ class _ListOrdersState extends State<ListOrders> {
                             exist = true;
                           }  
                         }
-                        if(exist == false) myProductsListOrders.add(newProduct);
-                        
-                        
-                      
-                      
-                    }
-                  }
-                }
+                        if(exist == false){ 
+                          myProductsListOrders.add(newProduct);
+                          
+                            mytempPrice += newProduct['finalPrice'];  
+                          
+                          
+                          
+                        }}
+                    
+                    
+                    
+                      _myFinalPriceInteger = mytempPrice;  
+                    
+                    
+                    
+                    
+
+                  }}
                 return NewListingOrders();
               }),
           
@@ -98,16 +188,35 @@ class _ListOrdersState extends State<ListOrders> {
                 width: MediaQuery.of(context).size.width * 0.5,
                 child: FlatButton(
                   child: Text("decline"),
-                  onPressed: () => print("Decline"),
+                  onPressed: () {
+                    setState(() {
+                      
+                      finalPrice = _myFinalPriceInteger;
+                      _declineAlertDialog(context);
+                      print('decline');
+                    });
+                  },
                 ),
               ),
               Container(
+                
                 width: MediaQuery.of(context).size.width * 0.5,
                 child: FlatButton(
-                  child: Text("Accept : price here"),
+                  
+                  child:
+                  Text("Accept"),
+                  
+                  
                   // onPressed:() => myUser[0]['completed'] = true,
                   // onPressed: () => Firestore.instance.collection('Vendors').document(vendPhone).setData({['Orders'][numberOfOrderSelected]["completed"]:true}),
-                  onPressed: () => print("hello"),
+                  onPressed: () {
+                    setState(() {
+                      
+                      finalPrice = _myFinalPriceInteger;
+                      _showAlertDialog(context);
+                      
+                    });
+                  },
                 ),
               ),
             ],
@@ -126,6 +235,8 @@ class NewListingOrders extends StatelessWidget {
       child: new ListView(
         semanticChildCount: 1,
         children: List.generate(myProductsListOrders.length, (index) {
+          
+          
           return Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
@@ -142,17 +253,25 @@ class NewListingOrders extends StatelessWidget {
                   ),
                 ],
               ),
+                  
               Column(
                 children: <Widget>[
+                  
                   Text("name : ${myProductsListOrders[index]['name']}"),
-                  Text("price : ${myProductsListOrders[index]['price']}"),
+                  Text("original price : ${myProductsListOrders[index]['originalPrice']}"),
+                  Text("final price : ${myProductsListOrders[index]['finalPrice']}"),
                   Text("value : ${myProductsListOrders[index]['value']}"),
+                    
                 ],
               ),
             ],
           );
+          
         }),
+        
       ),
+      
     );
+    
   }
 }

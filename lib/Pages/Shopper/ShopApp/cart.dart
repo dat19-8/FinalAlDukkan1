@@ -1,9 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
-import './shopapp.dart';
 import 'package:finaldukkan1/globals.dart';
-import './shopapp.dart';
+import 'package:better_uuid/uuid.dart';
 
 class Cart extends StatefulWidget {
   @override
@@ -11,8 +9,10 @@ class Cart extends StatefulWidget {
 }
 
 
-final List<Map> cartFinalOrder =  new List();
+final List<Map> cartFinalOrderProducts =  new List();
 final List<Map> allOrders = new List();
+final List<Map> placingOrderList = new List();
+
 var initialPrice;
 
 _showAlertDialog(BuildContext context , index) async{
@@ -208,6 +208,7 @@ class _CartState extends State<Cart> {
                     .document(selectedShopPhone)
                     .snapshots(),
                 builder: (context, snapshot) {
+                  allOrders.removeRange(0, allOrders.length);
                   if (!snapshot.hasData)
                     return Center(child: Text('No data in DB '));
                   else {
@@ -218,10 +219,27 @@ class _CartState extends State<Cart> {
                         style: TextStyle(color: Colors.transparent),
                       ));
                     } else {
-                      var exist = true;
-                      for (var i = 0; i < snapshot.data['Orders'].length; i++) {
-                        allOrders.add(snapshot.data['Orders'][i]);
+                      for (var i = 0; i < snapshot.data['Orders'].length ; i++) {
+                        var newShopperInfo ={
+                        'phone':  snapshot.data['Orders'][i]['Pinfo']['phone'],
+                        'id':snapshot.data['Orders'][i]['OrderId']
+                        
+                        };
+                        var exist = false;
+                        for(var j = 0 ; j <  allOrders.length ; j++){
+                          
+                          if( newShopperInfo['id'] == allOrders[j]['OrderId']){
+                            exist = true;
+                          }
+                          
+                        }
+                        if(exist == false){
+                          allOrders.add(snapshot.data['Orders'][i]);
+                        }
                       }
+                      
+                      print("allOrder at first : $allOrders");
+                      
                     }
                   }
                   return Text("done",
@@ -270,7 +288,7 @@ class _CartState extends State<Cart> {
                               shape: new RoundedRectangleBorder(
                               borderRadius: new BorderRadius.circular(40.0),),
                               onPressed: () {
-                                cartFinalOrder.removeRange(0, cartFinalOrder.length);
+                                cartFinalOrderProducts.removeRange(0, cartFinalOrderProducts.length);
                                 for(var i = 0 ; i < myCartPricesList.length ; i++){
                                   setState(() {
                                     final finalProduct = {
@@ -281,8 +299,8 @@ class _CartState extends State<Cart> {
                                     "value":myCartValuesList[i]['value']
                                     };  
                                     var exist = false;
-                                    for(var j = 0 ; j < cartFinalOrder.length ; j ++){
-                                      if(finalProduct['image'] == cartFinalOrder[j]['image']){
+                                    for(var j = 0 ; j < cartFinalOrderProducts.length ; j ++){
+                                      if(finalProduct['image'] == cartFinalOrderProducts[j]['image']){
                                         exist = true;
                                         break;
                                       }
@@ -290,7 +308,7 @@ class _CartState extends State<Cart> {
                                     }
                                     setState(() {
                                       if(exist == false){
-                                      cartFinalOrder.add(finalProduct);
+                                      cartFinalOrderProducts.add(finalProduct);
                                     }  
                                     });
                                     
@@ -302,31 +320,25 @@ class _CartState extends State<Cart> {
 
                                 
                                 
+                                var finalId = Uuid.v1();
+                                print('final Id : $finalId');
+                                
                                 if(myCartPricesList.length != 0){
                                   var myOrder = {
                                   'Pinfo': {
                                     'name': shopperName,
                                     'address': shopperAddress,
                                     'phone': shopPhone,
-                                    'timeOfOrder': DateTime.now()
-
                                   },
-                                  'Products': cartFinalOrder,
-                                  'completed': false
+                                  'Products': cartFinalOrderProducts,
+                                  'completed': false,
+                                  'OrderId':  finalId.toString()
                                 };
                                 
-
-                                allOrders.add(myOrder);
-                                for (var i = 0; i < allOrders.length - 1; i++) {
-                                  for (var j = 1; j < allOrders.length; j++) {
-                                    if (allOrders[i]['Pinfo']['phone'] ==
-                                        allOrders[j]['Pinfo']['phone'] && allOrders[i]['Pinfo']['timeOfOrder'] ==
-                                        allOrders[j]['Pinfo']['timeOfOrder']  ) {
-                                      allOrders.removeAt(i);
-                                    }
-                                  }
-                                }
+                                  
+                                print("allOrder at end : $allOrders");
                                 
+                                allOrders.add(myOrder);
                                 Firestore.instance
                                     .collection('Vendors')
                                     .document(selectedShopPhone)
@@ -336,6 +348,8 @@ class _CartState extends State<Cart> {
                                 myCart.removeRange(0, myCart.length);
                                 myCartPricesList.removeRange(0, myCartPricesList.length);
                                 myCartValuesList.removeRange(0, myCartValuesList.length);
+                                
+                                // Firestore.instance.collection('Shoppers').document(shopPhone).updateData({selectedShopPhone.toString() :{'Orders' : cartFinalOrderProducts} });
 
                                 (context as Element).reassemble();
                                 }

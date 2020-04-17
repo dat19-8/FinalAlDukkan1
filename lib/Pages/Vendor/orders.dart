@@ -54,6 +54,8 @@ class _OrdersState extends State<Orders> {
                               ['address'],
                           'shopperPhoneNumber': snapshot.data['Orders'][i]
                               ['Pinfo']['phone'],
+                          'time':snapshot.data['Orders'][i]
+                              ['Pinfo']['timeOfOrder'],
                         };
                         allShoppers.add(newshopper);
                       ordersNumber = snapshot.data['Orders'].length;
@@ -87,7 +89,7 @@ class OrdersListing extends StatelessWidget {
                   child: Text("Order ${index + 1} >"),
                   onPressed: () {
                     numberOfOrderSelected = index;
-                    print('numberOfOrder');
+                    
                     Navigator.push(
                           context,
                           MaterialPageRoute(

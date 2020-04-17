@@ -24,6 +24,8 @@ var selectedOrder;
 // selecting form gallery and camera camera.dart
 var chosenImageUrl;
 var indexchosen;
+// order
+int finalPrice ;
 // for cart
 
 final List<Map> myCartPricesList = new List();
