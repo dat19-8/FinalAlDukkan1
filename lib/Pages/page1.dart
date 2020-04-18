@@ -10,285 +10,42 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:finaldukkan1/globals.dart';
 import 'page3.dart';
 import '../pages/Shopper/ShopApp/mainshop.dart';
-import '../Pages/Vendor/vendmainapp.dart';
+import '../Pages/Vendor/vendapp.dart';
 import 'package:better_uuid/uuid.dart';
-//class FirstRoute extends StatefulWidget {
-//  @override
-//  _FirstRouteState createState() => _FirstRouteState();
-//}
-//
-//class _FirstRouteState extends State<FirstRoute> {
-//  @override
-//  void initState() {
-//    checkuser();
-//  }
-//
-//  void checkuser() async {
-//    final FirebaseUser user = await FirebaseAuth.instance.currentUser();
-//    if (user != null) {
-//      Navigator.pushReplacement(
-//          context, MaterialPageRoute(builder: (context) => ThirdPage()));
-//      print (user);
-//      print(phoneNumber);
-////    var documentt= Firestore.instance
-////        .collection('Vendors')
-////        .document(vendPhone).snapshots();
-////    builder: (context, snapshot){
-////    if (snapshot.data.)
-////    if (documentt=phoneNumber){
-////      print ("yes");
-////    }
-////    else {
-////      print ("no");
-////    }
-////    print (documentt);
-//
-//
-////      Firestore.instance
-////        .collection('Vendors')
-////        .document(vendPhone).get().
-////    then((DocumentSnapshot ds){
-////      // if (
-////     print(  ds.data['Orders']['Pinfo']['phone']);
-////     print ("hi");
-////         //== phoneNumber
-//////         {
-//////           Navigator.pushReplacement(
-//////        context, MaterialPageRoute(builder: (context) => ShopApp()));
-//////         }
-//////       else {
-//////         print ("no");
-////      });
-//////      });
-////      print ("hiiiiiiiiiii");
-//
-////      if( Firestore.instance.collection("Vendors").document(phoneNumber).snapshots() != null)
-////         {
-////           print ("hi");
-////           Navigator.pushReplacement(
-////               context, MaterialPageRoute(builder: (context) => Vendapp()));
-////           print (phoneNumber);
-////         }
-////
-////         else if( Firestore.instance.collection("Shoppers").document(phoneNumber).snapshots() != null){
-////        print ("hellooo");
-////           Navigator.pushReplacement(
-////       context, MaterialPageRoute(builder: (context) => ShopApp()));
-////
-////    }
-////      else
-////    {
-////
-////    Navigator.pushReplacement(
-////       context, MaterialPageRoute(builder: (context) => ThirdPage()));
-////    }
-//
-//
-//
-//
-//    } else {
-//      Navigator.pushReplacement(
-//          context, MaterialPageRoute(builder: (context) => PhonePage()));
-//    }
-//  }
-//  @override
-//  Widget build(BuildContext context) {
-//    return Scaffold(
-//      backgroundColor: Color.fromRGBO(15, 76, 117, 100),
-//      appBar: AppBar(
-//        backgroundColor: Color.fromRGBO(27, 38, 44, 100),
-//        title: Center(
-//          child: Text(
-//            'الدكان',
-//            style: TextStyle(color: Colors.white, fontSize: 50.0),
-//          ),
-//        ),
-//      ),
-//      body: Column(
-//        children: <Widget>[
-//          Row(
-//            mainAxisAlignment: MainAxisAlignment.center,
-//            children: <Widget>[
-//              Container(
-//                margin: EdgeInsets.fromLTRB(0, 45.0, 0, 20.0),
-//                child: Image.asset("images/cart-1.png"),
-//                width: 200.0,
-//                height: 200.0,
-//              ),
-//            ],
-//          ),
-//          Row(
-//            mainAxisAlignment: MainAxisAlignment.center,
-//            children: <Widget>[
-//              Container(
-//                  margin: EdgeInsets.only(top: 70.0, bottom: 30.0),
-//                  width: MediaQuery.of(context).size.width * 0.65,
-//                  height: 50.0,
-//                  child: FlatButton(
-//                    color: Colors.green,
-//                    shape: new RoundedRectangleBorder(
-//                      borderRadius: new BorderRadius.circular(30.0),
-//                    ),
-//                    child: Text(
-//                      'أدخل رقم هاتفك',
-//                      style: TextStyle(color: Colors.white ),
-//                    ),
-//                    onPressed: () {
-////                      print("Phone number");
-//                      // Navigator.pushReplacement(context,
-//                      //     MaterialPageRoute(builder: (context) => PhonePage()));
-//                    },
-//                  )),
-//            ],
-//          ),
-//          Row(
-//            mainAxisAlignment: MainAxisAlignment.center,
-//            children: <Widget>[
-//              Container(
-//                  margin: EdgeInsets.only(top: 20.0),
-//                  child: FlatButton(
-//                    color: Colors.green,
-//                    shape: new RoundedRectangleBorder(
-//                      borderRadius: new BorderRadius.circular(30.0),
-//                    ),
-//                    child: Text(
-//                      'مشترك',
-//                      style: TextStyle(color: Colors.white),
-//                    ),
-//                    onPressed: () {
-//                      print("vend app");
-//                      Navigator.push(
-//                        context,
-//                        // MaterialPageRoute(builder: (context) => main()),
-//                        MaterialPageRoute(builder: (context) => CameraTab()),
-//                        //
-//                      );
-//                    },
-//                  ))
-//            ],
-//          )
-//        ],
-//      ),
-//    );
-//  }
-//}
 
-
+var shopper_found = false;
+var vendor_found = false;
 class FirstRoute extends StatefulWidget {
-
   @override
-  _FirstRouteState createState() => _FirstRouteState();
+  _FirstRouteState createState() => _FirstRouteState();}
 
-
-
-
-}
 
 class _FirstRouteState extends State<FirstRoute> {
-
-  @override
-  void initState() {
-//    print (phoneNumber);
-    checkuser();
-  }
-  void  checkuser() async {
-    final FirebaseUser user =  await FirebaseAuth.instance.currentUser();
-    if (user !=null){
-      StreamBuilder(
-          stream: Firestore.instance
-              .collection('Vendors')
-              .document('00000001')
-              .snapshots(),
-          builder: (context, snapshot) {
-            if (!snapshot.hasData)
-              return Center(child: Text('No data in DB '));
-            else {
-              if (snapshot.data['Products'].length == 0) {
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Center(
-                        child: Text(
-                          "You have no Products",
-                          style: TextStyle(fontSize: 30.0),
-                        )),
-                  ],
-                );
-              } else {
-                print("theres data");
-              }
-          }
-      );
-//      var phonee= user.phoneNumber;
-//      var newphone=phonee.substring(4);
-//      String x="12";
+//  @override
+//  void initState() {
 //
-//      print(x);
-//print (user.phoneNumber);
-
-//    print(phoneNumber);
-//      Navigator.pushReplacement(
-//          context,
-//          MaterialPageRoute(
-//              builder: (context) =>ThirdPage())
-//      );
-//      print(user);
+//    checkuser();
+//  }
+//  void  checkuser() async {
+//    final FirebaseUser user =  await FirebaseAuth.instance.currentUser();
+//    if (user !=null){
 //
-//
-
-//           Navigator.pushReplacement(
-//               context, MaterialPageRoute(builder: (context) => MainVend()));
-//
-//           print (user.phoneNumber);
-//         }
-//
-//         else if( (Firestore.instance.collection("Shopers").document("user.phoneNumber").snapshots())!null){
-//        print ("hellooo");
-//           Navigator.pushReplacement(
-//       context, MaterialPageRoute(builder: (context) => MainShop()));
+////      if(vendor_found ==true){
+////      vendPhone = user.phoneNumber;
+////      Navigator.pushReplacement(
+////      context, MaterialPageRoute(builder: (context) => Vendapp()));
+////    }
+//    print(user.phoneNumber);
+//    print (user.uid);
 //
 //    }
-//      else
-//    {
-//      print("hello");
-//
-//    Navigator.pushReplacement(
-//       context, MaterialPageRoute(builder: (context) => ThirdPage()));
-  //  }
-
-
-//StreamBuilder(
-//  stream: Firestore.instance.collection("Shoppers").snapshots(),
-//  builder:(conext,snapshot){
-////  print(snapshot.data.documents["+96176080604"]['Pinfo']);
-//
-//
+//    else{
+//      print ("yes");
+//      Navigator.pushReplacement(context,
+//          MaterialPageRoute(builder: (context) => PhonePage()));
+//    }
 //  }
-//);
-//    print (user.phoneNumber);
-//    StreamBuilder(
-//        stream: Firestore.instance
-//            .collection('Shoppers')
-//            .document(user.phoneNumber)
-//            .snapshots(),
-//        builder: (context, snapshot) {
-//          if (!snapshot.hasData)
-//            print('No data in DB ');
-//          else
-//            print ("data");
 
-//        });
-
-
-    }
-    else{
-      print ("yes");
-      Navigator.pushReplacement(context,
-          MaterialPageRoute(builder: (context) => PhonePage()));
-    }
-  }
-    var shopper_found = false;
-    var vendor_founf = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -302,9 +59,12 @@ class _FirstRouteState extends State<FirstRoute> {
           ),
         ),
       ),
-      body: Column(
+      body:
+
+      Column(
         children: <Widget>[
-         streambuilder Row(
+
+          Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Container(
@@ -317,7 +77,41 @@ class _FirstRouteState extends State<FirstRoute> {
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
+
             children: <Widget>[
+              StreamBuilder(
+                  stream: Firestore.instance
+                      .collection('Shoppers')
+                  .document("12345678")
+
+                      .snapshots(),
+                  builder:(context, snapshot){
+
+
+// for(int i= 0; i < snapshot.data.documents.length; i++) {
+//
+//      if (snapshot.data.documents[i].data['phonenumber'].value=='"0303030303"')
+//print ("shopper");
+//
+//      else if (snapshot.data.documents[i].data['phonenumber'].value!='"0303030303"') {
+//        print ("vendor");
+//      }
+//    }
+
+
+
+                   if (snapshot.hasData){
+//            shopper_found = true;
+
+                      print("  vendor") ;
+                      ;}
+                    else if (!snapshot.hasData){
+//            vendor_found =true;
+                      print ("  not a vendor");
+                    }
+//          checkuser();
+                    return Text('no Db' , style: TextStyle(color:Colors.transparent),);
+                  }),
               Container(
                   margin: EdgeInsets.only(top: 70.0, bottom: 30.0),
                   width: MediaQuery.of(context).size.width * 0.65,
@@ -333,7 +127,7 @@ class _FirstRouteState extends State<FirstRoute> {
                     ),
                     onPressed: () {
 //                      print("Phone number");
-                    print (phoneNumber);
+
 //                       Navigator.pushReplacement(context,
 //                           MaterialPageRoute(builder: (context) => PhonePage()));
                     },
