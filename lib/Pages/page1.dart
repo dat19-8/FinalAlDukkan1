@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import '../Pages/phone.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:trial12/Pages/Shopper/available.dart';
-// import 'package:trial12/Pages/Vendor/venmainapp.dart';
-// import 'package:trial12/Pages/Vendor/venmap.dart';
-// import '../Services/camera.dart';
 import 'Vendor/vendcam.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:finaldukkan1/globals.dart';
@@ -12,39 +8,41 @@ import 'page3.dart';
 import '../pages/Shopper/ShopApp/mainshop.dart';
 import '../Pages/Vendor/vendapp.dart';
 import 'package:better_uuid/uuid.dart';
+import 'Shopper/available.dart';
 
-var shopper_found = false;
-var vendor_found = false;
+var shopperFound = false;
+var vendorFound = false;
+
 class FirstRoute extends StatefulWidget {
   @override
-  _FirstRouteState createState() => _FirstRouteState();}
-
+  _FirstRouteState createState() => _FirstRouteState();
+}
 
 class _FirstRouteState extends State<FirstRoute> {
-//  @override
-//  void initState() {
-//
-//    checkuser();
-//  }
-//  void  checkuser() async {
-//    final FirebaseUser user =  await FirebaseAuth.instance.currentUser();
-//    if (user !=null){
-//
-////      if(vendor_found ==true){
-////      vendPhone = user.phoneNumber;
-////      Navigator.pushReplacement(
-////      context, MaterialPageRoute(builder: (context) => Vendapp()));
-////    }
-//    print(user.phoneNumber);
-//    print (user.uid);
-//
+ @override
+ void initState() {
+
+   checkuser();
+ }
+ void  checkuser() async {
+   final FirebaseUser user =  await FirebaseAuth.instance.currentUser();
+   if (user !=null){
+
+//      if(vendor_found ==true){
+//      vendPhone = user.phoneNumber;
+//      Navigator.pushReplacement(
+//      context, MaterialPageRoute(builder: (context) => Vendapp()));
 //    }
-//    else{
-//      print ("yes");
-//      Navigator.pushReplacement(context,
-//          MaterialPageRoute(builder: (context) => PhonePage()));
-//    }
-//  }
+   print(user.phoneNumber);
+   print (user.uid);
+
+   }
+   else{
+     print ("yes");
+    //  Navigator.pushReplacement(context,
+    //      MaterialPageRoute(builder: (context) => PhonePage()));
+   }
+ }
 
   @override
   Widget build(BuildContext context) {
@@ -59,11 +57,8 @@ class _FirstRouteState extends State<FirstRoute> {
           ),
         ),
       ),
-      body:
-
-      Column(
+      body: Column(
         children: <Widget>[
-
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -77,41 +72,43 @@ class _FirstRouteState extends State<FirstRoute> {
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-
             children: <Widget>[
-              StreamBuilder(
+              StreamBuilder<QuerySnapshot>(
                   stream: Firestore.instance
                       .collection('Shoppers')
-                  .document("12345678")
-
                       .snapshots(),
-                  builder:(context, snapshot){
-
-
-// for(int i= 0; i < snapshot.data.documents.length; i++) {
-//
-//      if (snapshot.data.documents[i].data['phonenumber'].value=='"0303030303"')
-//print ("shopper");
-//
-//      else if (snapshot.data.documents[i].data['phonenumber'].value!='"0303030303"') {
-//        print ("vendor");
-//      }
-//    }
-
-
-
-                   if (snapshot.hasData){
-//            shopper_found = true;
-
-                      print("  vendor") ;
-                      ;}
-                    else if (!snapshot.hasData){
-//            vendor_found =true;
-                      print ("  not a vendor");
-                    }
-//          checkuser();
-                    return Text('no Db' , style: TextStyle(color:Colors.transparent),);
+                  builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                     if (!snapshot.hasData) {print('!snapshot.hasData');}
+                     else{
+                       for(var i = 0 ; i <snapshot.data.documents.length ; i++){
+                          print(snapshot.data.documents.elementAt(i).documentID);
+                          // Comment 1
+                          if( "01230123" /* this should be the number retrieved */ == snapshot.data.documents.elementAt(i).documentID ){
+                            print('yes this is a shopper');
+                            shopperFound = true;
+                          }
+                          }
+                     }
+                     return Text("hello" , style:  TextStyle(color:Colors.transparent),);
                   }),
+              StreamBuilder<QuerySnapshot>(
+                  stream: Firestore.instance
+                      .collection('Vendors')
+                      .snapshots(),
+                  builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                     if (!snapshot.hasData) {print('!snapshot.hasData');}
+                     else{
+                       for(var i = 0 ; i <snapshot.data.documents.length ; i++){
+                          print(snapshot.data.documents.elementAt(i).documentID);
+                          // Comment 1
+                          if( "01230123" /* this should be the number retrieved */ == snapshot.data.documents.elementAt(i).documentID ){
+                            print('yes this is a vendor');
+                            vendorFound = true;
+                          }
+                          }
+                     }
+                     return Text("hello" , style:  TextStyle(color:Colors.transparent),);
+                  }),  
               Container(
                   margin: EdgeInsets.only(top: 70.0, bottom: 30.0),
                   width: MediaQuery.of(context).size.width * 0.65,
@@ -123,13 +120,13 @@ class _FirstRouteState extends State<FirstRoute> {
                     ),
                     child: Text(
                       'أدخل رقم هاتفك',
-                      style: TextStyle(color: Colors.white ),
+                      style: TextStyle(color: Colors.white),
                     ),
                     onPressed: () {
-//                      print("Phone number");
+                     print("Phone number");
 
-//                       Navigator.pushReplacement(context,
-//                           MaterialPageRoute(builder: (context) => PhonePage()));
+                      Navigator.pushReplacement(context,
+                          MaterialPageRoute(builder: (context) => PhonePage()));
                     },
                   )),
             ],
@@ -149,13 +146,24 @@ class _FirstRouteState extends State<FirstRoute> {
                       style: TextStyle(color: Colors.white),
                     ),
                     onPressed: () {
-                      print("vend app");
-                      Navigator.push(
+                      // Comment 2
+                      // you have to use these in your function ( check user )
+                      
+                      if(shopperFound == false && vendorFound == true){
+                        Navigator.push(
                         context,
-                        // MaterialPageRoute(builder: (context) => main()),
-                        MaterialPageRoute(builder: (context) => CameraTab()),
-                        //
-                      );
+                        MaterialPageRoute(builder: (context) => Vendapp()),);
+                      }
+                      else if(vendorFound == false && shopperFound == true){
+                        vendPhone = "00000001";
+                        Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => AvailableShopsPage()),);
+                      }
+                      else if (vendorFound == false && shopperFound == false){
+                        print("this phone number is not a user ");
+                      }
+                      
                     },
                   ))
             ],
