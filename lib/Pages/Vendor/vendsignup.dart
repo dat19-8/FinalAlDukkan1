@@ -194,6 +194,7 @@ class _SignUpVendorState extends State<SignUpVendor> {
                             .show();
                       }
                       else {
+                        
                         // var finalAddress;
                         // if(_addressController.text ==null){
                         //   finalAddress = " ";
@@ -203,7 +204,7 @@ class _SignUpVendorState extends State<SignUpVendor> {
                         // }
                         Firestore.instance
                             .collection('Vendors')
-                            .document(tempPhone)
+                            .document(vendPhone)
                             .updateData({
                           'Pinfo': {
                             'GoogleMaps':currentLocation,
