@@ -56,6 +56,7 @@ class ModifyItemsDB extends StatelessWidget {
             width: MediaQuery.of(context).size.width * 0.65,
             height: MediaQuery.of(context).size.width * 0.20,
             child: TextFormField(
+              keyboardType: TextInputType.number ,
               controller: _priceController1,
               cursorColor: Colors.white,
               autofocus: true,

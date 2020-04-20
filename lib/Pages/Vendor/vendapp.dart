@@ -5,7 +5,7 @@ import './vendcam.dart';
 import 'package:finaldukkan1/globals.dart';
 
 final List<Product> myProductsList = new List();
-final List<Product> newProductList = new List();
+final List<Map> newProductList = new List();
 
 class Vendapp extends StatefulWidget {
   @override
@@ -24,21 +24,67 @@ _alertDialog(BuildContext context ) async{
     child: Text("modify"),
     onPressed: () {
       print("modify this item");
+      Navigator.of(context, rootNavigator: true).pop('dialog');
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => ModifyItemsDB()),
       );        
-      Navigator.of(context, rootNavigator: true).pop('dialog');
       
     },
   );
   Widget deleteButton = FlatButton(
     child: Text("delete item"),
     onPressed: () {
-      myCart.removeRange(0, myCart.length);
-      myCartPricesList.removeRange(0, myCartPricesList.length);
-      myCartValuesList.removeRange(0, myCartValuesList.length);
+      
+      
+      newProductList.removeRange(0, newProductList.length);
+      for(var j = 0 ; j < myProducts.length ; j++){
+        if(myProducts[j]['image'] ==  chosenImageUrl){
+          myProducts.removeAt(j);
+        }
+      }
+      
+      if(myProductsList.length == 1 && myProductsList[0].image ==  chosenImageUrl){
+        myProductsList.removeAt(0);
+        if(newProductList.length == 1 && newProductList[0]['image'] ==  chosenImageUrl){
+
+          newProductList.removeAt(0);
+        }
+      }
+      else{
+
+        for(var i = 0 ; i < myProductsList.length ; i++){
+          if(myProductsList[i].image == chosenImageUrl ){
+            myProductsList.removeAt(i);
+          }
+          
+          var newProduct = {
+              'name': myProductsList[i].name,
+              'price':myProductsList[i].price.toString(),
+              'image':myProductsList[i].image,
+              'cart':myProductsList[i].cart,
+              'favorite':myProductsList[i].favorite,
+              'value':myProductsList[i].value,
+              'available':myProductsList[i].available,
+            };
+            print('new product $newProduct');
+            newProductList.add(newProduct);
+            
+          }
+        for(var i = 0 ; i < newProductList.length ; i++){
+          if(newProductList[i]['image'] == chosenImageUrl){
+            newProductList.removeAt(i);
+          }
+        }
+      }
+      
+        
+        print('newProductList $newProductList');
       Navigator.of(context, rootNavigator: true).pop('dialog');
+      Firestore.instance
+        .collection('Vendors')
+        .document(vendPhone)
+        .updateData({'Products': newProductList});
       (context as Element).reassemble();
       
     },
@@ -84,17 +130,6 @@ class _VendappState extends State<Vendapp> {
                 },
                 child: Icon(
                   Icons.camera_alt,
-                  size: 26.0,
-                ),
-              )),
-          Padding(
-              padding: EdgeInsets.only(right: 10.0),
-              child: GestureDetector(
-                onTap: () {
-                  print("delete");
-                },
-                child: Icon(
-                  Icons.edit,
                   size: 26.0,
                 ),
               )),
