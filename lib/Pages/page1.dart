@@ -99,15 +99,10 @@ class _FirstRouteState extends State<FirstRoute> {
                   builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
 
 
-//    auth.currentUser().then((FirebaseUser user) {
-//    final userid = user.uid;}
 
-//    );
             if (!snapshot.hasData) {print('!snapshot.hasData');}
                      else{
                        for(var i = 0 ; i <snapshot.data.documents.length ; i++){
-//                          print(snapshot.data.documents.elementAt(i).documentID);
-                          // Comment 1
                           if( currentphone == snapshot.data.documents.elementAt(i).documentID ){
                             print(currentphone);
                             print('yes this is a shopper');
@@ -126,7 +121,7 @@ class _FirstRouteState extends State<FirstRoute> {
                      else{
                        for(var i = 0 ; i <snapshot.data.documents.length ; i++){
                           print(snapshot.data.documents.elementAt(i).documentID);
-                          // Comment 1
+                          
                           if( currentphone== snapshot.data.documents.elementAt(i).documentID ){
                             print(currentphone);
                             print('yes this is a vendor');
@@ -173,10 +168,8 @@ class _FirstRouteState extends State<FirstRoute> {
                       style: TextStyle(color: Colors.white),
                     ),
                     onPressed: () {
-                      // Comment 2
-                      // you have to use these in your function ( check user )
-
                       
+                      print('moshtarej');
                     },
                   ))
             ],

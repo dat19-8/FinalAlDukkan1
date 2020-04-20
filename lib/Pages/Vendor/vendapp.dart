@@ -5,14 +5,65 @@ import './vendcam.dart';
 import 'package:finaldukkan1/globals.dart';
 
 final List<Product> myProductsList = new List();
-final TextEditingController _nameController1 = new TextEditingController();
-final TextEditingController _priceController1 = new TextEditingController();
+final List<Product> newProductList = new List();
 
 class Vendapp extends StatefulWidget {
   @override
   _VendappState createState() => _VendappState();
 }
 
+_alertDialog(BuildContext context ) async{
+  // set up the buttons
+  Widget cancelButton = FlatButton(
+    child: Text("إلغاء"),
+    onPressed: () {
+      Navigator.of(context, rootNavigator: true).pop('dialog');
+    },
+  );
+  Widget modifyButton = FlatButton(
+    child: Text("modify"),
+    onPressed: () {
+      print("modify this item");
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => ModifyItemsDB()),
+      );        
+      Navigator.of(context, rootNavigator: true).pop('dialog');
+      
+    },
+  );
+  Widget deleteButton = FlatButton(
+    child: Text("delete item"),
+    onPressed: () {
+      myCart.removeRange(0, myCart.length);
+      myCartPricesList.removeRange(0, myCartPricesList.length);
+      myCartValuesList.removeRange(0, myCartValuesList.length);
+      Navigator.of(context, rootNavigator: true).pop('dialog');
+      (context as Element).reassemble();
+      
+    },
+  );
+
+  
+  AlertDialog alert = AlertDialog(
+    title: Text("انتباه"),
+    content: Text(
+        "Delete ot Modify item?"),
+    actions: [
+      cancelButton,
+      deleteButton,
+      modifyButton
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}
 class _VendappState extends State<Vendapp> {
   @override
   Widget build(BuildContext context) {
@@ -134,11 +185,8 @@ class NewListing extends StatelessWidget {
                       print("indexchosen: ${index}");
                       chosenImageUrl = myProductsList[index].image;
                       print("chosenImageUrl: ${myProductsList[index].image}");
+                      _alertDialog(context);
                       
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => ModifyItemsDB()),
-                        );        
                     },
                   )),
                 

@@ -16,8 +16,7 @@ final List<Map> myProducts = List();
 class _CameraTabState extends State<CameraTab> {
   File imageFile;
   _openGallery(BuildContext context) async {
-    var pictureGallery =
-        await ImagePicker.pickImage(source: ImageSource.gallery ,  imageQuality: 50);
+    var pictureGallery = await ImagePicker.pickImage(source: ImageSource.gallery ,  imageQuality: 50);
     String myNewfileName = basename(pictureGallery.path);
     StorageReference firebaseStorageRef = FirebaseStorage.instance
         .ref()
