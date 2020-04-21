@@ -1,20 +1,99 @@
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:finaldukkan1/globals.dart';
+import 'package:image_picker/image_picker.dart';
 import './vendmainapp.dart';
 import 'venmap.dart';
-
+import 'package:path/path.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+var myImageUrl = "";
 
 class SignUpVendor extends StatefulWidget {
   @override
   _SignUpVendorState createState() => _SignUpVendorState();
 }
 
+
+
 class _SignUpVendorState extends State<SignUpVendor> {
   final TextEditingController _nameController = new TextEditingController();
   final TextEditingController _addressController = new TextEditingController();
+  File _image;
+  Future<void> showChoiceDialog(BuildContext context){
+    return showDialog(context: context,builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text("Make a choice"),
+        content: SingleChildScrollView(
+          child: ListBody(
+            children: <Widget>[
+              GestureDetector(
+                child: Text("Gallery"),
+                onTap:() {
+                  openGallery(context);
+              },
+              ),
+              Padding(padding: EdgeInsets.all(8),),
+              GestureDetector(
+                child: Text("Camera"),
+                onTap:() {
+                  opencamera(context);
+                },
+              ),
+            ],
+          ),
+        ),
+      );
+    });
+  }
 
+  @override
+  void initState() {
+    super.initState();
+  }
+  
+  void openGallery(BuildContext context) async {
+    var picture = await ImagePicker.pickImage(source: ImageSource.gallery, imageQuality: 20);
+    this.setState(() {
+      _image = picture;
+    });
+    String myNewfileName = basename(_image.path);
+    StorageReference firebaseStorageRef = FirebaseStorage.instance
+        .ref()
+        .child("images/${phoneNumber}/${myNewfileName}");
+    StorageUploadTask uploadTask = firebaseStorageRef.putFile(_image);
+    StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
+    final StorageTaskSnapshot downloadUrl = (await uploadTask.onComplete);
+    final String url = (await downloadUrl.ref.getDownloadURL());
+    print("URL is $url");
+    setState(() {
+      myImageUrl = url;
+    });
+    
+    Navigator.of(context).pop();
+  }
+
+  void opencamera(BuildContext context) async {
+    var picture = await ImagePicker.pickImage(source: ImageSource.camera, imageQuality: 20);
+    this.setState(() {
+      _image = picture;
+    });
+    
+    String myNewfileName = basename(_image.path);
+    StorageReference firebaseStorageRef = FirebaseStorage.instance
+        .ref()
+        .child("images/${phoneNumber}/${myNewfileName}");
+    StorageUploadTask uploadTask = firebaseStorageRef.putFile(_image);
+    StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
+    final StorageTaskSnapshot downloadUrl = (await uploadTask.onComplete);
+    final String url = (await downloadUrl.ref.getDownloadURL());
+    print("URL is $url");
+    setState(() {
+      myImageUrl = url;
+    });
+    Navigator.of(context).pop();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,10 +121,7 @@ class _SignUpVendorState extends State<SignUpVendor> {
                 
                 onPressed: () {
                   print("camera");
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(builder: (context) => LandingScreen()),
-                  // );
+                  showChoiceDialog(context);
                 },
               )),
           new Row(
@@ -194,14 +270,13 @@ class _SignUpVendorState extends State<SignUpVendor> {
                             .show();
                       }
                       else {
-                        
-                        // var finalAddress;
-                        // if(_addressController.text ==null){
-                        //   finalAddress = " ";
-                        // }
-                        // else{
-                        //   finalAddress = _addressController.text;
-                        // }
+                        var myfinalPic;
+                          if(myImageUrl == ""){
+                            myfinalPic = "https://i7.pngguru.com/preview/871/494/366/grocery-store-computer-icons-food-clip-art-store.jpg";
+                          }
+                          else{
+                            myfinalPic = myImageUrl;
+                          }
                         Firestore.instance
                             .collection('Vendors')
                             .document(vendPhone)
@@ -211,8 +286,8 @@ class _SignUpVendorState extends State<SignUpVendor> {
                             'Phone': tempPhone,
                             'name': _nameController.text,
                             'address': _addressController.text,
-                            'image':
-                                'https://i7.pngguru.com/preview/871/494/366/grocery-store-computer-icons-food-clip-art-store.jpg'
+                            'image':myfinalPic
+                           
                           }
                         });
                         Firestore.instance

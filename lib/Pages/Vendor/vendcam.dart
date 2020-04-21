@@ -26,6 +26,43 @@ class _CameraTabState extends State<CameraTab> {
     final StorageTaskSnapshot downloadUrl = (await uploadTask.onComplete);
     final String url = (await downloadUrl.ref.getDownloadURL());
     print("URL is $url");
+    new StreamBuilder(
+        stream: Firestore.instance
+            .collection('Vendors')
+            .document(vendPhone)
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.data['Products'].length != 0) {
+            for (var i = 0; i < snapshot.data['Products'].length; i++) {
+              myProducts.add(snapshot.data['Products'][i]);
+            }
+          }
+
+          return Text("done" , style: TextStyle(color: Colors.transparent),);
+        });
+    var newProduct1 = {
+      'image': url,
+      'name': "name",
+      'price': "0000",
+      'cart': false,
+      'available': true,
+      'favorite': false,
+      'value': 1
+    };
+    myProducts.add(newProduct1);
+
+    for (var i = 0; i < myProducts.length - 2; i++) {
+      for (var j = 1; j <= myProducts.length - 1; j++) {
+        if (myProducts[i]['image'] == myProducts[j]['image']) {
+          myProducts.removeAt(j);
+        }
+      }
+    }
+
+    Firestore.instance
+        .collection('Vendors')
+        .document(vendPhone)
+        .updateData({'Products': myProducts});
   }
 
   _openCamera(BuildContext context) async {
