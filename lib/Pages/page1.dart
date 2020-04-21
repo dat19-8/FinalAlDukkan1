@@ -30,37 +30,37 @@ class _FirstRouteState extends State<FirstRoute> {
  void  checkuser() async {
    final FirebaseUser user =  await FirebaseAuth.instance.currentUser();
    currentphone=user.phoneNumber;
-   if (user !=null){
-     Future.delayed(Duration(milliseconds: 600), () {
-       // Code to execute
-
-     if(shopperFound == false && vendorFound == true){
-       Navigator.push(
-         context,
-         MaterialPageRoute(builder: (context) => Vendapp()));
-     }
-     else if(vendorFound == false && shopperFound == true){
-       vendPhone = user.phoneNumber;
-       Navigator.push(
-         context,
-         MaterialPageRoute(builder: (context) => AvailableShopsPage()));
-     }
-
-     else if (vendorFound == false && shopperFound == false){
-       print("this phone number is not a user ");
-       print(currentphone);
+//   if (user !=null){
+//     Future.delayed(Duration(milliseconds: 600), () {
+//       // Code to execute
+//
+//     if(shopperFound == false && vendorFound == true){
+//       Navigator.push(
+//         context,
+//         MaterialPageRoute(builder: (context) => Vendapp()));
+//     }
+//     else if(vendorFound == false && shopperFound == true){
+//       vendPhone = user.phoneNumber;
+//       Navigator.push(
+//         context,
+//         MaterialPageRoute(builder: (context) => AvailableShopsPage()));
+//     }
+//
+//     else if (vendorFound == false && shopperFound == false){
+//       print("this phone number is not a user ");
+//       print(currentphone);
        Navigator.pushReplacement(
       context, MaterialPageRoute(builder: (context) => ThirdPage()));
-     }
-     });
-
-
-   }
-   else{
-     print ("yes");
-      Navigator.pushReplacement(context,
-          MaterialPageRoute(builder: (context) => PhonePage()));
-   }
+//     }
+//     });
+//
+//
+//   }
+//   else{
+//     print ("yes");
+//      Navigator.pushReplacement(context,
+//          MaterialPageRoute(builder: (context) => PhonePage()));
+//   }
  }
 
   @override
