@@ -41,8 +41,6 @@ class _CameraTabState extends State<CameraTab> {
       return Container(color: Colors.white);
   }
   _openGallery(BuildContext context) async {
-//    var pictureGallery = await ImagePicker.pickImage(source: ImageSource.gallery ,  imageQuality: 50);
-//    String myNewfileName = basename(pictureGallery.path);
     setState(() {
       images = List<Asset>();
     });
@@ -57,7 +55,6 @@ class _CameraTabState extends State<CameraTab> {
     } on Exception catch (e) {
       error = e.toString();
     }
-
     // If the widget was removed from the tree while the asynchronous platform
     // message was in flight, we want to discard the reply rather than calling
     // setState to update our non-existent appearance.
@@ -79,7 +76,7 @@ class _CameraTabState extends State<CameraTab> {
     f.then((value) { print(value); });
     for (var i=0; i<images.length;i++) {
       ByteData byteData = await images[i].getThumbByteData(
-          300, 300, quality: 60);
+          300, 300, quality: 30);
 
       byteData = await images[i].requestOriginal();
       List<int> imageData = byteData.buffer.asUint8List();
@@ -90,54 +87,34 @@ class _CameraTabState extends State<CameraTab> {
 
       String url = await (await uploadTask.onComplete).ref.getDownloadURL();
       print("URL is $url");
+      var newProduct1 = {
+     'image': url,
+     'name': "name",
+     'price': "0000",
+     'cart': false,
+     'available': true,
+     'favorite': false,
+     'value': 1
+   };
+   myProducts.add(newProduct1);
+
+   for (var i = 0; i < myProducts.length - 2; i++) {
+     for (var j = 1; j <= myProducts.length - 1; j++) {
+       if (myProducts[i]['image'] == myProducts[j]['image']) {
+         myProducts.removeAt(j);
+       }
+     }
+   }
     }
     print("--------------------------------------------------------------------------------------");
 
-//    StorageReference firebaseStorageRef = FirebaseStorage.instance
-//        .ref()
-//        .child("images/${vendPhone}/${myNewfileName}");
-//    StorageUploadTask uploadTask = firebaseStorageRef.putFile(pictureGallery);
-//    StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
-//    final StorageTaskSnapshot downloadUrl = (await uploadTask.onComplete);
-//    final String url = (await downloadUrl.ref.getDownloadURL());
-//    print("URL is $url");
-//    new StreamBuilder(
-//        stream: Firestore.instance
-//            .collection('Vendors')
-//            .document(vendPhone)
-//            .snapshots(),
-//        builder: (context, snapshot) {
-//          if (snapshot.data['Products'].length != 0) {
-//            for (var i = 0; i < snapshot.data['Products'].length; i++) {
-//              myProducts.add(snapshot.data['Products'][i]);
-//            }
-//          }
-//
-//          return Text("done" , style: TextStyle(color: Colors.transparent),);
-//        });
-//    var newProduct1 = {
-//      'image': url,
-//      'name': "name",
-//      'price': "0000",
-//      'cart': false,
-//      'available': true,
-//      'favorite': false,
-//      'value': 1
-//    };
-//    myProducts.add(newProduct1);
-//
-//    for (var i = 0; i < myProducts.length - 2; i++) {
-//      for (var j = 1; j <= myProducts.length - 1; j++) {
-//        if (myProducts[i]['image'] == myProducts[j]['image']) {
-//          myProducts.removeAt(j);
-//        }
-//      }
-//    }
-//
-//    Firestore.instance
-//        .collection('Vendors')
-//        .document(vendPhone)
-//        .updateData({'Products': myProducts});
+
+   
+
+   Firestore.instance
+       .collection('Vendors')
+       .document(vendPhone)
+       .updateData({'Products': myProducts});
   }
 
   _openCamera(BuildContext context) async {
@@ -226,12 +203,6 @@ class _CameraTabState extends State<CameraTab> {
                   _openGallery(context);
                 },
               ),
-
-//              Flexible(
-//
-//                flex:1,
-//                child: buildGridView(),
-//              )
             ],
           ),
 
@@ -241,3 +212,27 @@ class _CameraTabState extends State<CameraTab> {
   }
 }
 
+
+
+//    StorageReference firebaseStorageRef = FirebaseStorage.instance
+//        .ref()
+//        .child("images/${vendPhone}/${myNewfileName}");
+//    StorageUploadTask uploadTask = firebaseStorageRef.putFile(pictureGallery);
+//    StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
+//    final StorageTaskSnapshot downloadUrl = (await uploadTask.onComplete);
+//    final String url = (await downloadUrl.ref.getDownloadURL());
+//    print("URL is $url");
+//    new StreamBuilder(
+//        stream: Firestore.instance
+//            .collection('Vendors')
+//            .document(vendPhone)
+//            .snapshots(),
+//        builder: (context, snapshot) {
+//          if (snapshot.data['Products'].length != 0) {
+//            for (var i = 0; i < snapshot.data['Products'].length; i++) {
+//              myProducts.add(snapshot.data['Products'][i]);
+//            }
+//          }
+//
+//          return Text("done" , style: TextStyle(color: Colors.transparent),);
+//        });
