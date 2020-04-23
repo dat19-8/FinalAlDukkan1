@@ -10,12 +10,12 @@ class ListOrders extends StatefulWidget {
 
 final List<Map> myProductsListOrders = new List();
 final List<Map> myUser = new List();
-final List<Map> allOrdersVendor = new List();
+final List<Map>  allOrdersVendor = new List();
 final List<Map> completedList = new List();
+final List<Map> declinedList = new List();
 
 
 var completedId ;
-var myPriceList = [];
 int _myFinalPriceInteger = 0;
 
 _showAlertDialog(BuildContext context ) async{
@@ -90,11 +90,24 @@ _declineAlertDialog(BuildContext context ) async{
     onPressed: () {
       for (var i = 0; i < allOrdersVendor.length; i++) {
         if(allOrdersVendor[i]['OrderId'] == completedId){
-          
-          // allOrdersVendor[i]['completed'] = true;
+          allOrdersVendor[i]['completed'] = false;
+          declinedList.add(allOrdersVendor[i]);
           allOrdersVendor.removeAt(i);
         }
       }
+      Navigator.pop(
+        context,
+        MaterialPageRoute(
+            builder: (context) => Orders()),
+      );
+      Firestore.instance
+      .collection('Vendors')
+      .document(vendPhone)
+      .updateData({'DeclinedOrders': declinedList});
+      Firestore.instance
+        .collection('Vendors')
+        .document(vendPhone)
+        .updateData({'Orders': allOrdersVendor});
       Navigator.pop(
         context,
         MaterialPageRoute(
@@ -294,9 +307,6 @@ class _ListOrdersState extends State<ListOrders> {
                   child:
                   Text("Accept"),
                   
-                  
-                  // onPressed:() => myUser[0]['completed'] = true,
-                  // onPressed: () => Firestore.instance.collection('Vendors').document(vendPhone).setData({['Orders'][numberOfOrderSelected]["completed"]:true}),
                   onPressed: () {
                     setState(() {
                       

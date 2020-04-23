@@ -75,7 +75,7 @@ class _ProductListingState extends State<ProductListing> {
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width * 1,
-      height: MediaQuery.of(context).size.height * 0.78,
+      height: MediaQuery.of(context).size.height * 0.76,
       child: new ListView(
         padding: EdgeInsets.only(bottom:10.0),
         children: List.generate(idOrderslist.length, (index) {
