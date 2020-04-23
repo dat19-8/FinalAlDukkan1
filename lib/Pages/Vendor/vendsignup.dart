@@ -277,12 +277,13 @@ class _SignUpVendorState extends State<SignUpVendor> {
                           else{
                             myfinalPic = myImageUrl;
                           }
+                          print(currentLocation.toString());
                         Firestore.instance
                             .collection('Vendors')
                             .document(vendPhone)
                             .updateData({
                           'Pinfo': {
-                            'GoogleMaps':currentLocation,
+                            'GoogleMaps':currentLocation.toString(),
                             'Phone': tempPhone,
                             'name': _nameController.text,
                             'address': _addressController.text,

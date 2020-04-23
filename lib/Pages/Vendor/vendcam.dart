@@ -1,7 +1,5 @@
 import 'dart:io';
 import 'dart:typed_data';
-
-import 'package:flutter_absolute_path/flutter_absolute_path.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
@@ -17,29 +15,32 @@ class CameraTab extends StatefulWidget {
 }
 
 final List<Map> myProducts = List();
+final List<Map> tempProducts = List();
+List tempUrls = [];
+
 
 class _CameraTabState extends State<CameraTab> {
   List<Asset> images = List<Asset>();
   String _error;
 
 
-  File imageFile;
-  Widget buildGridView() {
-    if (images != null)
-      return GridView.count(
-        crossAxisCount: 3,
-        children: List.generate(images.length, (index) {
-          Asset asset = images[index];
-          return AssetThumb(
-            asset: asset,
-            width: 300,
-            height: 300,
-          );
-        }),
-      );
-    else
-      return Container(color: Colors.white);
-  }
+  // File imageFile;
+  // Widget buildGridView() {
+  //   if (images != null)
+  //     return GridView.count(
+  //       crossAxisCount: 3,
+  //       children: List.generate(images.length, (index) {
+  //         Asset asset = images[index];
+  //         return AssetThumb(
+  //           asset: asset,
+  //           width: 300,
+  //           height: 300,
+  //         );
+  //       }),
+  //     );
+  //   else
+  //     return Container(color: Colors.white);
+  // }
   _openGallery(BuildContext context) async {
     setState(() {
       images = List<Asset>();
@@ -47,10 +48,12 @@ class _CameraTabState extends State<CameraTab> {
 
     List<Asset> resultList;
     String error;
-
+    tempProducts.removeRange(0, tempProducts.length);
+    tempUrls.removeRange(0, tempUrls.length);
     try {
       resultList = await MultiImagePicker.pickImages(
         maxImages: 300,
+        
       );
     } on Exception catch (e) {
       error = e.toString();
@@ -64,16 +67,25 @@ class _CameraTabState extends State<CameraTab> {
       images = resultList;
       if (error == null) _error = 'No Error Dectected';
     });
-    print("--------------------------------------------------------------------------------------------");
-//    print(images[0].value);
-//    for (int i = 0; i < images.length; i++) {
-////      var path2 = await FlutterAbsolutePath.getAbsolutePath(
-////          images[i].identifier);
-//     // var path = await images[i].filePath;
-//      print(images[i].identifier);
-//    }
+    print("**********************************************************************************************************************************************");
     Future f = images[0].metadata;
     f.then((value) { print(value); });
+    print('images.length : ${images.length}');
+    new StreamBuilder(
+        stream: Firestore.instance
+            .collection('Vendors')
+            .document(vendPhone)
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.data['Products'].length != 0) {
+            for (var i = 0; i < snapshot.data['Products'].length; i++) {
+              myProducts.add(snapshot.data['Products'][i]);
+            }
+          }
+          return Text("done" , style: TextStyle(color: Colors.transparent),);
+        });
+
+    print('imageList: $images');
     for (var i=0; i<images.length;i++) {
       ByteData byteData = await images[i].getThumbByteData(
           300, 300, quality: 30);
@@ -94,23 +106,23 @@ class _CameraTabState extends State<CameraTab> {
      'cart': false,
      'available': true,
      'favorite': false,
-     'value': 1
+     'value': 1,
    };
    myProducts.add(newProduct1);
 
-   for (var i = 0; i < myProducts.length - 2; i++) {
-     for (var j = 1; j <= myProducts.length - 1; j++) {
-       if (myProducts[i]['image'] == myProducts[j]['image']) {
-         myProducts.removeAt(j);
-       }
-     }
-   }
     }
     print("--------------------------------------------------------------------------------------");
-
-
-   
-
+    
+    
+  //   for (var i = 0; i < myProducts.length -1; i++) {
+  //    for (var j = 1; j < myProducts.length  ; j++) {
+  //      if (myProducts[i]['image'] == myProducts[j]['image']) {
+  //        myProducts.removeAt(j);
+  //        print('removing');
+  //      }
+  //    }
+  //  }
+    print('before firestore myProducts: $myProducts');
    Firestore.instance
        .collection('Vendors')
        .document(vendPhone)
@@ -131,11 +143,9 @@ class _CameraTabState extends State<CameraTab> {
     print("after StorageTaskSnapshot");
 
     final StorageTaskSnapshot downloadUrl = (await uploadTask.onComplete);
-    print("after downloadUrl");
+    
     final String myImageUrl = (await downloadUrl.ref.getDownloadURL());
     print("URL is $myImageUrl");
-
-
     new StreamBuilder(
         stream: Firestore.instance
             .collection('Vendors')
@@ -150,6 +160,7 @@ class _CameraTabState extends State<CameraTab> {
 
           return Text("done" , style: TextStyle(color: Colors.transparent),);
         });
+    
     var newProduct1 = {
       'image': myImageUrl,
       'name': "name",
@@ -157,12 +168,13 @@ class _CameraTabState extends State<CameraTab> {
       'cart': false,
       'available': true,
       'favorite': false,
-      'value': 1
+      'value': 1,
+
     };
     myProducts.add(newProduct1);
 
-    for (var i = 0; i < myProducts.length - 2; i++) {
-      for (var j = 1; j <= myProducts.length - 1; j++) {
+    for (var i = 0; i < myProducts.length -1; i++) {
+      for (var j = 1; j < myProducts.length ; j++) {
         if (myProducts[i]['image'] == myProducts[j]['image']) {
           myProducts.removeAt(j);
         }
