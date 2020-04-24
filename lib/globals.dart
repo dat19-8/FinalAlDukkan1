@@ -40,6 +40,7 @@ final List<Map> allProductsList = new List();
 // adding all vendors in this list available but not using it 
 var vendorslist = [];
 var idOrderslist = [];
+var statusOrdersList = [];
 
 
 class Product {

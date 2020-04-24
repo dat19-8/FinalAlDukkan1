@@ -108,15 +108,8 @@ _declineAlertDialog(BuildContext context ) async{
         .collection('Vendors')
         .document(vendPhone)
         .updateData({'Orders': allOrdersVendor});
-      Navigator.pop(
-        context,
-        MaterialPageRoute(
-            builder: (context) => Orders()),
-      );
-      Firestore.instance
-        .collection('Vendors')
-        .document(vendPhone)
-        .updateData({'Orders': allOrdersVendor});
+     
+      
       Navigator.of(context, rootNavigator: true).pop('dialog');
       (context as Element).reassemble();
     },

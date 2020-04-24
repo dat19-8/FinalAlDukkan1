@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:finaldukkan1/globals.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import './memory.dart';
+import './acceptedMemory.dart';
 
 class MemoryListing extends StatefulWidget {
   @override
@@ -29,7 +29,10 @@ Widget MemoryTab(BuildContext context) {
             if (!snapshot.hasData)
               return Center(child: Text('No data in DB '));
             else {
+              idOrderslist.removeRange(0, idOrderslist.length);
+              statusOrdersList.removeRange(0, statusOrdersList.length);
               if (snapshot.data['CompletedOrders'].length == 0) {
+                
                 return Center(child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
@@ -37,10 +40,11 @@ Widget MemoryTab(BuildContext context) {
                   ],
                 ));
               } 
-              else {
-                idOrderslist.removeRange(0, idOrderslist.length);
+              else if(snapshot.data['CompletedOrders'].length > 0) {
                 for(var i = 0 ; i < snapshot.data['CompletedOrders'].length ; i++){
                   if(shopPhone == snapshot.data['CompletedOrders'][i]['Pinfo']['phone']){
+                    var completedStatus = snapshot.data['CompletedOrders'][i]['completed'];
+                    statusOrdersList.add(completedStatus);
                     
                       var newId = snapshot.data['CompletedOrders'][i]['OrderId'];
                       var exist = false;
@@ -51,6 +55,26 @@ Widget MemoryTab(BuildContext context) {
                       }
                       if (exist == false) {
                         idOrderslist.add(newId);
+                      }
+                    }
+                }
+              }
+              if(snapshot.data['DeclinedOrders'].length > 0){
+                  for(var i = 0 ; i < snapshot.data['DeclinedOrders'].length ; i++){
+                  if(shopPhone == snapshot.data['DeclinedOrders'][i]['Pinfo']['phone']){
+                    var completedStatus = snapshot.data['DeclinedOrders'][i]['completed'];
+                    statusOrdersList.add(completedStatus);
+                      var newId = snapshot.data['DeclinedOrders'][i]['OrderId'];
+                      
+                      var exist = false;
+                      for (var k = 0; k < allProductsListMemory.length; k++) {
+                        if (newId ==idOrderslist[k]) {
+                          exist = true;
+                        }
+                      }
+                      if (exist == false) {
+                        idOrderslist.add(newId);
+                        
                       }
                     }
                 }
@@ -89,6 +113,7 @@ class _ProductListingState extends State<ProductListing> {
                     onPressed: () {
                     numbOfOrderSelectedShopper = index;
                     
+                    print('statusOrdersList:      $statusOrdersList');
                     Navigator.push(
                           context,
                           MaterialPageRoute(

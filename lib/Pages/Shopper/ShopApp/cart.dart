@@ -261,7 +261,7 @@ class _CartState extends State<Cart> {
                           new Container(
                               padding: EdgeInsets.only(right:10.0),
                               
-                              width: MediaQuery.of(context).size.width * 0.5,
+                              width: MediaQuery.of(context).size.width * 0.25,
                               child: FlatButton(
                                   
                                   color: Colors.red,
@@ -273,7 +273,7 @@ class _CartState extends State<Cart> {
 
                                       _clearDialog(context);
                                     }
-                                  }, child: Text("حذف سلة التسوق")))
+                                  }, child: Icon(Icons.delete)))
                         ],
                       ),
                       myCartPricesList.length ==0 ? Text('no' , style: TextStyle(color:Colors.transparent),):
@@ -281,7 +281,7 @@ class _CartState extends State<Cart> {
                         children: <Widget>[
                           Container(
                             
-                            width: MediaQuery.of(context).size.width * 0.5,
+                            width: MediaQuery.of(context).size.width * 0.75,
                             padding: EdgeInsets.only(left:10.0),
                             child: FlatButton(
                               color: Colors.green,
@@ -355,7 +355,7 @@ class _CartState extends State<Cart> {
                                 
                                 
                               },
-                              child: Text("احصل على طلبك"),
+                              child: Text(":احصل على طلبك"),
                               
                             ),
                           ),

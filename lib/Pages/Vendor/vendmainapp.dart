@@ -36,9 +36,9 @@ class _MainVendState extends State<MainVend> {
                   'Store',
                 )),
             BottomNavigationBarItem(
-                icon: Icon(Icons.shopping_cart),
+                icon: Icon(Icons.format_list_numbered_rtl),
                 title: Text(
-                  'My Cart', 
+                  'Orders', 
                 )
                 ),
           ],

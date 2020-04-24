@@ -52,7 +52,7 @@ class _DashboardState extends State<MainShop> {
               child: Icon( Icons.search, size: 26.0,),
               )
             ),
-            Padding(
+            
             //   padding: EdgeInsets.fromLTRB(0, 15.0, 20.0, 0),
             //   child: GestureDetector(
             //     child: Stack(
@@ -97,14 +97,7 @@ class _DashboardState extends State<MainShop> {
                
             //   )
             // ),
-            padding: EdgeInsets.only(right: 20.0),
-              child: GestureDetector(
-                onTap: () {},
-                child: Icon(
-                    Icons.settings
-                ),
-              )
-            ),
+            
           ],
         ),
         body: _tabs[_selectedIndex],

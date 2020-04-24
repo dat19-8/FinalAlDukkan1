@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:finaldukkan1/globals.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-
+bool completed = false;
 int _myFinalPriceInteger = 0;
 
 class Memory extends StatefulWidget {
@@ -148,21 +148,18 @@ class _MemoryState extends State<Memory> {
             if (!snapshot.hasData)
               return Center(child: Text('No data in DB '));
             else {
-              if (snapshot.data['CompletedOrders'].length == 0) {
-                return Center(child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text("No History" , style: TextStyle(fontSize:30.0),),
-                  ],
-                ));
-              } 
-              else {
+              if(statusOrdersList[numbOfOrderSelectedShopper] == true){
+                if (snapshot.data['CompletedOrders'].length >= 0) {
+                
                 allProductsListMemory.removeRange(0, allProductsListMemory.length);
+
                 for(var i = 0 ; i < snapshot.data['CompletedOrders'].length ; i++){
                   print('yes');
                   if(idOrderslist[numbOfOrderSelectedShopper] == snapshot.data['CompletedOrders'][i]['OrderId']){
                     print('yes yes');
                     var tempPrice = 0;
+                    completed = snapshot.data['CompletedOrders'][numbOfOrderSelectedShopper]['completed'];
+                    print('yes yes .11');
                     for (var j = 0; j < snapshot.data['CompletedOrders'][i]['Products'].length; j++) {
                       print('yes yes yes');
                       var newProduct1 ={
@@ -189,6 +186,47 @@ class _MemoryState extends State<Memory> {
                   }
                 }
               }
+              }
+              
+              if(statusOrdersList[numbOfOrderSelectedShopper] == false){
+              if (snapshot.data['DeclinedOrders'].length >= 0) {
+                
+                allProductsListMemory.removeRange(0, allProductsListMemory.length);
+                for(var i = 0 ; i < snapshot.data['DeclinedOrders'].length ; i++){
+                  print('yes');
+                  if(idOrderslist[numbOfOrderSelectedShopper] == snapshot.data['DeclinedOrders'][i]['OrderId']){
+                    
+                    print('yes yes');
+                    var tempPrice = 0;
+                    completed = snapshot.data['DeclinedOrders'][numbOfOrderSelectedShopper]['completed'];
+
+                    for (var j = 0; j < snapshot.data['DeclinedOrders'][i]['Products'].length; j++) {
+                      print('yes yes yes');
+                      var newProduct1 ={
+                        'name': snapshot.data['DeclinedOrders'][i]['Products'][j]['name'],
+                        'Originalprice':snapshot.data['DeclinedOrders'][i]['Products'][j]['originalPrice'],
+                        'image':snapshot.data['DeclinedOrders'][i]['Products'][j]['image'],
+                        'value': snapshot.data['DeclinedOrders'][i]['Products'][j]['value'],
+                        'finalPrice':snapshot.data['DeclinedOrders'][i]['Products'][j]['finalPrice'],
+                      };
+                      print(newProduct1);
+                      var exist = false;
+                      for (var k = 0; k < allProductsListMemory.length; k++) {
+                        if (newProduct1['image'] == allProductsListMemory[k]['image'].toString()) {
+                          exist = true;
+                        }
+                      }
+                      if (exist == false) {
+                        tempPrice += newProduct1['finalPrice'];
+                        allProductsListMemory.add(newProduct1);
+                      }
+                    }
+                      _myFinalPriceInteger = tempPrice;
+                    
+                  }
+                }
+              }
+              }
             }
             print('allProductsListMemory $allProductsListMemory');
             // return Text("here");
@@ -197,6 +235,12 @@ class _MemoryState extends State<Memory> {
         new Row(
           children: <Widget>[
             Container( width: MediaQuery.of(context).size.width * 1 ,child: Center(child: Text('Order Price:  $_myFinalPriceInteger')))
+          ],
+        ),
+        new Row(
+          children: <Widget>[
+            statusOrdersList[numbOfOrderSelectedShopper] == true ? Container( width: MediaQuery.of(context).size.width * 1 ,child: Center(child: Text('Order Status: Accepted'))) :Container( width: MediaQuery.of(context).size.width * 1 ,child: Center(child: Text('Order Status: Declined')))
+            
           ],
         )
       ],
