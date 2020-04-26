@@ -27,7 +27,7 @@ Widget MemoryTab(BuildContext context) {
               .snapshots(),
           builder: (context, snapshot) {
             if (!snapshot.hasData)
-              return Center(child: Text('No data in DB '));
+              return Center(child: Text('لا يوجد أي منتج  '));
             else {
               idOrderslist.removeRange(0, idOrderslist.length);
               statusOrdersList.removeRange(0, statusOrdersList.length);
@@ -36,7 +36,7 @@ Widget MemoryTab(BuildContext context) {
                 return Center(child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Text("No History" , style: TextStyle(fontSize:30.0),),
+                    Text("لا يوجد طلبات سابقة" , style: TextStyle(fontSize:30.0),),
                   ],
                 ));
               } 

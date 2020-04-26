@@ -142,7 +142,7 @@ class PhonePage extends StatelessWidget{
                                 .show();
                           } else {
                             tempPhone = "+961" + _phoneNumberController.text;
-                            // _verifyPhoneNumber(context);
+                             _verifyPhoneNumber(context);
                             Navigator.pushReplacement(context,
                           MaterialPageRoute(builder: (context) => ThirdPage()));
                           }

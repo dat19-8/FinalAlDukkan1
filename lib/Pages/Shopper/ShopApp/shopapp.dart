@@ -39,7 +39,7 @@ class _ShopAppState extends State<ShopApp> {
 
             else {
               if (snapshot.data['Products'].length == 0) {
-                return Center(child: Text("This shop is empty"));
+                return Center(child: Text("لا يوجد سِلَع في هذا الدكان"));
               } 
               
               else {

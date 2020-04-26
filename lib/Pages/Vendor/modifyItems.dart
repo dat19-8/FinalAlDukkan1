@@ -40,7 +40,7 @@ class ModifyItemsDB extends StatelessWidget {
                 prefix: Container(
                   padding: EdgeInsets.all(4.0),
                   child: Text(
-                    "name",
+                    "الإسم",
                     style: TextStyle(
                         color: Colors.white, fontWeight: FontWeight.bold),
                   ),
@@ -65,7 +65,7 @@ class ModifyItemsDB extends StatelessWidget {
                 prefix: Container(
                   padding: EdgeInsets.all(4.0),
                   child: Text(
-                    "price",
+                    "السعر",
                     style: TextStyle(
                         color: Colors.white, fontWeight: FontWeight.bold),
                   ),
@@ -147,7 +147,7 @@ class ModifyItemsDB extends StatelessWidget {
                 Navigator.pop(context,
                     MaterialPageRoute(builder: (context) => Vendapp()));
               },
-              child: Text("Add"))
+              child: Text("زيادة الكمية"))
 
         ]),
       ),

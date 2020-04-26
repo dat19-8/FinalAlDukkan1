@@ -41,6 +41,7 @@ dependencies:
   better_uuid: ^0.1.2
   multi_image_picker: ^4.6.5
   flutter_absolute_path: ^1.0.6
+  firebase_messaging: 6.0.9
 
 dev_dependencies:
   flutter_test:

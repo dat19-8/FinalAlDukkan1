@@ -14,14 +14,14 @@ _cartDialogue(BuildContext context, index ) async{
   // set up the buttons
   print('object');
   Widget noButton = FlatButton(
-    child: Text("NO"),
+    child: Text("لا"),
     onPressed: () {
       
       Navigator.of(context, rootNavigator: true).pop('dialog');
     },
   );
   Widget yesButton = FlatButton(
-    child: Text("YES"),
+    child: Text("نعم"),
     onPressed: () {
 
       var exist = false;
@@ -109,7 +109,7 @@ _cartDialogue(BuildContext context, index ) async{
   AlertDialog alert = AlertDialog(
     title: Text("انتباه"),
     content: Text(
-        "do you want to add this Item to your Cart " , style: TextStyle(fontSize: 15.0),),
+        "هل تريد زيادة هذا المنتج الى العربيّة التسوق؟ " , style: TextStyle(fontSize: 15.0),),
     actions: [
       yesButton,
       noButton,
@@ -146,7 +146,7 @@ class _MemoryState extends State<Memory> {
               .snapshots(),
           builder: (context, snapshot) {
             if (!snapshot.hasData)
-              return Center(child: Text('No data in DB '));
+              return Center(child: Text('لا يوجد أي منتج '));
             else {
               if(statusOrdersList[numbOfOrderSelectedShopper] == true){
                 if (snapshot.data['CompletedOrders'].length >= 0) {
@@ -234,12 +234,12 @@ class _MemoryState extends State<Memory> {
         }),
         new Row(
           children: <Widget>[
-            Container( width: MediaQuery.of(context).size.width * 1 ,child: Center(child: Text('Order Price:  $_myFinalPriceInteger')))
+            Container( width: MediaQuery.of(context).size.width * 1 ,child: Center(child: Text('القيمة النهائيّة للطلب:  $_myFinalPriceInteger')))
           ],
         ),
         new Row(
           children: <Widget>[
-            statusOrdersList[numbOfOrderSelectedShopper] == true ? Container( width: MediaQuery.of(context).size.width * 1 ,child: Center(child: Text('Order Status: Accepted'))) :Container( width: MediaQuery.of(context).size.width * 1 ,child: Center(child: Text('Order Status: Declined')))
+            statusOrdersList[numbOfOrderSelectedShopper] == true ? Container( width: MediaQuery.of(context).size.width * 1 ,child: Center(child: Text('تمً قبول الطلب'))) :Container( width: MediaQuery.of(context).size.width * 1 ,child: Center(child: Text('تمً رفض الطلب')))
             
           ],
         )
@@ -297,10 +297,10 @@ class _NewMemoryProductListingState extends State<NewMemoryProductListing> {
               Column(
                 children: <Widget>[
                   
-                  Text("name : ${allProductsListMemory[index]['name']}"),
-                  Text("original price : ${allProductsListMemory[index]['Originalprice']}"),
-                  Text("final price : ${allProductsListMemory[index]['finalPrice']}"),
-                  Text("value : ${allProductsListMemory[index]['value']}"),
+                  Text("الاسم: ${allProductsListMemory[index]['name']}"),
+                  Text(" السعر الاساسي: ${allProductsListMemory[index]['Originalprice']}"),
+                  Text("السعر النهائي : ${allProductsListMemory[index]['finalPrice']}"),
+                  Text("القيمة : ${allProductsListMemory[index]['value']}"),
                     
                 ],
               ),

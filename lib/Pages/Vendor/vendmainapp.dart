@@ -33,12 +33,12 @@ class _MainVendState extends State<MainVend> {
             BottomNavigationBarItem(
                 icon: Icon(Icons.store),
                 title: Text(
-                  'Store',
+                  'دكّاني',
                 )),
             BottomNavigationBarItem(
                 icon: Icon(Icons.format_list_numbered_rtl),
                 title: Text(
-                  'Orders', 
+                  'بطاقتي',
                 )
                 ),
           ],

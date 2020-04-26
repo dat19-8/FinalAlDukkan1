@@ -31,12 +31,12 @@ class _FavState extends State<Fav> {
               }
               if (ccomplete == false) return Center(child: new Text("You have no favorites" , style: TextStyle(color: Colors.blueGrey , fontSize: 20.0),));
               if (!snapshot.hasData )
-                return Center(child: Text('No data in DB '));
+                return Center(child: Text('لا يوجد أي منتج '));
               
               if(ccomplete == true){
                 print("complete = true");
                 if (snapshot.data[selectedShopPhone].length == 0) {
-                  return Center(child: Text("You have no favorites" , style: TextStyle(color: Colors.blueGrey , fontSize: 20.0),));
+                  return Center(child: Text("لا يوجد أي منتج مفضّل" , style: TextStyle(color: Colors.blueGrey , fontSize: 20.0),));
                 } else {
                   myFav.removeRange(0, myFav.length);
                   for (var i = 0;

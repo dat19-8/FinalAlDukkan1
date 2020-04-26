@@ -36,13 +36,13 @@ class _OrdersState extends State<Orders> {
                   .snapshots(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData)
-                  return Center(child: Text('No data in DB '));
+                  return Center(child: Text('لم تقم بعرض اي منتج حتى الآن '));
                 else {
                   if (snapshot.data['Orders'].length == 0) {
                     return Center(child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Text("You have no Orders" , style: TextStyle(fontSize:30.0),),
+                        Text("ليس هناك أيّ طلب" , style: TextStyle(fontSize:30.0),),
                       ],
                     ));
                   } else {

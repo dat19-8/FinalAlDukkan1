@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:finaldukkan1/globals.dart';
 import 'package:better_uuid/uuid.dart';
-
+import 'package:firebase_messaging/firebase_messaging.dart';
 class Cart extends StatefulWidget {
   @override
   _CartState createState() => _CartState();
@@ -105,7 +105,8 @@ _showAlertFinal(BuildContext context ) async{
   Widget continueButton = FlatButton(
     child: Text("استمر"),
     onPressed: () {
-      
+      final Firestore _db = Firestore.instance;
+      final FirebaseMessaging _fcm = FirebaseMessaging();
       Navigator.of(context, rootNavigator: true).pop('dialog');
     },
   );
@@ -215,7 +216,7 @@ class _CartState extends State<Cart> {
                     if (snapshot.data['Orders'].length == 0) {
                       return Center(
                           child: Text(
-                        "Place your order",
+                        "قدّم الطلب",
                         style: TextStyle(color: Colors.transparent),
                       ));
                     } else {
@@ -242,7 +243,7 @@ class _CartState extends State<Cart> {
                       
                     }
                   }
-                  return Text("done",
+                  return Text("تمّ",
                       style: TextStyle(
                         color: Colors.transparent,
                         fontSize: 2.0,
@@ -257,7 +258,7 @@ class _CartState extends State<Cart> {
                     children: <Widget>[
                       Column(
                         children: <Widget>[
-                          myCartPricesList.length ==0 ? Text('no' , style: TextStyle(color:Colors.transparent),):
+                          myCartPricesList.length ==0 ? Text('لا' , style: TextStyle(color:Colors.transparent),):
                           new Container(
                               padding: EdgeInsets.only(right:10.0),
                               
@@ -276,7 +277,7 @@ class _CartState extends State<Cart> {
                                   }, child: Icon(Icons.delete)))
                         ],
                       ),
-                      myCartPricesList.length ==0 ? Text('no' , style: TextStyle(color:Colors.transparent),):
+                      myCartPricesList.length ==0 ? Text('لا' , style: TextStyle(color:Colors.transparent),):
                       Column(
                         children: <Widget>[
                           Container(

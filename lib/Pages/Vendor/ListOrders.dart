@@ -27,8 +27,9 @@ _showAlertDialog(BuildContext context ) async{
     },
   );
   Widget deleteButton = FlatButton(
-    child: Text("ACCEPT"),
+    child: Text("قبول"),
     onPressed: () {
+
       for (var i = 0; i < allOrdersVendor.length; i++) {
         if(allOrdersVendor[i]['OrderId'] == completedId){
           allOrdersVendor[i]['completed'] = true;
@@ -62,7 +63,7 @@ _showAlertDialog(BuildContext context ) async{
   AlertDialog alert = AlertDialog(
     title: Text("انتباه"),
     content: Text(
-        "do you want to accept this order $finalPrice LBP" , style: TextStyle(fontSize: 15.0),),
+        "هل تريد قبول هذا الطلب $finalPrice ل.ل." , style: TextStyle(fontSize: 15.0),),
     actions: [
       cancelButton,
       deleteButton,
@@ -86,7 +87,7 @@ _declineAlertDialog(BuildContext context ) async{
     },
   );
   Widget deleteButton = FlatButton(
-    child: Text("DECLINE"),
+    child: Text("إلغاء"),
     onPressed: () {
       for (var i = 0; i < allOrdersVendor.length; i++) {
         if(allOrdersVendor[i]['OrderId'] == completedId){
@@ -119,7 +120,7 @@ _declineAlertDialog(BuildContext context ) async{
   AlertDialog alert = AlertDialog(
     title: Text("انتباه"),
     content: Text(
-        "do you want to decline this order $finalPrice LBP" , style: TextStyle(fontSize: 15.0),),
+        "هل تريد إلغاء هذا الطلب $finalPrice  ل.ل." , style: TextStyle(fontSize: 15.0),),
     actions: [
       cancelButton,
       deleteButton,
@@ -163,15 +164,15 @@ class _ListOrdersState extends State<ListOrders> {
                           width: 200.0,
                           height: 30.0,
                           padding: EdgeInsets.only(bottom: 10.0),
-                          child: Text("Name : ${allShoppers[numberOfOrderSelected]['shopperName']}")),
+                          child: Text("الاسم: ${allShoppers[numberOfOrderSelected]['shopperName']}")),
                       Container(
                           width: 200.0,
                           height: 30.0,
                           padding: EdgeInsets.only(bottom: 10.0),
-                          child: Text("Phone : ${allShoppers[numberOfOrderSelected]['shopperPhoneNumber']}")),
+                          child: Text("الهاتف : ${allShoppers[numberOfOrderSelected]['shopperPhoneNumber']}")),
                       Container(
                           width: 200.0, height: 30.0, child:
-                       Text("Address : ${allShoppers[numberOfOrderSelected]['shopperAddress']}")),
+                       Text("العنوان : ${allShoppers[numberOfOrderSelected]['shopperAddress']}")),
                     ],
                   ),
                 ),
@@ -185,10 +186,10 @@ class _ListOrdersState extends State<ListOrders> {
                   .snapshots(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData)
-                  return Center(child: Text('No data in DB '));
+                  return Center(child: Text('لم تقم بعرض اي منتج حتى الآن '));
                 else {
                   if (snapshot.data['Orders'].length == 0) {
-                    return Center(child: Text("No Products in this order"));
+                    return Center(child: Text("هذا الطلب هو فارغ"));
                   } else {
                     myProductsListOrders.removeRange(0, myProductsListOrders.length);
                     _myFinalPriceInteger = 0;
@@ -239,12 +240,12 @@ class _ListOrdersState extends State<ListOrders> {
                 builder: (context, snapshot) {
                   allOrdersVendor.removeRange(0, allOrdersVendor.length);
                   if (!snapshot.hasData)
-                    return Center(child: Text('No data in DB '));
+                    return Center(child: Text('لم تقم بعرض اي منتج حتى الآن '));
                   else {
                     if (snapshot.data['Orders'].length == 0) {
                       return Center(
                           child: Text(
-                        "Place your order",
+                        "قدّم الطلب",
                         style: TextStyle(color: Colors.transparent),
                       ));
                     } else {
@@ -270,7 +271,7 @@ class _ListOrdersState extends State<ListOrders> {
                       
                     }
                   }
-                  return Text("done",
+                  return Text("تم",
                       style: TextStyle(
                         color: Colors.transparent,
                         fontSize: 2.0,
@@ -281,7 +282,7 @@ class _ListOrdersState extends State<ListOrders> {
               Container(
                 width: MediaQuery.of(context).size.width * 0.5,
                 child: FlatButton(
-                  child: Text("decline"),
+                  child: Text("إلغاء"),
                   onPressed: () {
                     setState(() {
                       
@@ -298,7 +299,7 @@ class _ListOrdersState extends State<ListOrders> {
                 child: FlatButton(
                   
                   child:
-                  Text("Accept"),
+                  Text("قبول"),
                   
                   onPressed: () {
                     setState(() {
@@ -348,10 +349,10 @@ class NewListingOrders extends StatelessWidget {
               Column(
                 children: <Widget>[
                   
-                  Text("name : ${myProductsListOrders[index]['name']}"),
-                  Text("original price : ${myProductsListOrders[index]['originalPrice']}"),
-                  Text("final price : ${myProductsListOrders[index]['finalPrice']}"),
-                  Text("value : ${myProductsListOrders[index]['value']}"),
+                  Text("الاسم: ${myProductsListOrders[index]['name']}"),
+                  Text("السعر الأساسي : ${myProductsListOrders[index]['originalPrice']}"),
+                  Text("السعر النهائي : ${myProductsListOrders[index]['finalPrice']}"),
+                  Text("القيمة : ${myProductsListOrders[index]['value']}"),
                     
                 ],
               ),

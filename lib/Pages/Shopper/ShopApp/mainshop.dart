@@ -109,7 +109,7 @@ class _DashboardState extends State<MainShop> {
                 
                 icon: Icon(Icons.store),
                 title: Text(
-                  'Store',
+                  'الدكان',
                   
                 )),
             BottomNavigationBarItem(
@@ -141,7 +141,7 @@ class _DashboardState extends State<MainShop> {
                 ),
                 //  Icon(Icons.shopping_cart),
                 title: Text(
-                  'My Cart',
+                  'بطاقتي',
                   
                 )
                 
@@ -149,13 +149,13 @@ class _DashboardState extends State<MainShop> {
             BottomNavigationBarItem(
                 icon: Icon(Icons.favorite_border),
                 title: Text(
-                  'Favourites',
+                  'المفضّل',
                   
                 )),
             BottomNavigationBarItem(
                 icon: Icon(Icons.history),
                 title: Text(
-                  'Memory',
+                  'الطلبات السابقة',
                   
                 )),
             

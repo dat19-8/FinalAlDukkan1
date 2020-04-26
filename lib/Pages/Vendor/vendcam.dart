@@ -196,21 +196,21 @@ class _CameraTabState extends State<CameraTab> {
         backgroundColor: Color.fromRGBO(27, 38, 44, 100),
       ),
       body: AlertDialog(
-        title: Text(" Make a Choice"),
+        title: Text(" إختار"),
         content: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
 
             children: <Widget>[
               GestureDetector(
-                child: Text("  Camera"),
+                child: Text(" كاميرا "),
                 onTap: () {
                   _openCamera(context);
                 },
               ),
               Padding(padding: EdgeInsets.all(8.0)),
               GestureDetector(
-                child: Text(" Gallery"),
+                child: Text(" صور"),
                 onTap: () {
                   _openGallery(context);
                 },
