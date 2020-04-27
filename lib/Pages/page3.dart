@@ -10,9 +10,9 @@ class ThirdPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromRGBO(15, 76, 117, 100),
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Color.fromRGBO(27, 38, 44, 100),
+        backgroundColor: Color.fromRGBO(136, 136, 136, 100),
         title: Center(
           child: Text(
             'الدكان',
@@ -26,17 +26,17 @@ class ThirdPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Container(
-                margin: EdgeInsets.only(top: 10.0),
+                margin: EdgeInsets.only(top: 15.0),
                 height: MediaQuery.of(context).size.height* 0.05,
-                child: Center(child: Text("هل أنت صاحب محل؟", style: TextStyle(color:Colors.white, fontSize: 15.0),)),
+                child: Center(child: Text("هل أنت صاحب محل؟", style: TextStyle(fontWeight: FontWeight.bold,color:Colors.black, fontSize: 18.0),)),
               ),
               Container(
-                  margin: EdgeInsets.only(top: 10.0),
+                  // margin: EdgeInsets.only(top: 10.0),
                   width: MediaQuery.of(context).size.width * 1,
-                  height: MediaQuery.of(context).size.height* 0.35,
+                  height: MediaQuery.of(context).size.height* 0.33,
                   color: Colors.white,
                   child: FlatButton(
-                      child: Image.asset('images/vendor1.png',),    
+                      child: Image.asset('images/vendor12.png',),    
                       onPressed: () {
                         
                         vendPhone = tempPhone;
@@ -52,16 +52,16 @@ class ThirdPage extends StatelessWidget {
               Container(
                 margin: EdgeInsets.only(top: 10.0),
                 height: MediaQuery.of(context).size.height* 0.05,
-                child: Center(child: Text("هل أنت متسوق؟", style: TextStyle(color:Colors.white, fontSize: 15.0),)),
+                child: Center(child: Text("هل أنت متسوق؟", style: TextStyle(fontWeight: FontWeight.bold,color:Colors.black, fontSize: 18.0))),
               ),
               Container(
-                height: MediaQuery.of(context).size.height* 0.3,
+                height: MediaQuery.of(context).size.height* 0.33,
                 width: MediaQuery.of(context).size.width * 1,
                 color: Colors.white,
                 // padding: EdgeInsets.all(10.0),
-                margin: EdgeInsets.only(top: 10.0),
+                margin: EdgeInsets.only(top: 5.0),
                 child: FlatButton(
-                    child: Image.asset('images/shopper.png'),
+                    child: Image.asset('images/shopper12.jpeg'),
                     onPressed: () {
                       shopPhone = tempPhone;
                       

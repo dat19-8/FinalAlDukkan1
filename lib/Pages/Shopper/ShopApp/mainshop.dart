@@ -42,16 +42,16 @@ class _DashboardState extends State<MainShop> {
             iconSize: 21,
             icon: Icon(Icons.arrow_back),
           ),
-          backgroundColor: Color.fromRGBO(27, 38, 44, 100),
+          backgroundColor: Colors.grey,
           title: Text('الدكان',style: TextStyle(color: Colors.white , fontSize: 30.0),),
           actions: <Widget>[
-            Padding(
-              padding: EdgeInsets.only(right: 20.0),
-              child: GestureDetector(
-              onTap: () {},
-              child: Icon( Icons.search, size: 26.0,),
-              )
-            ),
+            // Padding(
+            //   padding: EdgeInsets.only(right: 20.0),
+            //   child: GestureDetector(
+            //   onTap: () {},
+            //   child: Icon( Icons.search, size: 26.0,),
+            //   )
+            // ),
             
             //   padding: EdgeInsets.fromLTRB(0, 15.0, 20.0, 0),
             //   child: GestureDetector(

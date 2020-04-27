@@ -17,7 +17,7 @@ final List<Map> allProductsListMemory = new List();
 
 Widget MemoryTab(BuildContext context) {
   return Scaffold(
-    backgroundColor: Colors.grey,
+    backgroundColor: Colors.white,
     body: Column(
     children: <Widget>[
       StreamBuilder(

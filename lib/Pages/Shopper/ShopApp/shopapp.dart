@@ -22,7 +22,7 @@ class _ShopAppState extends State<ShopApp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey,
+      backgroundColor: Colors.white,
       
       body: StreamBuilder(
           stream: Firestore.instance

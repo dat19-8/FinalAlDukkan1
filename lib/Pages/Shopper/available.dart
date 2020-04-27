@@ -76,7 +76,7 @@ class NewProductList extends StatelessWidget {
             children: <Widget>[
               Container(
                   width: 170.0,
-                  height: 145.0,
+                  height: 145.0,  
                   child: FlatButton(
                     onPressed: () {
                       allProductsList.removeRange(0, allProductsList.length);

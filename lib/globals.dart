@@ -41,6 +41,7 @@ final List<Map> allProductsList = new List();
 var vendorslist = [];
 var idOrderslist = [];
 var statusOrdersList = [];
+int myFinalPriceInteger = 0;
 
 
 class Product {

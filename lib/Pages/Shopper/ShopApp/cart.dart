@@ -14,7 +14,7 @@ final List<Map> allOrders = new List();
 final List<Map> placingOrderList = new List();
 
 var initialPrice;
-
+int _finalPriceAll = 0;
 _showAlertDialog(BuildContext context , index) async{
   // set up the buttons
   Widget cancelButton = FlatButton(
@@ -129,13 +129,111 @@ _showAlertFinal(BuildContext context ) async{
     },
   );
 }
+_proceedAlerDialog(BuildContext context ) async{
+  // set up the buttons
+  
+  Widget noButton = FlatButton(
+    child: Text("لا"),
+    onPressed: () {
+      
+      Navigator.of(context, rootNavigator: true).pop('dialog');
+    },
+  );
+  
+  Widget yesButton = FlatButton(
+    child: Text("نعم"),
+    onPressed: () {
+      
+
+      cartFinalOrderProducts.removeRange(0, cartFinalOrderProducts.length);
+      for(var i = 0 ; i < myCartPricesList.length ; i++){
+        
+          final finalProduct = {
+          'name': myCartPricesList[i]['name'],
+          'image':myCartPricesList[i]['image'],
+          'originalPrice':myCart[i]['price'],
+          'finalPrice':myCartPricesList[i]['price'],
+          "value":myCartValuesList[i]['value']
+          };  
+          
+          var exist = false;
+          for(var j = 0 ; j < cartFinalOrderProducts.length ; j ++){
+            if(finalProduct['image'] == cartFinalOrderProducts[j]['image']){
+              exist = true;
+              break;
+            }
+            
+          }
+          
+            if(exist == false){
+            cartFinalOrderProducts.add(finalProduct);
+          }  
+        
+      }
+
+      
+      
+      var finalId = Uuid.v1();
+      print('final Id : $finalId');
+      
+        var myOrder = {
+          'Pinfo': {
+            'name': shopperName,
+            'address': shopperAddress,
+            'phone': shopPhone,
+          },
+          'Products': cartFinalOrderProducts,
+          'completed': false,
+          'OrderId':  finalId.toString()
+        };
+      allOrders.add(myOrder);
+      
+      
+        
+      
+      
+      
+      Firestore.instance
+          .collection('Vendors')
+          .document(selectedShopPhone)
+          .updateData({'Orders': allOrders});
+      myCart.removeRange(0, myCart.length);
+      myCartPricesList.removeRange(0, myCartPricesList.length);
+      myCartValuesList.removeRange(0, myCartValuesList.length);
+      (context as Element).reassemble();
+      Navigator.of(context, rootNavigator: true).pop('dialog');
+    },
+  );
+  
+
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text("انتباه"),
+    content: Text(
+        "هل تريد تقديم هذا الطلب:$_finalPriceAll"),
+    actions: [
+    
+    yesButton,
+    noButton
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}
+
 class _CartState extends State<Cart> {
   @override
   Widget build(BuildContext context) {
     
     
     return Scaffold(
-        backgroundColor: Colors.grey,
+        backgroundColor: Colors.white,
         body: Column(
           
           children: <Widget>[
@@ -172,6 +270,7 @@ class _CartState extends State<Cart> {
                                     setState(() {
                                       myCartValuesList[index]['value'] += 1;
                                       myCartPricesList[index]['price'] = myCart[index]['price'] * myCartValuesList[index]['value'];
+                                      
                                     });
                                   },
                                   child: Icon(Icons.add , size: 50.0,)),
@@ -187,6 +286,7 @@ class _CartState extends State<Cart> {
                                       myCartValuesList[index]['value'] -= 1;
                                       myCartPricesList[index]['price'] -=
                                           myCart[index]['price'];
+                                          
                                     });
                                     }
                                     
@@ -242,6 +342,7 @@ class _CartState extends State<Cart> {
                       
                     }
                   }
+                
                   return Text("done",
                       style: TextStyle(
                         color: Colors.transparent,
@@ -287,75 +388,28 @@ class _CartState extends State<Cart> {
                               color: Colors.green,
                               shape: new RoundedRectangleBorder(
                               borderRadius: new BorderRadius.circular(40.0),),
+                              
                               onPressed: () {
-                                cartFinalOrderProducts.removeRange(0, cartFinalOrderProducts.length);
-                                for(var i = 0 ; i < myCartPricesList.length ; i++){
+                                
+                                _finalPriceAll = 0;
+                                // Firestore.instance.collection('Shoppers').document(shopPhone).updateData({selectedShopPhone.toString() :{'Orders' : cartFinalOrderProducts} });
+                                for(var i = 0 ; i < myCartPricesList.length;i++){
                                   setState(() {
-                                    final finalProduct = {
-                                    'name': myCartPricesList[i]['name'],
-                                    'image':myCartPricesList[i]['image'],
-                                    'originalPrice':myCart[i]['price'],
-                                    'finalPrice':myCartPricesList[i]['price'],
-                                    "value":myCartValuesList[i]['value']
-                                    };  
-                                    var exist = false;
-                                    for(var j = 0 ; j < cartFinalOrderProducts.length ; j ++){
-                                      if(finalProduct['image'] == cartFinalOrderProducts[j]['image']){
-                                        exist = true;
-                                        break;
-                                      }
-                                      
-                                    }
-                                    setState(() {
-                                      if(exist == false){
-                                      cartFinalOrderProducts.add(finalProduct);
-                                    }  
-                                    });
                                     
-
+                                    _finalPriceAll +=  myCartPricesList[i]['price'] ;
                                   });
                                   
-                                  
                                 }
+                                _proceedAlerDialog(context);
+                                
+                                
+                                
 
                                 
-                                
-                                var finalId = Uuid.v1();
-                                print('final Id : $finalId');
-                                
-                                  var myOrder = {
-                                    'Pinfo': {
-                                      'name': shopperName,
-                                      'address': shopperAddress,
-                                      'phone': shopPhone,
-                                    },
-                                    'Products': cartFinalOrderProducts,
-                                    'completed': false,
-                                    'OrderId':  finalId.toString()
-                                  };
-                                allOrders.add(myOrder);
-                                
-                                
-                                  
-                                
-                                
-                                
-                                Firestore.instance
-                                    .collection('Vendors')
-                                    .document(selectedShopPhone)
-                                    .updateData({'Orders': allOrders});
-                                
-                                // Firestore.instance.collection('Shoppers').document(shopPhone).updateData({selectedShopPhone.toString() :{'Orders' : cartFinalOrderProducts} });
-                                _showAlertFinal(context);
-                                myCart.removeRange(0, myCart.length);
-                                myCartPricesList.removeRange(0, myCartPricesList.length);
-                                myCartValuesList.removeRange(0, myCartValuesList.length);
-
-                                (context as Element).reassemble();
                                 
                                 
                               },
-                              child: Text(":احصل على طلبك"),
+                              child: Text("احصل على طلبك"),
                               
                             ),
                           ),

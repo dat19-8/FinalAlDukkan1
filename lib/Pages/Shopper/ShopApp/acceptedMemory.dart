@@ -3,7 +3,7 @@ import 'package:finaldukkan1/globals.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 bool completed = false;
-int _myFinalPriceInteger = 0;
+
 
 class Memory extends StatefulWidget {
   @override
@@ -136,7 +136,7 @@ class _MemoryState extends State<Memory> {
             ),
           ),
         ),
-    backgroundColor: Colors.grey,
+    backgroundColor: Colors.white,
     body: Column(
     children: <Widget>[
       StreamBuilder(
@@ -181,7 +181,7 @@ class _MemoryState extends State<Memory> {
                         allProductsListMemory.add(newProduct1);
                       }
                     }
-                      _myFinalPriceInteger = tempPrice;
+                      myFinalPriceInteger = tempPrice;
                     
                   }
                 }
@@ -189,19 +189,35 @@ class _MemoryState extends State<Memory> {
               }
               
               if(statusOrdersList[numbOfOrderSelectedShopper] == false){
+              
               if (snapshot.data['DeclinedOrders'].length >= 0) {
-                
                 allProductsListMemory.removeRange(0, allProductsListMemory.length);
+                var counter = 0 ;
+                
+                for(var i = 0 ; i < statusOrdersList.length ; i++ ){
+                  if(statusOrdersList[i] == true && i < numbOfOrderSelectedShopper){
+                    counter = counter + 1;
+                  }
+
+                }
+                print("counter:$counter");
+                var useSelectedPhone = numbOfOrderSelectedShopper;
+                print("useSelectedPhone :$useSelectedPhone");
+                numbOfOrderSelectedShopper -= counter;
+                print("numbOfOrderSelectedShopper :$numbOfOrderSelectedShopper");
                 for(var i = 0 ; i < snapshot.data['DeclinedOrders'].length ; i++){
-                  print('yes');
-                  if(idOrderslist[numbOfOrderSelectedShopper] == snapshot.data['DeclinedOrders'][i]['OrderId']){
+                  print('no');
+                  // numbOfOrderSelectedShopper +=counter;
+                  if(idOrderslist[useSelectedPhone] == snapshot.data['DeclinedOrders'][i]['OrderId']){
                     
-                    print('yes yes');
+                    print('no no');
                     var tempPrice = 0;
+                    
                     completed = snapshot.data['DeclinedOrders'][numbOfOrderSelectedShopper]['completed'];
+                    (context as Element).reassemble();
 
                     for (var j = 0; j < snapshot.data['DeclinedOrders'][i]['Products'].length; j++) {
-                      print('yes yes yes');
+                      print('no no no');
                       var newProduct1 ={
                         'name': snapshot.data['DeclinedOrders'][i]['Products'][j]['name'],
                         'Originalprice':snapshot.data['DeclinedOrders'][i]['Products'][j]['originalPrice'],
@@ -221,7 +237,7 @@ class _MemoryState extends State<Memory> {
                         allProductsListMemory.add(newProduct1);
                       }
                     }
-                      _myFinalPriceInteger = tempPrice;
+                      myFinalPriceInteger = tempPrice;
                     
                   }
                 }
@@ -234,7 +250,7 @@ class _MemoryState extends State<Memory> {
         }),
         new Row(
           children: <Widget>[
-            Container( width: MediaQuery.of(context).size.width * 1 ,child: Center(child: Text('Order Price:  $_myFinalPriceInteger')))
+            Container( width: MediaQuery.of(context).size.width * 1 ,child: Center(child: Text('Order Price:  $myFinalPriceInteger')))
           ],
         ),
         new Row(

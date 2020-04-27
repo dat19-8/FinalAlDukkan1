@@ -16,7 +16,7 @@ class _FavState extends State<Fav> {
   Widget build(BuildContext context) {
     
     return Scaffold(
-      backgroundColor: Colors.grey,
+      backgroundColor: Colors.white,
         body:
          StreamBuilder(
             stream: Firestore.instance

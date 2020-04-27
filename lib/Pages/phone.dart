@@ -11,6 +11,7 @@ class PhonePage extends StatelessWidget{
 
   _verifyPhoneNumber(BuildContext context) async {
     phoneNumber = "+961" + _phoneNumberController.text;
+    print('phoneNumber : $phoneNumber');
     final FirebaseAuth _auth = FirebaseAuth.instance;
     await _auth.verifyPhoneNumber(
         phoneNumber: phoneNumber,
@@ -22,6 +23,7 @@ class PhonePage extends StatelessWidget{
         codeSent: (verificationId, [code]) => _smsCodeSent(verificationId, [code]));
   }
   _verificationComplete(AuthCredential authCredential, BuildContext context) {
+    print('in _verificationComplete');
     FirebaseAuth.instance.signInWithCredential(authCredential).then((authResult) {
       final snackBar = SnackBar(content: Text("Success!!! UUID is: " + authResult.user.uid));
       Scaffold.of(context).showSnackBar(snackBar);
@@ -64,7 +66,7 @@ class PhonePage extends StatelessWidget{
 
     return Scaffold(
       resizeToAvoidBottomPadding: false,
-      backgroundColor: Color.fromRGBO(15, 76, 117, 100),
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Color.fromRGBO(27, 38, 44, 100),
         title: Center(
@@ -81,9 +83,10 @@ class PhonePage extends StatelessWidget{
               children: <Widget>[
                 Container(
                   margin: EdgeInsets.fromLTRB(0, 0, 0, 10.0),
-                  child: Image.asset("images/cart-1.png"),
-                  width: 200.0,
-                  height: 200.0,
+                  child: Image.asset("images/cart-512.png"),
+                  padding: EdgeInsets.only(top:20.0),
+                  width: 180.0,
+                  height: 180.0,
                 ),
                 Container(
                   padding: EdgeInsets.all(20.0),
@@ -96,22 +99,27 @@ class PhonePage extends StatelessWidget{
                 Container(
                   width: MediaQuery.of(context).size.width * 0.65,
                   height: 50.0,
+                  padding: EdgeInsets.only(left:55.0),
                   child: TextFormField(
                     keyboardType: TextInputType.number,
                     controller: _phoneNumberController,
-                    cursorColor: Colors.white,
+                    cursorColor: Colors.black,
                     autofocus: true,
-                    style: TextStyle(color: Colors.white),
-                    decoration: InputDecoration(
+                    style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold), 
+                    decoration: InputDecoration(  
+                      border: InputBorder.none,
+                      hintText: 'Phone Number', 
+                      hintStyle: TextStyle(color: Color.fromRGBO(200, 200, 200, 100)),
                       prefix: Container(
                         padding: EdgeInsets.all(4.0),
                         child: Text(
                           "+961",
                           style: TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.bold),
+                              color: Colors.black, fontWeight: FontWeight.bold),
                         ),
                       ),
                     ),
+                    
                     autovalidate: true,
                     autocorrect: false,
                     maxLengthEnforced: true,
@@ -125,8 +133,9 @@ class PhonePage extends StatelessWidget{
                     child: SizedBox(
                       width: MediaQuery.of(context).size.width * 0.85,
                       child: RaisedButton(
+                        color: Colors.pinkAccent,
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(0.0)),
+                            borderRadius: BorderRadius.circular(30.0)),
                         child: Text(
                           "واصل",
                           style: TextStyle(
@@ -141,7 +150,9 @@ class PhonePage extends StatelessWidget{
                                 title: 'رقم الهاتف غير صحيح')
                                 .show();
                           } else {
+                            
                             tempPhone = "+961" + _phoneNumberController.text;
+                            print("tempPhone: $tempPhone");
                             // _verifyPhoneNumber(context);
                             Navigator.pushReplacement(context,
                           MaterialPageRoute(builder: (context) => ThirdPage()));

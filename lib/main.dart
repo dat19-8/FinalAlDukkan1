@@ -1,3 +1,4 @@
+import 'package:finaldukkan1/Pages/phone.dart';
 import 'package:flutter/material.dart';
 import './Pages/page1.dart';
 
@@ -20,7 +21,7 @@ class MyAppState extends State<MyApp> {
         theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-        home: FirstRoute()
+        home: PhonePage()
 
          );
 
