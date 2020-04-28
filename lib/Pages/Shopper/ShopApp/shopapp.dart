@@ -24,7 +24,7 @@ class _ShopAppState extends State<ShopApp> {
     return Scaffold(
       backgroundColor: Colors.white,
       
-      body: StreamBuilder(
+      body: new StreamBuilder(
           stream: Firestore.instance
               .collection('Vendors')
               .document(selectedShopPhone)
@@ -122,6 +122,7 @@ class _ProductListingState extends State<ProductListing> {
                           'value':allProductsList[index]['value']
                         };
                           myCart.add(changeMyCartProducts);
+
                       }
                       else{
                         
@@ -194,47 +195,88 @@ class _ProductListingState extends State<ProductListing> {
               
               FlatButton(
                 onPressed:() {
-                  
-                  
-                  var newTemp={
-                    'name':allProductsList[index]['name'],
-                    'price':allProductsList[index]['price'],
-                    'cart' :allProductsList[index]['cart'],
-                    'favorite': false,
-                    'image':allProductsList[index]['image'],
-                    'value': allProductsList[index]['value'],
-                    "available":allProductsList[index]['available']
-
-
-                  };
-                  
-                  if(allProductsList[index]['favorite'] == true)
-                  { 
-                    if(tempFav.length == 1){
-                      
-                      tempFav.removeAt(0);
-                    }
-                    for(var i = 0 ; i < tempFav.length ; i++){
-                      if(allProductsList[index]['name'] == tempFav[i]['name']){
-                        newTemp['favorite']=false;
-                        allProductsList[index]['favorite'] = false;
-                        tempFav.removeAt(i);
-                        
-                      }
-                    }  
-                    Firestore.instance.collection('Shoppers').document(shopPhone).updateData({selectedShopPhone.toString() :{'favorites' : tempFav} });
-                    allProductsList[index]['favorite'] = false;
-                    
+                
+                  if(myFav.length == 0 ){
+                    var newTemp={
+                        'name':allProductsList[index]['name'],
+                        'price':allProductsList[index]['price'],
+                        'cart' :allProductsList[index]['cart'],
+                        'favorite': true,
+                        'image':allProductsList[index]['image'],
+                        'value': allProductsList[index]['value'],
+                        "available":allProductsList[index]['available'] 
+                      };
+                      myFav.add(newTemp);
+                      print("myFav : $myFav");
+                      Firestore.instance.collection('Shoppers').document(shopPhone).updateData({selectedShopPhone.toString() : myFav});
                   }
                   else{
-                    allProductsList[index]['favorite'] = true;
-                    newTemp['favorite']=true;
-                    tempFav.add(newTemp);
+                    var exist = false;
+                    var chosenImageIndexRemove = 0;
+                    for(var i = 0 ; i < myFav.length ; i++){
+                      if(allProductsList[index]['image'] == myFav[i]['image']){
+                        chosenImageIndexRemove = i;
+                        exist = true;
+                        
+                      }
+                      
+                    }
+                    if(exist == true){
+                      print("remove");
+                      myFav.removeAt(chosenImageIndexRemove);
+                      Firestore.instance.collection('Shoppers').document(shopPhone).updateData({selectedShopPhone.toString() : myFav});
+
+                    }
+                    if(exist == false){
+                        print('add');
+                        var newTemp={
+                          'name':allProductsList[index]['name'],
+                          'price':allProductsList[index]['price'],
+                          'cart' :allProductsList[index]['cart'],
+                          'favorite': true,
+                          'image':allProductsList[index]['image'],
+                          'value': allProductsList[index]['value'],
+                          "available":allProductsList[index]['available'] 
+                        };
+                        myFav.add(newTemp);
+                        Firestore.instance.collection('Shoppers').document(shopPhone).updateData({selectedShopPhone.toString() : myFav});
+                        print("myFav in shopapp: $myFav");
+
+
+                      }
                     
-                    Firestore.instance.collection('Shoppers').document(shopPhone).updateData({selectedShopPhone.toString() : tempFav});
+
+                  }
+              
+                  
+                  
+                  
+                  // if(allProductsList[index]['favorite'] == true)
+                  // { 
+                  //   if(tempFav.length == 1){
+                      
+                  //     tempFav.removeAt(0);
+                  //   }
+                  //   for(var i = 0 ; i < tempFav.length ; i++){
+                  //     if(allProductsList[index]['name'] == tempFav[i]['name']){
+                  //       newTemp['favorite']=false;
+                  //       allProductsList[index]['favorite'] = false;
+                  //       tempFav.removeAt(i);
+                        
+                  //     }
+                  //   }  
+                    
+                  //   allProductsList[index]['favorite'] = false;
+                    
+                  // }
+                  // else{
+                  //   allProductsList[index]['favorite'] = true;
+                  //   newTemp['favorite']=true;
+                  //   tempFav.add(newTemp);
+                    
                     
                     // (context as Element).reassemble();
-                    }
+                    // }
                 },
                 child   : allProductsList[index]['favorite'] ==  true ? Icon(Icons.favorite , color: Colors.red,) :Icon(Icons.favorite_border),
 

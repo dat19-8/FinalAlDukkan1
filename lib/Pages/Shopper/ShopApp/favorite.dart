@@ -2,13 +2,124 @@ import 'package:flutter/material.dart';
 import './shopapp.dart';
 import 'package:finaldukkan1/globals.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+final List<Map> allCarts = new List();
 
+_cartDialogue(BuildContext context, index ) async{
+  // set up the buttons
+  print('object');
+  Widget noButton = FlatButton(
+    child: Text("NO"),
+    onPressed: () {
+      
+      Navigator.of(context, rootNavigator: true).pop('dialog');
+    },
+  );
+  Widget yesButton = FlatButton(
+    child: Text("YES"),
+    onPressed: () {
+
+      var exist = false;
+    if(myCart.length == 0){
+      
+      
+      var changeMyCartProducts = {
+        'name':allCarts[index]['name'],
+        'price':allCarts[index]['Originalprice'],
+        'available':allCarts[index]['available'],
+        'image':allCarts[index]['image'],
+        'value':allCarts[index]['value']
+      };
+        myCart.add(changeMyCartProducts);
+    }
+    else{
+      
+      for (var i = 0; i < myCart.length; i++) {
+        if (allCarts[index]['name'] == myCart[i]['name']) {
+          exist = true;
+        }
+      }
+      if (exist == false) {
+        
+        var changeMyCartProducts = {
+              
+              'name':allCarts[index]['name'],
+              'price':allCarts[index]['price'],
+              'available':allCarts[index]['available'],
+              'image':allCarts[index]['image'],
+              'cart':allCarts[index]['cart'],
+              'favorite':allCarts[index]['favorite'],
+              'value':allCarts[index]['value']
+
+            };
+        
+        myCart.add(changeMyCartProducts);
+        
+      }
+    }
+    for (var i = 0; i < myCart.length; i++) {
+        
+      if(allCarts[index]['image'] == myCart[i]['image']){
+        
+        var myCartPriceProduct = {
+          'name':myCart[i]['name'],
+          'image': myCart[i]['image'],
+          'price':myCart[i]['Originalprice'],
+        };
+
+        var myCartValueProduct = {
+          'image':myCart[i]['image'],
+          'value' : 1,
+        };
+        
+        var allExist = false;
+        for(var i = 0; i < myCartPricesList.length ; i++){
+          if( allCarts[index]['image'] == myCartPricesList[i]['image']){
+            allExist = true;
+            
+            break;
+          }
+        }
+        if(allExist == false){
+          myCartValuesList.add(myCartValueProduct);
+          myCartPricesList.add(myCartPriceProduct);
+        }
+        if(allExist==true){
+          
+          for (var i = 0; i < myCartValuesList.length; i++) {
+            if(allCarts[index]['image'] == myCartValuesList[i]['image']){
+              myCartValuesList[i]['value'] += 1;
+              myCartPricesList[i]['price'] = myCart[i]['price']*myCartValuesList[i]['value'];  
+            }
+          }
+        }
+      }
+    }
+      Navigator.of(context, rootNavigator: true).pop('dialog');
+      (context as Element).reassemble();
+    },
+  );
+
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text("انتباه"),
+    content: Text(
+        "do you want to add this Item to your Cart " , style: TextStyle(fontSize: 15.0),),
+    actions: [
+      yesButton,
+      noButton,
+    ],
+    
+  );
+   showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );}
 class Fav extends StatefulWidget {
   @override
   _FavState createState() => _FavState();
 }
-
-List<Product> myFav = new List();
 
 class _FavState extends State<Fav> {
   bool ccomplete = false;
@@ -18,59 +129,61 @@ class _FavState extends State<Fav> {
     return Scaffold(
       backgroundColor: Colors.white,
         body:
+        
          StreamBuilder(
             stream: Firestore.instance
                 .collection('Shoppers')
                 .document(shopPhone)
                 .snapshots(),
             builder: (context, snapshot) {
+              allCarts.removeRange(0, allCarts.length);
+              print("myFav: in favorites: : : ------$myFav");
               
-              print("complete = false");
-              if(tempFav.length != 0 ) {
-                ccomplete = true;
+              
+              
+                
+              if(snapshot.data[selectedShopPhone] == null){
+                return Center(child: Text("You have no favorites" , style: TextStyle(color: Colors.blueGrey , fontSize: 20.0),));
               }
-              if (ccomplete == false) return Center(child: new Text("You have no favorites" , style: TextStyle(color: Colors.blueGrey , fontSize: 20.0),));
-              if (!snapshot.hasData )
-                return Center(child: Text('No data in DB '));
-              
-              if(ccomplete == true){
-                print("complete = true");
+              else{
+                
                 if (snapshot.data[selectedShopPhone].length == 0) {
+                  print('in');
                   return Center(child: Text("You have no favorites" , style: TextStyle(color: Colors.blueGrey , fontSize: 20.0),));
                 } else {
-                  myFav.removeRange(0, myFav.length);
+                  print('in in ');
+                  // myFav.removeRange(0, myFav.length);
                   for (var i = 0;
-                      i < snapshot.data[selectedShopPhone].length;
-                      i++) {
-                    var newFav1 = new Product(
-                      snapshot.data[selectedShopPhone][i]['name'],
-                      snapshot.data[selectedShopPhone][i]['price'],
-                      snapshot.data[selectedShopPhone][i]['image'],
-                      snapshot.data[selectedShopPhone][i]['cart'],
-                      snapshot.data[selectedShopPhone][i]['favorite'],
-                      snapshot.data[selectedShopPhone][i]['value'],
-                      snapshot.data[selectedShopPhone][i]['available'],
-                    );
+                      i < snapshot.data[selectedShopPhone].length;i++) {
+                    var newFav1 = {
+                      'name':snapshot.data[selectedShopPhone][i]['name'],
+                      'price':snapshot.data[selectedShopPhone][i]['price'],
+                      'image':snapshot.data[selectedShopPhone][i]['image'],
+                      'cart':snapshot.data[selectedShopPhone][i]['cart'],
+                      'favorite':snapshot.data[selectedShopPhone][i]['favorite'],
+                      'value':snapshot.data[selectedShopPhone][i]['value'],
+                      'available':snapshot.data[selectedShopPhone][i]['available'],
+                    };
+                    
                     var exist = false;
 
-                    for (var j = 0; j < myFav.length; j++) {
-                      if (newFav1.name.toString() == myFav[j].name.toString()) {
-                        if (snapshot.data[selectedShopPhone][i]['favorite'] ==
-                            false) {
-                          myFav.remove(snapshot.data[selectedShopPhone][i]);
-                        }
+                    for (var j = 0; j < allCarts.length; j++) {
+                      if (newFav1['name'].toString() == allCarts[j]['name'].toString()) {
+                          exist = true;
                       }
                     }
-                    if (exist == false &&
-                        snapshot.data[selectedShopPhone][i]['favorite'] ==
-                            true) {
-                      myFav.add(newFav1);
+                    if (exist == false ){
+
+                      allCarts.add(newFav1);
                     }
+                        
+                    
                   }
                 }
               }
-              return NewProductListing();
-            }));
+              return  NewProductListing();
+            })
+            );
   }
 }
 
@@ -78,11 +191,10 @@ class NewProductListing extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-          backgroundColor: Colors.grey,
+      backgroundColor: Colors.white,
       body: new GridView.count(
-              
         crossAxisCount: 2,
-        children: List.generate(myFav.length, (index) {
+        children: List.generate(allCarts.length, (index) {
           return Column(
             children: <Widget>[
               Container(
@@ -90,38 +202,16 @@ class NewProductListing extends StatelessWidget {
                   height: 145.0,
                   child: FlatButton(
                     onPressed: () {
-                      // allProductsList[index].cart = true;
-                      // var exist = false;
-                      // for (var i = 0; i < myCart.length; i++) {
-                      //   if (allProductsList[index].name == myCart[i].name) {
-                      //     allProductsList[index].value = allProductsList[index].value + 1;
-                      //     exist = true;
-                      //   }
-                      // }
-                      // if (exist == false) {
-                      //   myCart.add(allProductsList[index]);
-                      // }
-                      // var changeMyCartProducts = {
-                      //           'name':myCart[index].name,
-                      //           'price':myCart[index].price,
-                      //           'available':myCart[index].available,
-                      //           'image':myCart[index].image,
-                      //           'cart':myCart[index].cart,
-                      //           'favorite':myCart[index].favorite,
-                      //           'value':myCart[index].value
-
-                      //         };
-                      // newMapCart.add(changeMyCartProducts);
-                      // print(newMapCart);
+                      _cartDialogue(context, index);
                       print('ok');
                     },
-                    child: Image.network(myFav[index].image),
+                    child: Image.network(allCarts[index]['image']),
                   )),
-              myFav[index].name == "name"  ?  Text("${myFav[index].name}" , style: TextStyle(color: Colors.transparent),):
+              allCarts[index]['name'] == "name"  ?  Text("${allCarts[index]['name']}" , style: TextStyle(color: Colors.transparent),):
               
-              Text("${myFav[index].name}"),
-              myFav[index].price == 0 ? Text("${myFav[index].price}" , style: TextStyle(color:Colors.transparent),):
-              Text("${myFav[index].price}"),
+              Text("${allCarts[index]['name']}"),
+              allCarts[index]['price'] == 0 ? Text("${allCarts[index]['price']}" , style: TextStyle(color:Colors.transparent),):
+              Text("${allCarts[index]['price']}"),
             ],
           );
         }),

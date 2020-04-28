@@ -9,6 +9,7 @@ var vendPhone;
 var shopPhone;
 // For the selected shop in available 
 var selectedShopPhone;
+var selectedVendorInfo ;
 
 // Phone Auth
 var phoneNumber;
@@ -24,6 +25,7 @@ var selectedOrder;
 // selecting form gallery and camera camera.dart
 var chosenImageUrl;
 var indexchosen;
+List<Map> myFav = new List();
 
 // order
 int finalPrice ;

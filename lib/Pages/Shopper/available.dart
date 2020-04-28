@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:finaldukkan1/globals.dart';
+import 'package:flutter/semantics.dart';
 import '../Shopper/ShopApp/mainshop.dart';
 
 final List<Shop> myShopsList = new List();
@@ -84,6 +85,7 @@ class NewProductList extends StatelessWidget {
                       print('go to shop');
                       selectedShopPhone = myShopsList[index].phone.toString();
                       myCart.removeRange(0, myCart.length);
+                      myFav.removeRange(0, myFav.length);
                       print("selectedShopPhone :${selectedShopPhone}");
                       Navigator.pushReplacement(
                         context,

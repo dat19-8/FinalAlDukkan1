@@ -3,13 +3,68 @@ import 'package:finaldukkan1/globals.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 bool completed = false;
-
+var useSelectedPhone = 0 ; 
+final List<Map> allProductsListMemory = new List();
 
 class Memory extends StatefulWidget {
   @override
   _MemoryState createState() => _MemoryState();
 }
-final List<Map> allProductsListMemory = new List();
+_detailsDeclinedDialog(BuildContext context ) async{
+  // set up the buttons
+  Widget cancelButton = FlatButton(
+    child: Text("إلغاء"),
+    onPressed: () {
+      Navigator.of(context, rootNavigator: true).pop('dialog');
+    },
+  );
+  
+
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text("انتباه"),
+    content: Text(
+        "Order Price $myFinalPriceInteger LBP and it was DECLINED "),
+      actions:
+      [cancelButton,],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}
+_detailsAcceptedDialog(BuildContext context ) async{
+  // set up the buttons
+  Widget cancelButton = FlatButton(
+    child: Text("إلغاء"),
+    onPressed: () {
+      Navigator.of(context, rootNavigator: true).pop('dialog');
+    },
+  );
+  
+
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text("انتباه"),
+    content: Text(
+        "Order Price $myFinalPriceInteger LBP and it was ACCEPTED "),
+      actions:
+      [cancelButton,],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}
+
 _cartDialogue(BuildContext context, index ) async{
   // set up the buttons
   print('object');
@@ -148,6 +203,7 @@ class _MemoryState extends State<Memory> {
             if (!snapshot.hasData)
               return Center(child: Text('No data in DB '));
             else {
+              useSelectedPhone = numbOfOrderSelectedShopper;
               if(statusOrdersList[numbOfOrderSelectedShopper] == true){
                 if (snapshot.data['CompletedOrders'].length >= 0) {
                 
@@ -201,7 +257,7 @@ class _MemoryState extends State<Memory> {
 
                 }
                 print("counter:$counter");
-                var useSelectedPhone = numbOfOrderSelectedShopper;
+                useSelectedPhone = numbOfOrderSelectedShopper;
                 print("useSelectedPhone :$useSelectedPhone");
                 numbOfOrderSelectedShopper -= counter;
                 print("numbOfOrderSelectedShopper :$numbOfOrderSelectedShopper");
@@ -237,7 +293,10 @@ class _MemoryState extends State<Memory> {
                         allProductsListMemory.add(newProduct1);
                       }
                     }
-                      myFinalPriceInteger = tempPrice;
+                      
+                        myFinalPriceInteger = tempPrice;
+                        
+                      
                     
                   }
                 }
@@ -248,14 +307,21 @@ class _MemoryState extends State<Memory> {
             // return Text("here");
             return NewMemoryProductListing();
         }),
-        new Row(
+        
+        Row(
           children: <Widget>[
-            Container( width: MediaQuery.of(context).size.width * 1 ,child: Center(child: Text('Order Price:  $myFinalPriceInteger')))
-          ],
-        ),
-        new Row(
-          children: <Widget>[
-            statusOrdersList[numbOfOrderSelectedShopper] == true ? Container( width: MediaQuery.of(context).size.width * 1 ,child: Center(child: Text('Order Status: Accepted'))) :Container( width: MediaQuery.of(context).size.width * 1 ,child: Center(child: Text('Order Status: Declined')))
+            
+            Padding(padding: EdgeInsets.only(left:125.0) ),
+            FlatButton(
+              color: Colors.pinkAccent,
+              child:Text('More Details') , onPressed: () {
+              if(statusOrdersList[useSelectedPhone] == true){
+                _detailsAcceptedDialog(context);
+              }
+              else{
+                _detailsDeclinedDialog(context);
+              }
+            })
             
           ],
         )
@@ -278,17 +344,20 @@ class _NewMemoryProductListingState extends State<NewMemoryProductListing> {
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width * 1,
-      height: MediaQuery.of(context).size.height * 0.81,
+      height: MediaQuery.of(context).size.height * 0.8,
       child: new ListView(
         semanticChildCount: 1,
         
-        children: List.generate(allProductsListMemory.length, (index) {
+        children: 
+        List.generate(allProductsListMemory.length, (index) {
           return Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Column(
+                
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
+                  
                   Padding(
                     padding: EdgeInsets.only(bottom: 20.0),
                   ),

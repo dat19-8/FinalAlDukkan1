@@ -100,8 +100,10 @@ class _DashboardState extends State<MainShop> {
             
           ],
         ),
-        body: _tabs[_selectedIndex],
+        body: 
+        
         //bottom tabs
+        _tabs[_selectedIndex],
         bottomNavigationBar: BottomNavigationBar(
           items:<BottomNavigationBarItem>[
             
@@ -139,7 +141,6 @@ class _DashboardState extends State<MainShop> {
                   ],
                   
                 ),
-                //  Icon(Icons.shopping_cart),
                 title: Text(
                   'My Cart',
                   
@@ -166,7 +167,9 @@ class _DashboardState extends State<MainShop> {
           unselectedItemColor:  Color.fromRGBO(50, 130, 184,100),
           selectedItemColor:  Color.fromRGBO(27, 38, 44, 100),
           onTap: _onItemTapped,
-        )
+        ),
+        
+        
         );
   }
 
