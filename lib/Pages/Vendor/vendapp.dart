@@ -114,7 +114,7 @@ class _VendappState extends State<Vendapp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey,
+      backgroundColor: Colors.white,
       appBar: AppBar(
         centerTitle: true,
         elevation: 0,
@@ -157,7 +157,7 @@ class _VendappState extends State<Vendapp> {
                       children: <Widget>[
                         Center(
                             child: Text(
-                          "You have no Products",
+                          "لا يوجد لديك منتجات",
                           style: TextStyle(fontSize: 30.0),
                         )),
                       ],
@@ -203,7 +203,7 @@ class NewListing extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width * 1,
-      height: MediaQuery.of(context).size.height * 0.785,
+      height: MediaQuery.of(context).size.height * 0.775,
       child: new GridView.count(
         crossAxisCount: 2,
         children: List.generate(myProductsList.length, (index) {

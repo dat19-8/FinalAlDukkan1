@@ -13,7 +13,7 @@ class ModifyItemsDB extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey,
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Color.fromRGBO(27, 38, 44, 100),
         title: Center(
@@ -33,16 +33,16 @@ class ModifyItemsDB extends StatelessWidget {
             child: TextFormField(
               
               controller: _nameController1,
-              cursorColor: Colors.white,
+              cursorColor: Colors.grey,
               autofocus: true,
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(color: Colors.grey),
               decoration: InputDecoration(
                 prefix: Container(
                   padding: EdgeInsets.all(4.0),
                   child: Text(
-                    "name",
+                    "اسم المنتج",
                     style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold),
+                        color: Colors.grey, fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
@@ -60,14 +60,14 @@ class ModifyItemsDB extends StatelessWidget {
               controller: _priceController1,
               cursorColor: Colors.white,
               autofocus: true,
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(color: Colors.grey),
               decoration: InputDecoration(
                 prefix: Container(
                   padding: EdgeInsets.all(4.0),
                   child: Text(
-                    "price",
+                    "السعر",
                     style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold),
+                        color: Colors.grey, fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
@@ -89,7 +89,7 @@ class ModifyItemsDB extends StatelessWidget {
                   }  
                 }
 
-                return Text("done");
+                return Text("done" , style: TextStyle(color:Colors.transparent),);
               }),
             FlatButton(
               onPressed: () {
@@ -147,7 +147,7 @@ class ModifyItemsDB extends StatelessWidget {
                 Navigator.pop(context,
                     MaterialPageRoute(builder: (context) => Vendapp()));
               },
-              child: Text("Add"))
+              child: Text("منجز"))
 
         ]),
       ),

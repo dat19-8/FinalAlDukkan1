@@ -24,31 +24,37 @@ class _MainVendState extends State<MainVend> {
       Vendapp(),
       Orders()
     ];
+    
     return Scaffold(
         
         body: _tabs[_selectedIndex],
         //bottom tabs
-        bottomNavigationBar: BottomNavigationBar(
+        bottomNavigationBar: new Theme(data: Theme.of(context).copyWith(
+          canvasColor:Color.fromRGBO(220, 220, 220, 100),
+        ), child: BottomNavigationBar(
+          
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
                 icon: Icon(Icons.store),
                 title: Text(
-                  'Store',
+                  'المتجر',
                 )),
             BottomNavigationBarItem(
                 icon: Icon(Icons.format_list_numbered_rtl),
                 title: Text(
-                  'Orders', 
+                  'قائمة الطلبات', 
                 )
                 ),
           ],
           currentIndex: _selectedIndex,
-          backgroundColor: Color.fromRGBO(27, 38, 44, 100),
           type: BottomNavigationBarType.shifting,
-          unselectedItemColor:  Color.fromRGBO(50, 130, 184,100),
-          selectedItemColor:  Color.fromRGBO(27, 38, 44, 100),
+          unselectedItemColor:  Colors.white,
+          selectedItemColor:  Colors.blueGrey,
           onTap: _onItemTapped,
-        )
+         
+        ))
+        
+        
         );
   }
 

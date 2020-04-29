@@ -139,7 +139,7 @@ class _ListOrdersState extends State<ListOrders> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey,
+      backgroundColor: Colors.white,
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Color.fromRGBO(27, 38, 44, 100),
@@ -163,15 +163,15 @@ class _ListOrdersState extends State<ListOrders> {
                           width: 200.0,
                           height: 30.0,
                           padding: EdgeInsets.only(bottom: 10.0),
-                          child: Text("Name : ${allShoppers[numberOfOrderSelected]['shopperName']}")),
+                          child: Text("الاسم : ${allShoppers[numberOfOrderSelected]['shopperName']}")),
                       Container(
                           width: 200.0,
                           height: 30.0,
                           padding: EdgeInsets.only(bottom: 10.0),
-                          child: Text("Phone : ${allShoppers[numberOfOrderSelected]['shopperPhoneNumber']}")),
+                          child: Text("رقم الهاتف : ${allShoppers[numberOfOrderSelected]['shopperPhoneNumber']}")),
                       Container(
                           width: 200.0, height: 30.0, child:
-                       Text("Address : ${allShoppers[numberOfOrderSelected]['shopperAddress']}")),
+                       Text("عنوان : ${allShoppers[numberOfOrderSelected]['shopperAddress']}")),
                     ],
                   ),
                 ),
@@ -188,7 +188,7 @@ class _ListOrdersState extends State<ListOrders> {
                   return Center(child: Text('No data in DB '));
                 else {
                   if (snapshot.data['Orders'].length == 0) {
-                    return Center(child: Text("No Products in this order"));
+                    return Center(child: Text("لا توجد منتجات في قائمة الطلبات هذه"));
                   } else {
                     myProductsListOrders.removeRange(0, myProductsListOrders.length);
                     _myFinalPriceInteger = 0;
@@ -265,9 +265,6 @@ class _ListOrdersState extends State<ListOrders> {
                           allOrdersVendor.add(snapshot.data['Orders'][i]);
                         }
                       }
-                      
-                      print("allOrder at first : $allOrdersVendor");
-                      
                     }
                   }
                   return Text("done",
@@ -281,13 +278,13 @@ class _ListOrdersState extends State<ListOrders> {
               Container(
                 width: MediaQuery.of(context).size.width * 0.5,
                 child: FlatButton(
-                  child: Text("decline"),
+                  child: Text("رفض"),
                   onPressed: () {
                     setState(() {
                       
                       finalPrice = _myFinalPriceInteger;
                       _declineAlertDialog(context);
-                      print('decline');
+                      
                     });
                   },
                 ),
@@ -298,7 +295,7 @@ class _ListOrdersState extends State<ListOrders> {
                 child: FlatButton(
                   
                   child:
-                  Text("Accept"),
+                  Text("قبول"),
                   
                   onPressed: () {
                     setState(() {
@@ -348,10 +345,10 @@ class NewListingOrders extends StatelessWidget {
               Column(
                 children: <Widget>[
                   
-                  Text("name : ${myProductsListOrders[index]['name']}"),
-                  Text("original price : ${myProductsListOrders[index]['originalPrice']}"),
-                  Text("final price : ${myProductsListOrders[index]['finalPrice']}"),
-                  Text("value : ${myProductsListOrders[index]['value']}"),
+                  Text("اسم المنتج : ${myProductsListOrders[index]['name']}"),
+                  Text("السعر الأصلي : ${myProductsListOrders[index]['originalPrice']}"),
+                  Text("السعر النهائي : ${myProductsListOrders[index]['finalPrice']}"),
+                  Text("القيمة : ${myProductsListOrders[index]['value']}"),
                     
                 ],
               ),

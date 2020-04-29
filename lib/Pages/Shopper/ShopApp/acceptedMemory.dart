@@ -51,7 +51,7 @@ _detailsAcceptedDialog(BuildContext context ) async{
   AlertDialog alert = AlertDialog(
     title: Text("انتباه"),
     content: Text(
-        "Order Price $myFinalPriceInteger LBP and it was ACCEPTED "),
+        "سعر الطلب $myFinalPriceInteger LBP وقد قبلت "),
       actions:
       [cancelButton,],
   );
@@ -69,14 +69,14 @@ _cartDialogue(BuildContext context, index ) async{
   // set up the buttons
   print('object');
   Widget noButton = FlatButton(
-    child: Text("NO"),
+    child: Text("لا"),
     onPressed: () {
       
       Navigator.of(context, rootNavigator: true).pop('dialog');
     },
   );
   Widget yesButton = FlatButton(
-    child: Text("YES"),
+    child: Text("نعم"),
     onPressed: () {
 
       var exist = false;
@@ -164,7 +164,7 @@ _cartDialogue(BuildContext context, index ) async{
   AlertDialog alert = AlertDialog(
     title: Text("انتباه"),
     content: Text(
-        "do you want to add this Item to your Cart " , style: TextStyle(fontSize: 15.0),),
+        "هل تريد إضافة هذا المنتج إلى سلة التسوق" , style: TextStyle(fontSize: 15.0),),
     actions: [
       yesButton,
       noButton,
@@ -210,14 +210,14 @@ class _MemoryState extends State<Memory> {
                 allProductsListMemory.removeRange(0, allProductsListMemory.length);
 
                 for(var i = 0 ; i < snapshot.data['CompletedOrders'].length ; i++){
-                  print('yes');
+                  
                   if(idOrderslist[numbOfOrderSelectedShopper] == snapshot.data['CompletedOrders'][i]['OrderId']){
-                    print('yes yes');
+                  
                     var tempPrice = 0;
                     completed = snapshot.data['CompletedOrders'][numbOfOrderSelectedShopper]['completed'];
-                    print('yes yes .11');
+                  
                     for (var j = 0; j < snapshot.data['CompletedOrders'][i]['Products'].length; j++) {
-                      print('yes yes yes');
+                  
                       var newProduct1 ={
                         'name': snapshot.data['CompletedOrders'][i]['Products'][j]['name'],
                         'Originalprice':snapshot.data['CompletedOrders'][i]['Products'][j]['originalPrice'],
@@ -256,24 +256,24 @@ class _MemoryState extends State<Memory> {
                   }
 
                 }
-                print("counter:$counter");
+                
                 useSelectedPhone = numbOfOrderSelectedShopper;
-                print("useSelectedPhone :$useSelectedPhone");
+                
                 numbOfOrderSelectedShopper -= counter;
-                print("numbOfOrderSelectedShopper :$numbOfOrderSelectedShopper");
+                
                 for(var i = 0 ; i < snapshot.data['DeclinedOrders'].length ; i++){
-                  print('no');
-                  // numbOfOrderSelectedShopper +=counter;
+                
+                
                   if(idOrderslist[useSelectedPhone] == snapshot.data['DeclinedOrders'][i]['OrderId']){
                     
-                    print('no no');
+
                     var tempPrice = 0;
                     
                     completed = snapshot.data['DeclinedOrders'][numbOfOrderSelectedShopper]['completed'];
                     (context as Element).reassemble();
 
                     for (var j = 0; j < snapshot.data['DeclinedOrders'][i]['Products'].length; j++) {
-                      print('no no no');
+                      
                       var newProduct1 ={
                         'name': snapshot.data['DeclinedOrders'][i]['Products'][j]['name'],
                         'Originalprice':snapshot.data['DeclinedOrders'][i]['Products'][j]['originalPrice'],
@@ -281,7 +281,7 @@ class _MemoryState extends State<Memory> {
                         'value': snapshot.data['DeclinedOrders'][i]['Products'][j]['value'],
                         'finalPrice':snapshot.data['DeclinedOrders'][i]['Products'][j]['finalPrice'],
                       };
-                      print(newProduct1);
+                      
                       var exist = false;
                       for (var k = 0; k < allProductsListMemory.length; k++) {
                         if (newProduct1['image'] == allProductsListMemory[k]['image'].toString()) {
@@ -303,8 +303,8 @@ class _MemoryState extends State<Memory> {
               }
               }
             }
-            print('allProductsListMemory $allProductsListMemory');
-            // return Text("here");
+            
+            
             return NewMemoryProductListing();
         }),
         
@@ -314,7 +314,7 @@ class _MemoryState extends State<Memory> {
             Padding(padding: EdgeInsets.only(left:125.0) ),
             FlatButton(
               color: Colors.pinkAccent,
-              child:Text('More Details') , onPressed: () {
+              child:Text('المزيد من التفاصيل') , onPressed: () {
               if(statusOrdersList[useSelectedPhone] == true){
                 _detailsAcceptedDialog(context);
               }
@@ -368,7 +368,7 @@ class _NewMemoryProductListingState extends State<NewMemoryProductListing> {
                     child:FlatButton(
                       onPressed:() {
                         setState(() {
-                          print('hello');
+                          
                           _cartDialogue(context, index);
                           
                         });
@@ -382,10 +382,10 @@ class _NewMemoryProductListingState extends State<NewMemoryProductListing> {
               Column(
                 children: <Widget>[
                   
-                  Text("name : ${allProductsListMemory[index]['name']}"),
-                  Text("original price : ${allProductsListMemory[index]['Originalprice']}"),
-                  Text("final price : ${allProductsListMemory[index]['finalPrice']}"),
-                  Text("value : ${allProductsListMemory[index]['value']}"),
+                  Text("اسم المنتج : ${allProductsListMemory[index]['name']}"),
+                  Text("السعر الأصلي : ${allProductsListMemory[index]['Originalprice']}"),
+                  Text("السعر النهائي : ${allProductsListMemory[index]['finalPrice']}"),
+                  Text("القيمة : ${allProductsListMemory[index]['value']}"),
                     
                 ],
               ),

@@ -8,14 +8,14 @@ _cartDialogue(BuildContext context, index ) async{
   // set up the buttons
   print('object');
   Widget noButton = FlatButton(
-    child: Text("NO"),
+    child: Text("لا"),
     onPressed: () {
       
       Navigator.of(context, rootNavigator: true).pop('dialog');
     },
   );
   Widget yesButton = FlatButton(
-    child: Text("YES"),
+    child: Text("نعم"),
     onPressed: () {
 
       var exist = false;
@@ -103,7 +103,7 @@ _cartDialogue(BuildContext context, index ) async{
   AlertDialog alert = AlertDialog(
     title: Text("انتباه"),
     content: Text(
-        "do you want to add this Item to your Cart " , style: TextStyle(fontSize: 15.0),),
+        "هل تريد إضافة هذا المنتج إلى سلة التسوق " , style: TextStyle(fontSize: 15.0),),
     actions: [
       yesButton,
       noButton,
@@ -137,19 +137,18 @@ class _FavState extends State<Fav> {
                 .snapshots(),
             builder: (context, snapshot) {
               allCarts.removeRange(0, allCarts.length);
-              print("myFav: in favorites: : : ------$myFav");
               
               
               
                 
               if(snapshot.data[selectedShopPhone] == null){
-                return Center(child: Text("You have no favorites" , style: TextStyle(color: Colors.blueGrey , fontSize: 20.0),));
+                return Center(child: Text("ليس لديك مفضلات" , style: TextStyle(color: Colors.blueGrey , fontSize: 20.0),));
               }
               else{
                 
                 if (snapshot.data[selectedShopPhone].length == 0) {
                   print('in');
-                  return Center(child: Text("You have no favorites" , style: TextStyle(color: Colors.blueGrey , fontSize: 20.0),));
+                  return Center(child: Text("ليس لديك مفضلات" , style: TextStyle(color: Colors.blueGrey , fontSize: 20.0),));
                 } else {
                   print('in in ');
                   // myFav.removeRange(0, myFav.length);
@@ -203,7 +202,7 @@ class NewProductListing extends StatelessWidget {
                   child: FlatButton(
                     onPressed: () {
                       _cartDialogue(context, index);
-                      print('ok');
+
                     },
                     child: Image.network(allCarts[index]['image']),
                   )),
