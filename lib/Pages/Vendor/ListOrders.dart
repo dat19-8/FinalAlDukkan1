@@ -86,7 +86,7 @@ _declineAlertDialog(BuildContext context ) async{
     },
   );
   Widget deleteButton = FlatButton(
-    child: Text("إلغاء"),
+    child: Text("رفض"),
     onPressed: () {
       for (var i = 0; i < allOrdersVendor.length; i++) {
         if(allOrdersVendor[i]['OrderId'] == completedId){
@@ -278,7 +278,9 @@ class _ListOrdersState extends State<ListOrders> {
               Container(
                 width: MediaQuery.of(context).size.width * 0.5,
                 child: FlatButton(
+    color:Colors.red,
                   child: Text("رفض"),
+
                   onPressed: () {
                     setState(() {
                       
@@ -293,9 +295,10 @@ class _ListOrdersState extends State<ListOrders> {
                 
                 width: MediaQuery.of(context).size.width * 0.5,
                 child: FlatButton(
-                  
-                  child:
+    color:Colors.green
+                  ,child:
                   Text("قبول"),
+
                   
                   onPressed: () {
                     setState(() {

@@ -51,7 +51,7 @@ _detailsAcceptedDialog(BuildContext context ) async{
   AlertDialog alert = AlertDialog(
     title: Text("انتباه"),
     content: Text(
-        "السعر النهائي للطلب$myFinalPriceInteger  و قد رُفِض  ل.ل."),
+        "السعر النهائي للطلب$myFinalPriceInteger  و قد قُبِل ل.ل."),
       actions:
       [cancelButton,],
   );
