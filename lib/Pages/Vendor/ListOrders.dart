@@ -27,7 +27,7 @@ _showAlertDialog(BuildContext context ) async{
     },
   );
   Widget deleteButton = FlatButton(
-    child: Text("ACCEPT"),
+    child: Text("قبول"),
     onPressed: () {
       for (var i = 0; i < allOrdersVendor.length; i++) {
         if(allOrdersVendor[i]['OrderId'] == completedId){
@@ -62,7 +62,7 @@ _showAlertDialog(BuildContext context ) async{
   AlertDialog alert = AlertDialog(
     title: Text("انتباه"),
     content: Text(
-        "do you want to accept this order $finalPrice LBP" , style: TextStyle(fontSize: 15.0),),
+        "هل تريد قبول هذا الطلب $finalPrice ل.ل." , style: TextStyle(fontSize: 15.0),),
     actions: [
       cancelButton,
       deleteButton,
@@ -86,7 +86,7 @@ _declineAlertDialog(BuildContext context ) async{
     },
   );
   Widget deleteButton = FlatButton(
-    child: Text("DECLINE"),
+    child: Text("إلغاء"),
     onPressed: () {
       for (var i = 0; i < allOrdersVendor.length; i++) {
         if(allOrdersVendor[i]['OrderId'] == completedId){
@@ -119,7 +119,7 @@ _declineAlertDialog(BuildContext context ) async{
   AlertDialog alert = AlertDialog(
     title: Text("انتباه"),
     content: Text(
-        "do you want to decline this order $finalPrice LBP" , style: TextStyle(fontSize: 15.0),),
+        "هل تريد إلغاء هذا الطلب $finalPriceل.ل." , style: TextStyle(fontSize: 15.0),),
     actions: [
       cancelButton,
       deleteButton,
@@ -244,7 +244,7 @@ class _ListOrdersState extends State<ListOrders> {
                     if (snapshot.data['Orders'].length == 0) {
                       return Center(
                           child: Text(
-                        "Place your order",
+                        "قدّم الطلب",
                         style: TextStyle(color: Colors.transparent),
                       ));
                     } else {

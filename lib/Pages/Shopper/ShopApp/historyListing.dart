@@ -36,7 +36,7 @@ Widget MemoryTab(BuildContext context) {
                 return Center(child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Text("No History" , style: TextStyle(fontSize:30.0),),
+                    Text("ليس لديك طلبيّات سابقة" , style: TextStyle(fontSize:30.0),),
                   ],
                 ));
               } 
@@ -109,7 +109,7 @@ class _ProductListingState extends State<ProductListing> {
                   width: 170.0,
                   height: 100.0,
                   child: FlatButton(
-                    child: Text("Order ${index + 1} >"),
+                    child: Text("طلب ${index + 1} >"),
                     onPressed: () {
                     numbOfOrderSelectedShopper = index;
                     

@@ -194,7 +194,7 @@ class _CameraTabState extends State<CameraTab> {
         backgroundColor: Color.fromRGBO(27, 38, 44, 100),
       ),
       body: AlertDialog(
-        title: Text(" أختار"),
+        title: Text(" إختار"),
         content: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,

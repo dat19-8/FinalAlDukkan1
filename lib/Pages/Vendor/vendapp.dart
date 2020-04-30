@@ -21,9 +21,9 @@ _alertDialog(BuildContext context ) async{
     },
   );
   Widget modifyButton = FlatButton(
-    child: Text("modify"),
+    child: Text("تغيير"),
     onPressed: () {
-      print("modify this item");
+      print("تغيير هذا المنتج");
       Navigator.of(context, rootNavigator: true).pop('dialog');
       Navigator.push(
         context,
@@ -33,7 +33,7 @@ _alertDialog(BuildContext context ) async{
     },
   );
   Widget deleteButton = FlatButton(
-    child: Text("delete item"),
+    child: Text("إلغاء هذا المنتج"),
     onPressed: () {
       
       
@@ -94,7 +94,7 @@ _alertDialog(BuildContext context ) async{
   AlertDialog alert = AlertDialog(
     title: Text("انتباه"),
     content: Text(
-        "Delete ot Modify item?"),
+        "إلغاء أو تغيير المنتج؟"),
     actions: [
       cancelButton,
       deleteButton,
@@ -149,7 +149,7 @@ class _VendappState extends State<Vendapp> {
                   .snapshots(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData)
-                  return Center(child: Text('No data in DB '));
+                  return Center(child: Text('لم تقم بعرض اي منتج حتى الآن '));
                 else {
                   if (snapshot.data['Products'].length == 0) {
                     return Column(

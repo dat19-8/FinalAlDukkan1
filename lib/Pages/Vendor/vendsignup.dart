@@ -24,19 +24,19 @@ class _SignUpVendorState extends State<SignUpVendor> {
   Future<void> showChoiceDialog(BuildContext context){
     return showDialog(context: context,builder: (BuildContext context) {
       return AlertDialog(
-        title: Text("Make a choice"),
+        title: Text("إختار"),
         content: SingleChildScrollView(
           child: ListBody(
             children: <Widget>[
               GestureDetector(
-                child: Text("Gallery"),
+                child: Text("صور"),
                 onTap:() {
                   openGallery(context);
               },
               ),
               Padding(padding: EdgeInsets.all(8),),
               GestureDetector(
-                child: Text("Camera"),
+                child: Text("كاميرا"),
                 onTap:() {
                   opencamera(context);
                 },

@@ -24,7 +24,7 @@ _detailsDeclinedDialog(BuildContext context ) async{
   AlertDialog alert = AlertDialog(
     title: Text("انتباه"),
     content: Text(
-        "Order Price $myFinalPriceInteger LBP and it was DECLINED "),
+        "السعر النهائي للطلب $myFinalPriceInteger  و قد رُفِض ل.ل. "),
       actions:
       [cancelButton,],
   );
@@ -51,7 +51,7 @@ _detailsAcceptedDialog(BuildContext context ) async{
   AlertDialog alert = AlertDialog(
     title: Text("انتباه"),
     content: Text(
-        "سعر الطلب $myFinalPriceInteger LBP وقد قبلت "),
+        "السعر النهائي للطلب$myFinalPriceInteger  و قد رُفِض  ل.ل."),
       actions:
       [cancelButton,],
   );

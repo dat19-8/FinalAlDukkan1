@@ -261,10 +261,10 @@ class _CartState extends State<Cart> {
                           ]),
                       Column(
                         children: <Widget>[
-                          myCartPricesList[index]['name'] == "name" ? Text(" Unknown Item"):
+                          myCartPricesList[index]['name'] == "name" ? Text(" منتج غير معروف"):
                           Text(" ${myCartPricesList[index]['name']}"),
-                          Text("Item Price : ${myCart[index]['price']}"),
-                          Text("Total Price : ${myCartPricesList[index]['price']}"),
+                          Text("سعر المنتج : ${myCart[index]['price']}"),
+                          Text("السعر النهائي : ${myCartPricesList[index]['price']}"),
                           Row(
                             children: <Widget>[
                               FlatButton(
@@ -318,7 +318,7 @@ class _CartState extends State<Cart> {
                     if (snapshot.data['Orders'].length == 0) {
                       return Center(
                           child: Text(
-                        "Place your order",
+                        "قدّم الطلب",
                         style: TextStyle(color: Colors.transparent),
                       ));
                     } else {
@@ -346,7 +346,7 @@ class _CartState extends State<Cart> {
                     }
                   }
                 
-                  return Text("done",
+                  return Text("تمّ",
                       style: TextStyle(
                         color: Colors.transparent,
                         fontSize: 2.0,
@@ -361,7 +361,7 @@ class _CartState extends State<Cart> {
                     children: <Widget>[
                       Column(
                         children: <Widget>[
-                          myCartPricesList.length ==0 ? Text('no' , style: TextStyle(color:Colors.transparent),):
+                          myCartPricesList.length ==0 ? Text('لا' , style: TextStyle(color:Colors.transparent),):
                           new Container(
                               padding: EdgeInsets.only(right:10.0),
                               
@@ -380,7 +380,7 @@ class _CartState extends State<Cart> {
                                   }, child: Icon(Icons.delete)))
                         ],
                       ),
-                      myCartPricesList.length ==0 ? Text('no' , style: TextStyle(color:Colors.transparent),):
+                      myCartPricesList.length ==0 ? Text('لا' , style: TextStyle(color:Colors.transparent),):
                       Column(
                         children: <Widget>[
                           Container(

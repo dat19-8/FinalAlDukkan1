@@ -89,7 +89,7 @@ class ModifyItemsDB extends StatelessWidget {
                   }  
                 }
 
-                return Text("done" , style: TextStyle(color:Colors.transparent),);
+                return Text("تم" , style: TextStyle(color:Colors.transparent),);
               }),
             FlatButton(
               onPressed: () {
@@ -147,7 +147,7 @@ class ModifyItemsDB extends StatelessWidget {
                 Navigator.pop(context,
                     MaterialPageRoute(builder: (context) => Vendapp()));
               },
-              child: Text("منجز"))
+              child: Text("إنجاز"))
 
         ]),
       ),
