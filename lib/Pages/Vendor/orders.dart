@@ -8,7 +8,7 @@ class Orders extends StatefulWidget {
   _OrdersState createState() => _OrdersState();
 }
 
-final List<Map> allShoppers = new List();
+
 
 
 var ordersNumber;
@@ -56,8 +56,7 @@ class _OrdersState extends State<Orders> {
                               ['address'],
                           'shopperPhoneNumber': snapshot.data['Orders'][i]
                               ['Pinfo']['phone'],
-                          'time':snapshot.data['Orders'][i]
-                              ['Pinfo']['timeOfOrder'],
+                          
                         };
                         allShoppers.add(newshopper);
                       ordersNumber = snapshot.data['Orders'].length;
@@ -77,7 +76,7 @@ class OrdersListing extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width * 1,
-      height: MediaQuery.of(context).size.height * 0.78,
+      height: MediaQuery.of(context).size.height * 0.77,
       child: new ListView(
         padding: EdgeInsets.only(bottom:10.0),
         children: List.generate(ordersNumber, (index) {

@@ -35,6 +35,8 @@ final List<Map> myCartPricesList = new List();
 final List<Map> myCartValuesList = new List();
 // 
 var numberOfOrderSelected = 0;
+final List<Map> allShoppers = new List();
+
 var numbOfOrderSelectedShopper = 0;
 final List<Map> myCart = new List();
 final List<Map> allProductsList = new List();

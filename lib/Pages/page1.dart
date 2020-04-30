@@ -486,7 +486,8 @@ class _FirstRouteState extends State<FirstRoute> {
                           }
                           }
                      }
-                     return Text("hello" , style:  TextStyle(color:Colors.transparent),);
+                    //  return Text("." , style:  TextStyle(color:Colors.transparent),);
+                     return Container(width: 0, height:  0 , color: Colors.transparent,);
                   }),
               StreamBuilder<QuerySnapshot>(
                   stream: Firestore.instance
@@ -508,7 +509,7 @@ class _FirstRouteState extends State<FirstRoute> {
                      return Text("hello" , style:  TextStyle(color:Colors.transparent),);
                   }),
               Container(
-                  margin: EdgeInsets.only(top: 70.0, bottom: 30.0),
+                  margin: EdgeInsets.only(top: 70.0, bottom: 30.0, right: 30.0),
                   width: MediaQuery.of(context).size.width * 0.65,
                   height: 50.0,
                   child: FlatButton(
@@ -529,27 +530,7 @@ class _FirstRouteState extends State<FirstRoute> {
                   )),
             ],
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Container(
-                  margin: EdgeInsets.only(top: 20.0),
-                  child: FlatButton(
-                    color: Colors.green,
-                    shape: new RoundedRectangleBorder(
-                      borderRadius: new BorderRadius.circular(30.0),
-                    ),
-                    child: Text(
-                      'مشترك',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    onPressed: () {
-                      
-                      print('moshtarej');
-                    },
-                  ))
-            ],
-          )
+          
         ],
       ),
     );

@@ -112,17 +112,15 @@ class _CameraTabState extends State<CameraTab> {
 
     }
     print("--------------------------------------------------------------------------------------");
-    
-    
-  //   for (var i = 0; i < myProducts.length -1; i++) {
-  //    for (var j = 1; j < myProducts.length  ; j++) {
-  //      if (myProducts[i]['image'] == myProducts[j]['image']) {
-  //        myProducts.removeAt(j);
-  //        print('removing');
-  //      }
-  //    }
-  //  }
+ 
     print('before firestore myProducts: $myProducts');
+    for (var i = 0; i < myProducts.length -1; i++) {
+      for (var j = 1; j < myProducts.length ; j++) {
+        if (myProducts[i]['image'] == myProducts[j]['image']) {
+          myProducts.removeAt(j);
+        }
+      }
+    }
    Firestore.instance
        .collection('Vendors')
        .document(vendPhone)
@@ -196,21 +194,21 @@ class _CameraTabState extends State<CameraTab> {
         backgroundColor: Color.fromRGBO(27, 38, 44, 100),
       ),
       body: AlertDialog(
-        title: Text(" Make a Choice"),
+        title: Text(" أختار"),
         content: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
 
             children: <Widget>[
               GestureDetector(
-                child: Text("  Camera"),
+                child: Text("  كاميرا"),
                 onTap: () {
                   _openCamera(context);
                 },
               ),
               Padding(padding: EdgeInsets.all(8.0)),
               GestureDetector(
-                child: Text(" Gallery"),
+                child: Text(" صالة عرض"),
                 onTap: () {
                   _openGallery(context);
                 },

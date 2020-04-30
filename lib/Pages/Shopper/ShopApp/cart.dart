@@ -170,16 +170,19 @@ _proceedAlerDialog(BuildContext context ) async{
           }  
         
       }
-
+      var finalAdd = "Unknown Address";
+      if(shopperAddress != ""){
+        finalAdd = shopperAddress;
+      }
       
       
       var finalId = Uuid.v1();
       print('final Id : $finalId');
-      
+        
         var myOrder = {
           'Pinfo': {
             'name': shopperName,
-            'address': shopperAddress,
+            'address': finalAdd,
             'phone': shopPhone,
           },
           'Products': cartFinalOrderProducts,
